@@ -1,7 +1,7 @@
 vim.g.mapleader = " "
 
-vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
-vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
+vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv", {silent=true})
+vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv", {silent=true})
 
 vim.keymap.set("n", "J", "mzJ`z")
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
@@ -9,9 +9,6 @@ vim.keymap.set("n", "<C-u>", "<C-u>zz")
 
 vim.o.clipboard = "unnamedplus"
 vim.keymap.set("n", "<C-q>", "<C-v>", { noremap = true })
-
--- This is going to get me cancelled
-vim.keymap.set("i", "<C-c>", "<Esc>")
 
 vim.keymap.set("n", "<leader>p", [["_dP]])
 vim.keymap.set("n", "Q", "<nop>")
