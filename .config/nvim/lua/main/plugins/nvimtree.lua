@@ -44,14 +44,6 @@ return {
                 if buf_type == '' and buf_name ~= 'NvimTree' then
                     vim.cmd('NvimTreeClose')
                 end
-                if buf_name == "" and buf_type == '' and not vim.bo[args.buf].modified then
-                    -- Delay the execution to ensure it's done in a proper context
-                    vim.defer_fn(function()
-                        if vim.fn.bufname() == "" then
-                            vim.cmd('NvimTreeOpen')
-                        end
-                    end, 50)
-                end
             end,
         })
     end,
