@@ -30,4 +30,6 @@ return {'akinsho/bufferline.nvim', version = "*", dependencies = 'nvim-tree/nvim
     vim.keymap.set("n", "<Tab>", vim.cmd.BufferLineCycleNext)
     vim.keymap.set("n", "<S-Tab>", vim.cmd.BufferLineCyclePrev)
     vim.keymap.set("n", "<leader>bp", vim.cmd.BufferLinePick)
+    vim.api.nvim_set_keymap('n', '<S-l>', ':BufferLineMoveNext<CR>', { noremap = true, silent = true })
+    vim.api.nvim_set_keymap('n', '<S-h>', ':BufferLineMovePrev<CR>', { noremap = true, silent = true })
 end}
