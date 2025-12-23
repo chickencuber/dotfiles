@@ -1,0 +1,22 @@
+(defvar autocomplete-suggestion "")
+
+(defwindow command_run
+ :monitor 0
+ :geometry (geometry :x "0"
+     :y "0"
+     :width "800px"
+     :height "40px"
+     :anchor "center center")
+ :stacking "fg"
+ :reserve (struts :distance "40px" :side "top")
+ :windowtype "normal"
+ :wm-ignore false
+ :focusable true
+ (overlay 
+  (input
+   :onaccept "fish -c \"{}\" & eww close command_run && hyprctl keyword unbind ,escape && eww update autocomplete-suggestion=''" :class "text input"
+   :onchange "~/.config/eww/windows/get_autocomplete.fish \"{}\"")
+  (label :text autocomplete-suggestion :halign "start" :class "text label" :unindent false)
+  (label :text "⇝" :halign "start" :class "text mark")
+ ))
+

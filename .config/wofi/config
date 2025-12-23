@@ -1,0 +1,7 @@
+prompt=
+allow_images=true
+insensitive=true
+key_up=Control_L-p
+key_down=Control_L-n
+font = JetBrainsMonoNL Nerd Font 12, Noto Color Emoji 12
+location=center

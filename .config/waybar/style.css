@@ -1,0 +1,68 @@
+@import url("file:///etc/xdg/waybar/style.css");
+@import "mocha.css";
+
+* {
+    font-family: "JetBrainsMono Nerd Font", monospace;
+    font-size: 13px;
+    color: @text;
+}
+
+#idle_inhibitor,
+#clock,
+#battery,
+#cpu,
+#memory,
+#network,
+#pulseaudio,
+#backlight,
+#tray,
+#custom-menu,
+#custom-power,
+#custom-screenshot,
+#custom-wall,
+#custom-controlcenter,
+#workspaces,
+#window,
+menu
+{
+    padding-left: 8px;
+    padding-right: 12px;
+    border-radius: 10px;
+    background: @base;
+    color: @text;
+    border: 1px solid @mauve;
+}
+
+.empty #window  {
+    background: transparent;
+    border: none;
+}
+
+#battery.charging {
+    background: @green;
+    border:none;
+    color: @crust;
+}
+
+#battery.critical:not(.charging) {
+    background-color: @red;
+    color: @crust;
+    border:none;
+    animation: none;
+}
+
+
+#custom-controlcenter {
+    font-size:15px;
+}
+
+#custom-wall.active-wall, #pulseaudio.muted {
+    background: @teal;
+    color: @crust;
+}
+
+window#waybar {
+  background: transparent;
+  border: none;
+}
+

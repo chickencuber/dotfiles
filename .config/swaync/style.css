@@ -1,0 +1,129 @@
+:root {
+    --border-radius: 22px;
+    --padding: calc(var(--border-radius) / 2);
+
+    /* Catppuccin Mocha palette */
+    --cc-bg: transparent;
+    --widget-background: rgba(24, 24, 37, 0.85); /* widget bg */
+    --noti-bg-alpha: 0.7;
+    --border: 1px solid #11111b; /* crust border */
+
+    /* Text & accent colors */
+    --text-color: #cdd6f4;
+    --subtle-text: #bac2de;
+    --accent-pink: #f5c2e7;
+    --accent-mauve: #cba6f7;
+    --accent-teal: #94e2d5;
+    --accent-yellow: #f9e2af;
+}
+
+/* Control center container */
+.control-center {
+    border-radius: 0;
+    background: var(--cc-bg);
+    color: var(--text-color);
+}
+
+/* General widget style */
+.widgets > .widget,
+.widget-mpris > carouselindicatordots,
+.widget-mpris > box > button {
+    background: var(--widget-background);
+    border-radius: var(--border-radius);
+    padding: var(--padding);
+    border: 1px solid var(--accent-mauve); /* <- mauve border */
+    color: var(--text-color);
+}
+
+/* MPRIS player tweaks */
+.widget.widget-mpris {
+    background: rgba(24, 24, 37, 0.9); /* Mantle tone with slight transparency */
+    border-radius: var(--border-radius);
+    padding: 12px 16px;
+    border: 1px solid var(--accent-mauve);
+}
+
+.widget-mpris > carouselindicatordots {
+    --dots-padding: 4px;
+    padding: var(--dots-padding);
+    padding-left: var(--dots-padding);
+    padding-right: calc(6px + var(--dots-padding));
+    margin: 0;
+    margin-top: var(--padding);
+    color: var(--accent-mauve);
+}
+
+.widget-mpris > box > button:hover {
+    background: rgba(67, 67, 85, 1); /* hover darker */
+    color: var(--accent-mauve);
+}
+
+.widget-mpris-player {
+    box-shadow: none;
+    border: var(--border);
+    margin: 0 var(--padding);
+    background: var(--widget-background);
+    color: var(--text-color);
+}
+
+.widget-mpris-player:only-child {
+    margin: 0;
+}
+
+.notification-group {
+    border-radius: var(--border-radius);
+    padding: 8px;
+    background: transparent;
+    outline: transparent;
+}
+
+.notification {
+    background: rgba(24, 24, 37, 0.9); /* Mantle tone with slight transparency */
+    border: 1px solid var(--accent-mauve);
+    border-radius: var(--border-radius);
+    padding: 12px 16px;
+    color: var(--text-color);
+    font-family: 'Inter', sans-serif; /* optional, Mocha-y font */
+    display: flex;
+    align-items: center;
+    gap: 10px;                        /* space between icon and text */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+    transition: background 0.2s ease, transform 0.1s ease;
+}
+switch:checked {
+    background-color: #97CE93; /* on background */
+}
+
+.notification:hover {
+    background: rgba(31, 31, 48, 0.95);
+    transform: translateY(-2px);
+}
+
+.notification .icon {
+    color: var(--accent-mauve);
+    font-size: 18px;
+}
+
+.notification .title {
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.notification .message {
+    color: var(--subtle-text);
+    font-size: 0.9em;
+}
+.notification > * {
+    color: var(--text-color); /* force text to your color */
+    background: transparent;  /* reset inner bg if needed */
+}
+
+.close-button {
+    background: rgba(24, 24, 37, 0.9); /* Mantle tone with slight transparency */
+    border-color: var(--border);
+}
+.close-button:hover {
+    background: rgba(31, 31, 48, 0.95);
+    border: 1px solid var(--accent-mauve); /* <- mauve border */
+}
+

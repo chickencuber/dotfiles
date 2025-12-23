@@ -1,0 +1,46 @@
+/* Catppuccin Mocha with extra mauve borders because we fancy now */
+
+#expander-box, window {
+    background-color: rgba(30, 30, 46, 0.9); /* base */
+    color: #cdd6f4; /* text */
+    font-size: 14px;
+    border-radius: 10px;
+    border: 1px solid #cba6f7; /* mauve border */
+}
+
+#entry {
+    padding: 8px;
+    border-left: 2px solid #cba6f7; /* subtle mauve accent */
+    color: white;
+}
+
+#entry:selected {
+    background-color: rgba(203, 166, 247, 0.15); /* mauve glow */
+    border-left: 4px solid #cba6f7; /* mauve slap */
+}
+
+#expander-box {
+    background-color: rgba(24, 24, 37, 0.4); /* mantle */
+    border: 1px solid #cba6f7; /* mauve perimeter */
+}
+
+#img {
+    padding: 5px;
+}
+
+#input {
+    margin: 8px;
+    background-color: rgba(49, 50, 68, 0.8); /* surface0 */
+    border: none;
+    color: #cdd6f4;
+    font-size: 14px;
+    padding: 8px;
+    border-radius: 6px;
+}
+#input:focus {
+    outline: none; /* removes the blue/purple border when typing */
+    border: 1px solid #cba6f7; /* optional: keep mauve border instead */
+    box-shadow: none;
+}
+
+
