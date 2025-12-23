@@ -7,7 +7,7 @@ vim.keymap.set("n", "J", "mzJ`z")
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
 vim.keymap.set("n", "<C-u>", "<C-u>zz")
 
-vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]])
+vim.o.clipboard = "unnamedplus"
 vim.keymap.set("n", "<C-q>", "<C-v>", { noremap = true })
 
 -- This is going to get me cancelled
