@@ -7,7 +7,6 @@ return {
     },
     config = function()
         vim.keymap.set("n", "<leader>pv", vim.cmd.NvimTreeToggle)
-        print(vim.keymap.set)
         vim.g.loaded_netrw = 1
         vim.g.loaded_netrwPlugin = 1
 
