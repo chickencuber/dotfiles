@@ -205,12 +205,12 @@
         "signal": 10
     },
     "custom/power": {
-        "format" : "⏻ ",
+        "format" : "",
 		"tooltip": false,
         "on-click": "~/.config/hypr/power_menu.sh"
     },
     "custom/controlcenter": {
-        "format" : "󰣇 ",
+        "format" : "",
 		"tooltip": false,
         "on-click": "swaync-client -t control-center"
     }
