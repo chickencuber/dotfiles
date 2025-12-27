@@ -9,6 +9,7 @@
     "modules-left": [
         "custom/power",
         "custom/controlcenter",
+        "idle_inhibitor",
         "hyprland/window"
     ],
     "modules-center": [
