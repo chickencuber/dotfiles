@@ -65,4 +65,8 @@ window#waybar {
   background: transparent;
   border: none;
 }
+#idle_inhibitor.activated {
+    background-color: @mauve;
+    color: @crust
+}
 
