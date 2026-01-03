@@ -48,5 +48,3 @@ theme = Catppuccin Mocha
 font-family = JetBrainsMono Nerd Font Mono
 font-size = 14
 cursor-text = 000000
-keybind = global:ctrl+v=paste_from_clipboard
-keybind = global:ctrl+shift+v=ignore

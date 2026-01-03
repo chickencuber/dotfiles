@@ -8,7 +8,6 @@ vim.keymap.set("n", "<C-d>", "<C-d>zz")
 vim.keymap.set("n", "<C-u>", "<C-u>zz")
 
 vim.o.clipboard = "unnamedplus"
-vim.keymap.set("n", "<C-q>", "<C-v>", { noremap = true })
 
 vim.keymap.set("n", "<leader>p", [["_dP]])
 vim.keymap.set("n", "Q", "<nop>")
