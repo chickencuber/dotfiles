@@ -25,6 +25,7 @@ if status is-interactive
     alias vim 'nvim'
     alias vi 'vim'
     alias cd 'z'
+    alias more 'less'
 
     set -g fish_greeting ''
 
