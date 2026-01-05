@@ -27,11 +27,14 @@ if status is-interactive
     alias cd 'z'
     alias more 'less'
 
+    alias md 'mkdir'
+    alias rd 'rmdir'
+
     set -g fish_greeting ''
 
-    status --is-interactive; and . (pyenv init --path | psub)
-    status --is-interactive; and . (pyenv init - | psub)
-    status --is-interactive; and . (pyenv virtualenv-init - | psub)
+    . (pyenv init --path | psub)
+    . (pyenv init - | psub)
+    . (pyenv virtualenv-init - | psub)
 
     fish_vi_key_bindings
     bind -M insert \cy 'accept-autosuggestion'
