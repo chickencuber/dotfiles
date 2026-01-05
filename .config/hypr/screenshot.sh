@@ -1,7 +1,7 @@
 #!/bin/bash
 
 choice=$(echo -e "Active Monitor Screenshot\nActive Window Screenshot\nMonitor Screenshot\nWindow Screenshot\nRegion Screenshot" | wofi --dmenu --prompt "Choose:")
-sleep 0.05
+sleep 0.1
 
 case "$choice" in
     "Active Window Screenshot") hyprshot -m active --mode window;;
