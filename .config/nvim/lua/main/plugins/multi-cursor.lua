@@ -9,7 +9,7 @@ return {
         vim.keymap.set({"n", "x"}, "<leader><C-k>", function() mc.lineSkipCursor(-1) end)
         vim.keymap.set({"n", "x"}, "<leader><C-j>", function() mc.lineSkipCursor(1) end)
 
-        vim.keymap.set({"n", "x"}, "<C-d>", function() mc.matchAddCursor(1) end)
+        vim.keymap.set({"n", "x"}, "<leader>*", function() mc.matchAddCursor(1) end)
         vim.keymap.set({"n", "x"}, "*", function() mc.matchAllAddCursors() end)
 
         vim.keymap.set("n", "<c-leftmouse>", mc.handleMouse)

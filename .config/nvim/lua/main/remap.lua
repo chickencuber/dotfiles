@@ -4,11 +4,11 @@ vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv", {silent=true})
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv", {silent=true})
 
 vim.keymap.set({"n", "v", "o"}, "j", function()
-  return vim.v.count == 0 and "gj" or "j"
+    return vim.v.count == 0 and "gj" or "j"
 end, { expr = true, noremap = true })
 
 vim.keymap.set({"n", "v", "o"}, "k", function()
-  return vim.v.count == 0 and "gk" or "k"
+    return vim.v.count == 0 and "gk" or "k"
 end, { expr = true, noremap = true })
 
 
@@ -18,9 +18,11 @@ vim.keymap.set("n", "<C-u>", "<C-u>zz")
 
 vim.o.clipboard = "unnamedplus"
 
-vim.keymap.set("n", "<leader>p", [["_dP]])
 vim.keymap.set("n", "Q", "<nop>")
-vim.keymap.set("n", "<leader>f", "mzggVG=z`z")
+
+vim.keymap.set("n", "<leader>f", "mzggVG=`z")
+vim.keymap.set("n", "<leader>y", "mzggVGy`z")
+vim.keymap.set("n", "<leader>d", "mzggVGd`z")
 
 vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
 vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true })
