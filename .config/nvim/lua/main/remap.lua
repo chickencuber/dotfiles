@@ -3,6 +3,15 @@ vim.g.mapleader = " "
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv", {silent=true})
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv", {silent=true})
 
+vim.keymap.set({"n", "v", "o"}, "j", function()
+  return vim.v.count == 0 and "gj" or "j"
+end, { expr = true, noremap = true })
+
+vim.keymap.set({"n", "v", "o"}, "k", function()
+  return vim.v.count == 0 and "gk" or "k"
+end, { expr = true, noremap = true })
+
+
 vim.keymap.set("n", "J", "mzJ`z")
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
 vim.keymap.set("n", "<C-u>", "<C-u>zz")
