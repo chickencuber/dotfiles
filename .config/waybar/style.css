@@ -67,6 +67,11 @@ window#waybar {
 }
 #idle_inhibitor.activated {
     background-color: @mauve;
-    color: @crust
+    color: @crust;
+}
+
+#pulseaudio:hover {
+    color: @crust;
+    background-color: @yellow;
 }
 
