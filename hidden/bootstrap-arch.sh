@@ -12,7 +12,7 @@ cd "$old"
 stow .
 while IFS= read -r pkg; do
     echo "Installing $pkg..."
-    yay -S --needed "$pkg"
+    yay -S --needed "$pkg" --noconfirm </dev/tty 
 done < "./hidden/packagesarch.txt"
 
 
