@@ -36,6 +36,7 @@ set mouse=
 vim.filetype.add({
     extension = {
         jspp="jspp",
+        sir="sir",
     },
 })
 local augroup = vim.api.nvim_create_augroup("numbertoggle", {})

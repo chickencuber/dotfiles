@@ -1,4 +1,3 @@
-
 if !exists("main_syntax")
   if version < 600
     syntax clear
