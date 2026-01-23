@@ -8,6 +8,7 @@ set -gx PATH $HOME/.config/emacs/bin $PATH
 set -gx JAVA_HOME /usr/lib/jvm/java-21-openjdk
 set -gx PATH $JAVA_HOME/bin $PATH
 set -gx PATH /home/chickencuber/.cargo/bin $PATH
+set -gx PATH /home/chickencuber/.local/share/gem/ruby/3.4.0/bin $PATH
 
 set -gx PYENV_ROOT $HOME/.pyenv
 set -gx PATH $PYENV_ROOT/bin $PATH
