@@ -23,7 +23,8 @@ return {'akinsho/bufferline.nvim', version = "*", dependencies = 'nvim-tree/nvim
                 },
             },
         },
-        highlights = require("catppuccin.special.bufferline").get_theme()
+        highlights = require("catppuccin.special.bufferline").get_theme(),
+        enabled = false,
     }
 
 
