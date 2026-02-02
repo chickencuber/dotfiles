@@ -8,6 +8,7 @@ bash-completion
 bat
 bchunk
 bdf2psf
+bear
 betacraft-launcher-bin
 blockbench
 blueman
@@ -15,6 +16,7 @@ bluez-utils
 bridge-utils
 brightnessctl
 browsh
+btop
 c3-lsp
 c3c
 catppuccin-gtk-theme-mocha
@@ -67,6 +69,7 @@ fzf
 game-cheetah
 game-devices-udev
 gdb
+gf2-git
 ghostty
 gifsicle
 gimp
@@ -84,7 +87,6 @@ gutenprint
 gvfs
 hexedit
 hplip
-htop
 hypridle
 hyprland
 hyprlock
@@ -148,10 +150,16 @@ linux
 linux-firmware
 linux-headers
 linuxconsole
+lua-lsqlite3
+lua-lsqlite3-debug
+lua51-lsqlite3
+lua52-lsqlite3
+lua53-lsqlite3
 luarocks
 lutris
 ly
 man-db
+man-pages
 mangohud
 maven
 mcreator
@@ -170,7 +178,6 @@ network-manager-applet
 nim
 ninja
 nix
-nm-connection-editor
 noto-fonts-emoji
 npm
 ntfs-3g
@@ -186,6 +193,7 @@ openbsd-netcat
 opencl-headers
 openmw
 otf2bdf
+pacman-contrib
 pamixer
 pandoc-cli
 papirus-folders-catppuccin-git
@@ -261,6 +269,7 @@ swayosd
 swww-git
 tectonic
 terminus-font
+tinyxxd
 tmux
 totem
 touchegg
@@ -274,7 +283,7 @@ tty-clock
 ueberzug
 unityhub
 uzdoom
-vesktop
+vesktop-bin
 vintagestory
 virt-manager
 virt-viewer
