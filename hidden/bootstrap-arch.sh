@@ -20,6 +20,7 @@ fi
 sudo cp ./hidden/lyconfig.ini /etc/ly/config.ini
 sudo chown root:root /etc/ly/config.ini
 sudo chmod 644 /etc/ly/config.ini
+sudo systemctl enable ly@tty1.service
 # plymouth 
 sudo mkdir -p /usr/share/plymouth/themes/
 tar -xzf ./hidden/catppuccin-mocha-plymouth.tar.gz -C /usr/share/plymouth/themes/
