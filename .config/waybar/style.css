@@ -23,6 +23,7 @@
 #custom-controlcenter,
 #workspaces,
 #window,
+#keyboard-state,
 menu
 {
     padding-left: 8px;
@@ -73,5 +74,14 @@ window#waybar {
 #pulseaudio:hover {
     color: @crust;
     background-color: @yellow;
+}
+
+#keyboard-state > label {
+    padding: 0 5px;
+}
+
+#keyboard-state > label.locked {
+    background: @mauve;
+    color: @crust;
 }
 

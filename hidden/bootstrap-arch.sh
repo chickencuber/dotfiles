@@ -1,7 +1,7 @@
 #!/bin/bash
 old=$(pwd)
 cd ~
-sudo pacman -Sy
+sudo pacman -Syu
 sudo pacman -S --needed stow git base-devel
 yay || {
     git clone https://aur.archlinux.org/yay.git
@@ -10,9 +10,12 @@ yay || {
 }
 cd "$old"
 stow .
-while IFS= read -r pkg; do
-    echo "Installing $pkg..."
-    yay -S --needed "$pkg" --noconfirm </dev/tty 
-done < "./hidden/packagesarch.txt"
-
-
+./hidden/install-packages-arch.sh
+yes | yay -Scc
+sudo mkdir -p /etc/ly
+if [ -f "/etc/ly/config.ini" ]; then
+    sudo rm -f /etc/ly/config.ini
+fi
+sudo cp ./hidden/lyconfig.ini /etc/ly/config.ini
+sudo chown root:root /etc/ly/config.ini
+sudo chmod 644 /etc/ly/config.ini

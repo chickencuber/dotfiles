@@ -10,6 +10,7 @@
         "custom/power",
         "custom/controlcenter",
         "idle_inhibitor",
+        "keyboard-state",
         "hyprland/window"
     ],
     "modules-center": [
