@@ -15,7 +15,6 @@ blueman
 bluez-utils
 bridge-utils
 brightnessctl
-browsh
 btop
 c3-lsp
 c3c
