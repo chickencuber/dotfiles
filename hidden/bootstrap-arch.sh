@@ -1,5 +1,5 @@
 #!/bin/bash
-sudo mkdir -p ~/.config/ 
+mkdir -p ~/.config/ 
 old=$(pwd)
 cd ~
 sudo pacman -Syu
