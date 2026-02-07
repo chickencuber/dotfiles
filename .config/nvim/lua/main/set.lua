@@ -70,7 +70,7 @@ vim.api.nvim_create_autocmd({ "BufLeave", "FocusLost", "CmdlineEnter", "WinLeave
 
 -- for notes
 vim.api.nvim_create_autocmd("FileType", {
-    pattern = { "markdown", "org", "norg", "gitcommit" },
+    pattern = { "markdown", "org", "norg", "gitcommit", "text"},
     callback = function()
         vim.opt_local.wrap = true
         vim.opt_local.linebreak = true
