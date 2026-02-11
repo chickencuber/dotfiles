@@ -4,6 +4,7 @@ return {
         "echasnovski/mini.indentscope",
     },
     main = "ibl",
+    enabled=false,
     config=function()
         require("ibl").setup({
             scope = {
