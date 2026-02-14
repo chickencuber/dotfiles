@@ -48,6 +48,7 @@ end)
 
 
 vim.keymap.set("n", "ty", vim.cmd.TaskYank)
+vim.keymap.set("n", "<leader>cs", vim.cmd.Scratch)
 
 vim.keymap.set("n", "<leader>tt", function()
     local ft = vim.bo.filetype
