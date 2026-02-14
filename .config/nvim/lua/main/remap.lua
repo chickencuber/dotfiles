@@ -41,9 +41,12 @@ vim.keymap.set("n", "<leader>cb", vim.cmd.bd)
 vim.keymap.set("n", "tf", vim.cmd.TaskFromTodo)
 vim.keymap.set("n", "gt", vim.cmd.TaskGoto)
 vim.keymap.set("n", "tk", vim.cmd.TaskMenu)
+vim.keymap.set("n", "tg", vim.cmd.TaskGenerateMarkdown)
 vim.keymap.set("n", "tl", function()
     vim.cmd.TaskMenu("show_closed")
 end)
+
+
 vim.keymap.set("n", "ty", vim.cmd.TaskYank)
 
 vim.keymap.set("n", "<leader>tt", function()
