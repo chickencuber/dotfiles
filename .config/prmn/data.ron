@@ -1,0 +1,37 @@
+(
+    editor: "nvim",
+    last: "/mnt/wwn-0x50014ee26a7ba406-part1/programming/Other Projects/doom",
+    libraries: "/mnt/wwn-0x50014ee26a7ba406-part1/programming/libraries/",
+    categories: {
+        "Rust": (
+            supported_types: [
+                "Rust",
+            ],
+            parent_dir: "/mnt/wwn-0x50014ee26a7ba406-part1/programming/Rust/",
+        ),
+        "C": (
+            supported_types: [
+                "C",
+                "C++",
+                "C3",
+            ],
+            parent_dir: "/mnt/wwn-0x50014ee26a7ba406-part1/programming/C/",
+        ),
+        "Web And JS": (
+            supported_types: [
+                "Blank",
+                "Web",
+            ],
+            parent_dir: "/mnt/wwn-0x50014ee26a7ba406-part1/programming/Web and JS/",
+        ),
+        "Other": (
+            supported_types: [
+                "Blank",
+                "D",
+                "Odin",
+                "Zig",
+            ],
+            parent_dir: "/mnt/wwn-0x50014ee26a7ba406-part1/programming/Other Projects/",
+        ),
+    },
+)
