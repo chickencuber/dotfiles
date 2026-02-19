@@ -1,13 +1,23 @@
 (
     editor: "nvim",
-    last: "/mnt/wwn-0x50014ee26a7ba406-part1/programming/Other Projects/doom",
+    last: "/mnt/wwn-0x50014ee26a7ba406-part1/programming/Other Projects/doom_engine",
     libraries: "/mnt/wwn-0x50014ee26a7ba406-part1/programming/libraries/",
     categories: {
-        "Rust": (
+        "Other": (
             supported_types: [
-                "Rust",
+                "Blank",
+                "D",
+                "Odin",
+                "Zig",
             ],
-            parent_dir: "/mnt/wwn-0x50014ee26a7ba406-part1/programming/Rust/",
+            parent_dir: "/mnt/wwn-0x50014ee26a7ba406-part1/programming/Other Projects/",
+        ),
+        "Web And JS": (
+            supported_types: [
+                "Blank",
+                "Web",
+            ],
+            parent_dir: "/mnt/wwn-0x50014ee26a7ba406-part1/programming/Web and JS/",
         ),
         "C": (
             supported_types: [
@@ -17,21 +27,11 @@
             ],
             parent_dir: "/mnt/wwn-0x50014ee26a7ba406-part1/programming/C/",
         ),
-        "Web And JS": (
+        "Rust": (
             supported_types: [
-                "Blank",
-                "Web",
+                "Rust",
             ],
-            parent_dir: "/mnt/wwn-0x50014ee26a7ba406-part1/programming/Web and JS/",
-        ),
-        "Other": (
-            supported_types: [
-                "Blank",
-                "D",
-                "Odin",
-                "Zig",
-            ],
-            parent_dir: "/mnt/wwn-0x50014ee26a7ba406-part1/programming/Other Projects/",
+            parent_dir: "/mnt/wwn-0x50014ee26a7ba406-part1/programming/Rust/",
         ),
     },
 )
