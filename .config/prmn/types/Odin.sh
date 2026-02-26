@@ -1,18 +1,19 @@
 #!/bin/bash
 mkdir ./build
+mkdir ./src
 echo 'package main
 
 import "core:fmt"
 
 main :: proc() {
 	fmt.println("Hello World!")
-}' > main.odin
+}' > src/main.odin
 
 cat > justfile << 'EOF'
 build:
-    odin build main.odin -file -out:build/main
+    odin build src/main.odin -out:build/main
 run:
-    odin run main.odin -file
+    odin run src/main.odin -file
 EOF
 cat > .gitignore << 'EOF'
 /build

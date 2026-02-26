@@ -3,15 +3,6 @@
     last: "/mnt/wwn-0x50014ee26a7ba406-part1/programming/Other Projects/doom_engine",
     libraries: "/mnt/wwn-0x50014ee26a7ba406-part1/programming/libraries/",
     categories: {
-        "Other": (
-            supported_types: [
-                "Blank",
-                "D",
-                "Odin",
-                "Zig",
-            ],
-            parent_dir: "/mnt/wwn-0x50014ee26a7ba406-part1/programming/Other Projects/",
-        ),
         "Web And JS": (
             supported_types: [
                 "Blank",
@@ -26,6 +17,15 @@
                 "C3",
             ],
             parent_dir: "/mnt/wwn-0x50014ee26a7ba406-part1/programming/C/",
+        ),
+        "Other": (
+            supported_types: [
+                "Blank",
+                "D",
+                "Odin",
+                "Zig",
+            ],
+            parent_dir: "/mnt/wwn-0x50014ee26a7ba406-part1/programming/Other Projects/",
         ),
         "Rust": (
             supported_types: [

@@ -34,6 +34,11 @@ menu
     border: 1px solid @mauve;
 }
 
+#workspaces button.focused, #workspaces button.active {
+    background-color: transparent;
+    box-shadow: none;
+}
+
 .empty #window  {
     background: transparent;
     border: none;

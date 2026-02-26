@@ -2,3 +2,5 @@ include "/usr/share/X11/locale/en_US.UTF-8/Compose"
 <Multi_key> <l> <a> : "λ"   U03BB
 <Multi_key> <o> <m> : "Ω"   U03A9
 <Multi_key> <p> <i> : "π"   U03C0
+<Multi_key> <D>	<D> : "Δ"	U0394 
+<Multi_key> <0> <l> : "θ"   U03B8
