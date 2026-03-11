@@ -10,10 +10,22 @@ main :: proc() {
 }' > src/main.odin
 
 cat > justfile << 'EOF'
-build:
-    odin build src/main.odin -out:build/main
-run:
-    odin run src/main.odin -file
+out:="build/main"
+
+build flag="":
+    odin build src -out:{{out}} {{flag}} 
+
+run arg="":
+    just build
+    {{out}} {{arg}}
+
+run-debug-gf2 arg="":
+    just build -debug
+    gf2 --args {{out}} {{arg}}
+    
+run-debug arg="":
+    just build -debug
+    {{out}} {{arg}}
 EOF
 cat > .gitignore << 'EOF'
 /build

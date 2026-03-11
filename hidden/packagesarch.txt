@@ -1,324 +1,331 @@
-alsa-utils
-android-studio
-arduino-cli
-balena-etcher
-base
-base-devel
-bash-completion
-bat
-bchunk
-bdf2psf
-bear
-betacraft-launcher-bin
-blockbench
-blueman
-bluez-utils
-bridge-utils
-brightnessctl
-btop
-c3-lsp
-c3c
-catppuccin-gtk-theme-mocha
-ccid
-clang
-cliphist
-cmake
-cmatrix
-cmus
-consolas-font
-cuda
-daggerfall-unity-bin
-dcd
-deno
-discover
-dkms
-dmd
-dmidecode
-dnsmasq
-docker
-doomrunner
-dosfstools
-dotnet-sdk
-dunst
-ed
-efibootmgr
-electron32-bin
-emscripten
-evtest
-eww
-extra-cmake-modules
-fasm
-fastfetch
-faudio
-fbset
-fcitx5
-fcitx5-configtool
-fcitx5-gtk
-fcitx5-qt
-fd
-ffnvcodec-headers
-file-roller
-firefox
-fish
-fisher
-flatpak
-flite
-fontforge
-fzf
-game-cheetah
-game-devices-udev
-gdb
-gf2-git
-ghostty
-gifsicle
-gimp
-git
-github-cli
-glade
-gnome-disk-utility
-gnu-efi
-gobject-introspection
-google-chrome
-gradle
-gst-plugin-pipewire
-gst-plugins-ugly
-gutenprint
-gvfs
-hexedit
-hplip
-hypridle
-hyprland
-hyprlock
-hyprpicker
-hyprshot
-hyprwatch-git
-i2c-tools
-i686-elf-binutils
-icoutils
-idle
-imv
-inkscape
-innoextract
-intel-media-driver
-intel-ucode
-intltool
-ipp-usb
-iptables-nft
-iwd
-jdk-openjdk
-jdk11-openjdk
-jdk17-openjdk
-jdk21-openjdk
-jdk8-openjdk
-jdtls
-kdeconnect
-kotlin
-kpeople5
-krita
-kvantum
-lazygit
-lib32-giflib
-lib32-gnutls
-lib32-gst-plugins-base-libs
-lib32-gtk3
-lib32-libgcrypt
-lib32-libjpeg-turbo
-lib32-libpng
-lib32-libpulse
-lib32-libva
-lib32-libxcomposite
-lib32-libxinerama
-lib32-libxslt
-lib32-mpg123
-lib32-ocl-icd
-lib32-openal
-lib32-sdl2-compat
-lib32-v4l-utils
-libdbusmenu-qt5
-libglade
-libpulse
-libreoffice-still
-libserialport
-libspatialindex
-libusb-compat
-libva-intel-driver
-libva-utils
-libvirt
-limine
-linux
-linux-firmware
-linux-headers
-linuxconsole
-lua-lsqlite3
-lua-lsqlite3-debug
-lua51-lsqlite3
-lua52-lsqlite3
-lua53-lsqlite3
-luarocks
-lutris
-ly
-man-db
-man-pages
-mangohud
-maven
-mcreator
-meson
-mingw-w64-gcc
-mokutil
-mono
-mono-msbuild
-mtools
-multimc-bin
-nano
-nasm
-ncurses5-compat-libs
-neovim
-network-manager-applet
-nim
-ninja
-nix
-noto-fonts-emoji
-npm
-ntfs-3g
-nvidia-open-dkms
-nvidia-settings
-nvidia-utils
-nvme-cli
-nwg-look
-obs-studio
-odin-git
-olympus
-openbsd-netcat
-opencl-headers
-openmw
-otf2bdf
-pacman-contrib
-pamixer
-pandoc-cli
-papirus-folders-catppuccin-git
-papirus-icon-theme
-pavucontrol
-pcmanfm-qt
-picocom
-pipewire
-pipewire-alsa
-pipewire-jack
-pipewire-pulse
-plymouth
-polkit-gnome
-polkit-kde-agent
-proton-vpn-gtk-app
-protontricks
-psftools
-pyenv
-python-pip
-python-pipx
-python-pyqt5
-qemu-full
-qt5-tools
-qt5ct
-qt6-3d
-qt6-charts
-qt6-datavis3d
-qt6-doc
-qt6-examples
-qt6-graphs
-qt6-grpc
-qt6-httpserver
-qt6-imageformats
-qt6-languageserver
-qt6-location
-qt6-lottie
-qt6-networkauth
-qt6-quick3d
-qt6-quick3dphysics
-qt6-quickeffectmaker
-qt6-quicktimeline
-qt6-remoteobjects
-qt6-scxml
-qt6-sensors
-qt6-serialbus
-qt6-serialport
-qt6-speech
-qt6-virtualkeyboard
-qt6ct
-quazip-qt5
-quickshell
-rclone
-reflector
-ripgrep
-rsync
-rust-analyzer
-rustup
-sbctl
-sbsigntools
-scrcpy
-sdparm
-shim
-sidequest-bin
-sl
-slade
-smartmontools
-smbx
-sof-firmware
-steam
-stow
-swaync
-swayosd
-swww-git
-tectonic
-terminus-font
-tinyxxd
-tmux
-totem
-touchegg
-trash-cli
-tree
-ttf-fantasque-nerd
-ttf-jetbrains-mono
-ttf-jetbrains-mono-nerd
-ttf-ms-fonts
-tty-clock
-ueberzug
-unityhub
-uzdoom
-vesktop-bin
-vintagestory
-virt-manager
-virt-viewer
-vlc
-vulkan-intel
-vulkan-radeon
-waybar
-wget
-wimlib
-wine-staging
-winetricks
-wireless_tools
-wireplumber
-wivrn-dashboard
-wl-clip-persist
-wmctrl
-woff2-font-awesome
-wofi
-wtype
-x86_64-elf-binutils
-xclip
-xcur2png
-xdg-desktop-portal-gtk
-xdg-desktop-portal-hyprland
-xdg-desktop-portal-wlr
-xf86-video-amdgpu
-xf86-video-ati
-xf86-video-nouveau
-xf86-video-vmware
-xpad-dkms-git
-xrizer-git
-yasm
-yay-bin
-yay-bin-debug
-yazi
-zig
-zoxide
-zram-generator
-zynaddsubfx
+alsa-utils 1.2.15.2-2
+android-studio 2025.3.1.8-1
+arduino-cli 1.4.1-1
+balena-etcher 2.1.4-1
+base 3-3
+base-devel 1-2
+bash-completion 2.17.0-3
+bat 0.26.1-2
+bchunk 1.2.2-8
+bdf2psf 1:1.221-1
+bear 4.0.3-1
+betacraft-launcher-bin 1.09_17-1
+blockbench 5.0.7-1
+blueman 2.4.6-2
+bluez-utils 5.86-2
+bridge-utils 1.7.1-5
+brightnessctl 0.5.1-3
+btop 1.4.6-1
+c3-lsp 0.4.0-1
+c3c 0.7.9-1
+catppuccin-gtk-theme-mocha 1.0.3-1
+ccid 1.7.1-1
+clang 21.1.8-1
+cliphist 1:0.7.0-2
+cmake 4.2.3-1
+cmatrix 2.0-4
+cmus 2.12.0-5
+consolas-font 1.2-2
+cuda 13.1.1-1
+daggerfall-unity-bin 1.1.1-1
+dcd 1:0.16.2-1
+deno 2.6.10-1
+discover 6.6.0-1
+dkms 3.3.0-1
+dmd 1:2.112.1-1
+dmidecode 3.7-1
+dnsmasq 2.92-1
+docker 1:29.2.1-1
+doomrunner 1.9.1-2
+dosfstools 4.2-5
+dotnet-sdk 10.0.3.sdk103-1
+dunst 1.13.1-1
+ed 1.22.4-1
+efibootmgr 18-3
+electron32-bin 32.3.3-2
+emscripten 5.0.1-1
+evtest 1.36-1
+eww 0.6.0-1
+extra-cmake-modules 6.23.0-1
+fasm 1.73.34-1
+fastfetch 2.59.0-1
+faudio 26.02-1
+fbset 2.1-11
+fcitx5 5.1.17-1
+fcitx5-configtool 5.1.12-2
+fcitx5-gtk 5.1.5-1
+fcitx5-qt 5.1.12-2
+fd 10.3.0-2
+ffnvcodec-headers 13.0.19.0-1
+file-roller 44.6-1
+firefox 147.0.4-1
+fish 4.5.0-2
+fisher 4.4.8-1
+flatpak 1:1.16.3-1
+flite 2.2-2
+fontforge 20251009-5
+fzf 0.67.0-2
+game-cheetah 0.5.1-1
+game-devices-udev 0.25-0.1
+gdb 17.1-2
+gf2-git r365.9a5dbcc-1
+ghostty 1.2.3-3
+gifsicle 1.95-1
+git 2.53.0-1
+git-lfs 3.7.1-1
+github-cli 2.87.0-1
+glade 3.40.0+r31+g1b15f940-4
+gnome-disk-utility 46.1-2
+gnu-efi 3.0.18-2
+gobject-introspection 1.86.0-2
+google-chrome 145.0.7632.109-1
+gradle 9.3.1-1
+gst-plugin-pipewire 1:1.4.10-2
+gst-plugins-ugly 1.28.0-2
+gutenprint 5.3.5-1
+gvfs 1.58.1-1
+hexedit 1.6-2
+hplip 1:3.25.8-5
+hypridle 0.1.7-6
+hyprland 0.53.3-2
+hyprlock 0.9.2-8
+hyprpicker 0.4.6-2
+hyprshot 1.3.0-4
+hyprwatch-git 0.1.0-1
+i2c-tools 4.4-4
+i686-elf-binutils 2.45-2
+icoutils 0.32.3-3
+idle 3.14-1
+imv 5.0.1-1
+inkscape 1.4.3-2
+innoextract 1.9-14
+intel-media-driver 25.3.4-2
+intel-ucode 20260210-1
+intltool 0.51.0-6
+ipp-usb 0.9.30-1
+iptables-nft 1:1.8.11-2
+iwd 3.11-2
+jdk-openjdk 25.0.2.u10-1
+jdk11-openjdk 11.0.30.u7-1
+jdk17-openjdk 17.0.18.u8-1
+jdk21-openjdk 21.0.10.u7-1
+jdk8-openjdk 8.482.u08-1
+jdtls 1.55.0-1
+just 1.46.0-1
+kdeconnect 25.12.2-1
+kdenlive 25.12.2-1
+kotlin 2.3.10-1
+kpeople5 5.116.0-1
+krita 5.2.15-1
+kvantum 1.1.6-1
+lazygit 0.59.0-1
+lib32-giflib 5.2.2-1
+lib32-gnutls 3.8.12-1
+lib32-gst-plugins-base-libs 1.26.10-1
+lib32-gtk3 1:3.24.51-1
+lib32-libgcrypt 1.12.0-1
+lib32-libjpeg-turbo 3.1.3-1
+lib32-libpng 1.6.55-1
+lib32-libpulse 17.0+r98+gb096704c0-1
+lib32-libva 2.22.0-1
+lib32-libxcomposite 0.4.7-1
+lib32-libxinerama 1.1.6-1
+lib32-libxslt 1.1.45-1
+lib32-mpg123 1.33.4-1
+lib32-ocl-icd 2.3.3-1
+lib32-openal 1.25.1-1
+lib32-sdl2-compat 2.32.64-1
+lib32-v4l-utils 1.32.0-1
+libdbusmenu-qt5 0.9.3+16.04.20160218-7
+libgcc 15.2.1+r604+g0b99615a8aef-1
+libglade 2.6.4-9
+libpulse 17.0+r98+gb096704c0-1
+libreoffice-still 25.8.5-1
+libserialport 0.1.2-1
+libspatialindex 2.1.0-1
+libstdc++ 15.2.1+r604+g0b99615a8aef-1
+libusb-compat 0.1.8-2
+libva-intel-driver 2.4.1-5
+libva-utils 2.22.0-1
+libvirt 1:12.0.0-2
+limine 10.7.0-1
+linux 6.18.9.arch1-2
+linux-firmware 20260110-1
+linux-headers 6.18.9.arch1-2
+linuxconsole 1.8.1-1
+lua-lsqlite3 0.9.6-6
+lua-lsqlite3-debug 0.9.6-6
+lua51-lsqlite3 0.9.6-6
+lua52-lsqlite3 0.9.6-6
+lua53-lsqlite3 0.9.6-6
+luarocks 3.13.0-1
+lutris 0.5.20-1
+ly 1.3.2-1
+man-db 2.13.1-1
+man-pages 6.17-1
+mangohud 0.8.2-3
+maven 3.9.12-1
+mcreator 2025.3.45720-1
+meson 1.10.1-1
+mingw-w64-gcc 15.2.0-1
+mokutil 0.7.2-2
+mono 6.12.0.206-1
+mono-msbuild 16.10.1.xamarinxplat.2021.05.26.14.00-5
+mtools 1:4.0.49-1
+multimc-bin 1.6-3
+nano 8.7.1-1
+nasm 3.01-1
+ncurses5-compat-libs 6.6-1
+neovim 0.11.6-1
+network-manager-applet 1.36.0-1
+nim 2.0.8-1
+ninja 1.13.2-3
+nix 2.33.3-2
+noto-fonts-emoji 1:2.051-1
+npm 11.10.0-1
+ntfs-3g 2022.10.3-2
+nvidia-open-dkms 590.48.01-4
+nvidia-settings 590.48.01-1
+nvidia-utils 590.48.01-4
+nvme-cli 2.16-2
+nwg-look 1.0.6-1
+obs-studio 32.0.4-1
+odin-git r16304.e88776e00-1
+olympus 25.12.05.01-1
+openbsd-netcat 1.234_1-1
+opencl-headers 2:2025.07.22-1
+openmw 0.50.0-2
+otf2bdf 3.1-3
+pacman-contrib 1.13.1-1
+pamixer 1.6-3
+pandoc-cli 3.5-7
+papirus-folders-catppuccin-git r30.f83671d1-2
+papirus-icon-theme 20250501-1
+pavucontrol 1:6.2-1
+pcmanfm-qt 2.3.0-2
+picocom 3.1-3
+pipewire 1:1.4.10-2
+pipewire-alsa 1:1.4.10-2
+pipewire-jack 1:1.4.10-2
+pipewire-pulse 1:1.4.10-2
+plymouth 24.004.60-14
+polkit-gnome 0.105-12
+polkit-kde-agent 6.6.0-1
+proton-vpn-gtk-app 4.14.1-2
+protontricks 1.13.1-3
+psftools 1.0.14-1
+pyenv 1:2.6.22-1
+python-pip 26.0.1-1
+python-pipx 1.8.0-2
+python-pyqt5 5.15.11-5
+qemu-full 10.2.0-3
+qt5-tools 5.15.18+kde+r3-1
+qt5ct 1.9-1
+qt6-3d 6.10.2-1
+qt6-charts 6.10.2-1
+qt6-datavis3d 6.10.2-1
+qt6-doc 6.10.2-1
+qt6-examples 6.10.2-1
+qt6-graphs 6.10.2-1
+qt6-grpc 6.10.2-1
+qt6-httpserver 6.10.2-1
+qt6-imageformats 6.10.2-1
+qt6-languageserver 6.10.2-1
+qt6-location 6.10.2-1
+qt6-lottie 6.10.2-1
+qt6-networkauth 6.10.2-1
+qt6-quick3d 6.10.2-1
+qt6-quick3dphysics 6.10.2-1
+qt6-quickeffectmaker 6.10.2-1
+qt6-quicktimeline 6.10.2-1
+qt6-remoteobjects 6.10.2-1
+qt6-scxml 6.10.2-1
+qt6-sensors 6.10.2-1
+qt6-serialbus 6.10.2-1
+qt6-serialport 6.10.2-1
+qt6-speech 6.10.2-1
+qt6-virtualkeyboard 6.10.2-1
+qt6ct 0.11-4
+quazip-qt5 1.5-1
+quickshell 0.2.1-5
+rclone 1.73.1-1
+reflector 2023-5
+ripgrep 15.1.0-2
+rsync 3.4.1-2
+rust-analyzer 20260202-1
+rustup 1.28.2-4
+sbctl 0.18-1
+sbsigntools 0.9.5-3
+scrcpy 3.3.4-1
+sdparm 1.12-1
+shim 16.1-1
+sidequest-bin 0.10.42-1
+sl 5.05-5
+slade 3.2.9-1
+smartmontools 7.5-1
+smbx 1.3.6.6-2
+sof-firmware 2025.12.2-1
+sshfs 3.7.3-3
+steam 1.0.0.85-3
+stow 2.4.1-1
+subversion 1.14.5-5
+swaync 0.12.4-1
+swayosd 0.3.0-1
+swww-git 0.11.2.r3.g3fc6dd6-1
+tectonic 0.15.0-4
+terminus-font 4.49.1-8
+tinyxxd 1.3.11-1
+tmux 3.6_a-1
+totem 43.2-3
+touchegg 2.0.18-1
+trash-cli 0.24.5.26-3
+tree 2.3.1-1
+ttf-fantasque-nerd 3.4.0-2
+ttf-jetbrains-mono 2.304-2
+ttf-jetbrains-mono-nerd 3.4.0-2
+ttf-ms-fonts 2.0-12
+tty-clock 2.3-2
+ueberzug 18.3.1-5
+unityhub 3.16.2-1
+uzdoom 4.14.3-3
+vesktop-bin 1.6.5-1
+vintagestory 1.21.6-1
+virt-manager 5.1.0-3
+virt-viewer 11.0-4
+vlc 3.0.21-32
+vulkan-intel 1:25.3.5-1
+vulkan-radeon 1:25.3.5-1
+waybar 0.15.0-1
+wget 1.25.0-3
+wimlib 1.14.5-1
+wine-staging 11.2-1
+winetricks 20260125-1
+wireless_tools 30.pre9-5
+wireplumber 0.5.13-1
+wivrn-dashboard 26.2.2-1
+wl-clip-persist 0.5.0-1
+wmctrl 1.07-6
+woff2-font-awesome 7.2.0-1
+wofi 1.5.3-1
+wtype 0.4-2
+x86_64-elf-binutils 2.45-1
+xclip 0.13-6
+xcur2png 0.7.1-8
+xdg-desktop-portal-gtk 1.15.3-1
+xdg-desktop-portal-hyprland 1.3.11-3
+xdg-desktop-portal-wlr 0.8.1-1
+xf86-video-amdgpu 25.0.0-1
+xf86-video-ati 1:22.0.0-2
+xf86-video-nouveau 1.0.18-1
+xf86-video-vmware 13.4.0-4
+xpad-dkms-git 1:r127.9caad15-1
+xrizer-git 0.3.r58.gb88f432-1
+yasm 1.3.0-9
+yay-bin 12.5.7-1
+yay-bin-debug 12.5.7-1
+yazi 26.1.22-1
+yt-dlp 2026.02.04-1
+zig 0.15.2-2
+zoxide 0.9.9-2
+zram-generator 1.2.1-1
+zynaddsubfx 3.0.6-6
