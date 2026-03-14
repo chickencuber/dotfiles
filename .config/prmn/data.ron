@@ -3,11 +3,12 @@
     last: "/mnt/wwn-0x50014ee26a7ba406-part1/programming/Other Projects/doom_engine",
     libraries: "/mnt/wwn-0x50014ee26a7ba406-part1/programming/libraries/",
     categories: {
-        "Rust": (
+        "Web And JS": (
             supported_types: [
-                "Rust",
+                "Blank",
+                "Web",
             ],
-            parent_dir: "/mnt/wwn-0x50014ee26a7ba406-part1/programming/Rust/",
+            parent_dir: "/mnt/wwn-0x50014ee26a7ba406-part1/programming/Web and JS/",
         ),
         "C": (
             supported_types: [
@@ -17,12 +18,11 @@
             ],
             parent_dir: "/mnt/wwn-0x50014ee26a7ba406-part1/programming/C/",
         ),
-        "Web And JS": (
+        "Rust": (
             supported_types: [
-                "Blank",
-                "Web",
+                "Rust",
             ],
-            parent_dir: "/mnt/wwn-0x50014ee26a7ba406-part1/programming/Web and JS/",
+            parent_dir: "/mnt/wwn-0x50014ee26a7ba406-part1/programming/Rust/",
         ),
         "Other": (
             supported_types: [
