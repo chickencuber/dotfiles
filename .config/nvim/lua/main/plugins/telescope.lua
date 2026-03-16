@@ -1,6 +1,9 @@
 return {
     'nvim-telescope/telescope.nvim', tag = '0.1.8',
-    dependencies = { 'nvim-lua/plenary.nvim' },
+    dependencies = {
+        'nvim-lua/plenary.nvim',
+        'chickencuber/tasks.nvim',
+    },
     config=function()
         local builtin = require('telescope.builtin')
 
@@ -27,5 +30,14 @@ return {
             builtin.grep_string({search = vim.fn.input("Grep > ")})
         end)
         vim.keymap.set('n', '<leader>pb', builtin.buffers, { desc = 'Fuzzy find buffers' })
+        local task = require("tasks")
+        vim.keymap.set('n', '<leader>ts', function()
+            local comment = task.get_comment()
+            if comment == nil then
+                print("no TASK comment found")
+                return
+            end
+            builtin.grep_string({search = comment})
+        end)
     end
 }
