@@ -26,3 +26,8 @@ sudo systemctl enable ly@tty1.service
 sudo mkdir -p /usr/share/plymouth/themes/
 tar -xzf ./hidden/catppuccin-mocha-plymouth.tar.gz -C /usr/share/plymouth/themes/
 sudo plymouth-set-default-theme -R catppuccin-mocha
+
+cd ./hidden/Catppuccin-GTK-Theme/themes/
+./build.sh 
+./install.sh ./install.sh --tweaks -t mauve -l
+
