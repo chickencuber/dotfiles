@@ -4,7 +4,7 @@ path="$HOME/.config/hypr/generated/$ACTIVE_CLASS.conf"
 if [[ -f "$path" ]] then
     rm "$path"
 else
-    echo "windowrule = plugin:hyprbars:nobar, class:$ACTIVE_CLASS">>"$path"
+    echo "windowrule = hyprbars:no_bar true, match:class $ACTIVE_CLASS">>"$path"
 fi
 hyprctl reload
 

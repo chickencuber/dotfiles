@@ -26,6 +26,8 @@ if status is-interactive
     alias cd 'z'
     alias more 'less'
 
+    alias clsf 'cls && fastfetch'
+
     alias md 'mkdir'
     alias rd 'rmdir'
 

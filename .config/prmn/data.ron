@@ -1,15 +1,8 @@
 (
     editor: "nvim",
-    last: "/mnt/wwn-0x50014ee26a7ba406-part1/programming/Other Projects/tasks.nvim",
+    last: "/mnt/wwn-0x50014ee26a7ba406-part1/programming/C/ui_framework",
     libraries: "/mnt/wwn-0x50014ee26a7ba406-part1/programming/libraries/",
     categories: {
-        "Web And JS": (
-            supported_types: [
-                "Blank",
-                "Web",
-            ],
-            parent_dir: "/mnt/wwn-0x50014ee26a7ba406-part1/programming/Web and JS/",
-        ),
         "C": (
             supported_types: [
                 "C",
@@ -17,6 +10,19 @@
                 "C3",
             ],
             parent_dir: "/mnt/wwn-0x50014ee26a7ba406-part1/programming/C/",
+        ),
+        "Rust": (
+            supported_types: [
+                "Rust",
+            ],
+            parent_dir: "/mnt/wwn-0x50014ee26a7ba406-part1/programming/Rust/",
+        ),
+        "Web And JS": (
+            supported_types: [
+                "Blank",
+                "Web",
+            ],
+            parent_dir: "/mnt/wwn-0x50014ee26a7ba406-part1/programming/Web and JS/",
         ),
         "Other": (
             supported_types: [
@@ -26,12 +32,6 @@
                 "Zig",
             ],
             parent_dir: "/mnt/wwn-0x50014ee26a7ba406-part1/programming/Other Projects/",
-        ),
-        "Rust": (
-            supported_types: [
-                "Rust",
-            ],
-            parent_dir: "/mnt/wwn-0x50014ee26a7ba406-part1/programming/Rust/",
         ),
     },
 )
