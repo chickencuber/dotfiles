@@ -31,8 +31,10 @@ elif [[ "$1" == "init" ]]; then #inits deamon
 elif [[ "$1" == "toggle" ]]; then #toggles random wallpapers
     if [ -e "$HOME/.config/hypr/wall_lock" ]; then
         rm "$HOME/.config/hypr/wall_lock"
+        notify-send "slideshow disabled"
     else
         touch "$HOME/.config/hypr/wall_lock"
+        notify-send "slideshow enabled"
     fi
     pkill -RTMIN+10 waybar
 elif [[ "$1" == "test" ]]; then
