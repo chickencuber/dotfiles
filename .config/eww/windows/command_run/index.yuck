@@ -1,4 +1,6 @@
 (defvar autocomplete-suggestion "")
+(defvar cmd-history 0)
+(defvar cmd-text "")
 
 (defwindow command_run
  :monitor 0
@@ -14,8 +16,9 @@
  :focusable true
  (overlay 
   (input
-   :onaccept "fish -c \"{}\" & eww close command_run && hyprctl keyword unbind ,escape && eww update autocomplete-suggestion=''" :class "text input"
-   :onchange "~/.config/eww/windows/get_autocomplete.fish \"{}\"")
+   :onaccept "~/.config/eww/windows/command_run/runcmd.fish \"{}\"" :class "text input"
+   :onchange "~/.config/eww/windows/command_run/get_autocomplete.fish \"{}\""
+   :value cmd-text)
   (label :text autocomplete-suggestion :halign "start" :class "text label" :unindent false)
   (label :text "⇝" :halign "start" :class "text mark")
  ))

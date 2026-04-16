@@ -1,0 +1,26 @@
+*:not(label){
+  background-color: #1E1E2E;
+}
+.text {
+  font-family: "JetBrainsMono Nerd Font Mono", monospace;
+  font-size: 20px;
+  padding: 6px 10px;
+  border-width: 2px;
+}
+.label {
+ color: #676B80;
+}
+.mark {
+  padding: 0;
+  color: #C3CCE9
+}
+.input {
+  color: #C3CCE9;
+  outline: none;
+  box-shadow: none;
+  caret-color: #C3CCE9;
+  border-radius: 0;
+  border: 2px solid #cba6f7;
+  border-radius: 22px;
+}
+
