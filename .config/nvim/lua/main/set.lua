@@ -26,9 +26,6 @@ vim.opt.colorcolumn = "80"
 
 vim.o.shell = "/usr/bin/fish"
 
-vim.api.nvim_create_user_command('Lib', function(args)
-    print(vim.fn.system("prmn lib " .. args.args))
-end, {nargs = "?"})
 vim.cmd [[
 set mouse=
 ]]
