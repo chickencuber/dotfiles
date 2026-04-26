@@ -20,7 +20,8 @@ vim.o.clipboard = "unnamedplus"
 
 vim.keymap.set("n", "Q", "<nop>")
 
-vim.keymap.set("n", "<leader>f", "mzggVG=`z")
+vim.keymap.set("n", "<leader>f", vim.lsp.buf.format)
+
 vim.keymap.set("n", "<leader>y", "mzggVGy`z")
 vim.keymap.set("n", "<leader>d", "mzggVGd`z")
 vim.keymap.set('n', '<leader>pp', 'ggVG"_dp')

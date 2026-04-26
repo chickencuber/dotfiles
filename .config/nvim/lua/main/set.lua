@@ -26,10 +26,6 @@ vim.opt.colorcolumn = "80"
 
 vim.o.shell = "/usr/bin/fish"
 
-vim.cmd [[
-set mouse=
-]]
-
 vim.filetype.add({
     extension = {
         jspp="jspp",
