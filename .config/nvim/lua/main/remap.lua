@@ -20,7 +20,24 @@ vim.o.clipboard = "unnamedplus"
 
 vim.keymap.set("n", "Q", "<nop>")
 
-vim.keymap.set("n", "<leader>f", vim.lsp.buf.format)
+vim.keymap.set("n", "<leader>f", function()
+  local bufnr = vim.api.nvim_get_current_buf()
+  local clients = vim.lsp.get_clients({ bufnr = bufnr })
+
+  local supports_format = false
+  for _, client in ipairs(clients) do
+    if client.server_capabilities.documentFormattingProvider then
+      supports_format = true
+      break
+    end
+  end
+
+  if supports_format then
+    vim.lsp.buf.format()
+  else
+    vim.cmd("normal! gg=G")
+  end
+end)
 
 vim.keymap.set("n", "<leader>y", "mzggVGy`z")
 vim.keymap.set("n", "<leader>d", "mzggVGd`z")
