@@ -35,13 +35,14 @@ vim.keymap.set("n", "<leader>f", function()
   if supports_format then
     vim.lsp.buf.format()
   else
-    vim.cmd("normal! gg=G")
+    vim.cmd("normal! mzgg=G`z")
   end
 end)
 
 vim.keymap.set("n", "<leader>y", "mzggVGy`z")
 vim.keymap.set("n", "<leader>d", "mzggVGd`z")
 vim.keymap.set('n', '<leader>pp', 'ggVG"_dp')
+
 vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
 
 vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true })

@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euo pipefail
 mkdir ./build
 mkdir ./src
 echo 'package main

@@ -1,12 +1,13 @@
 return {
     "nvim-treesitter/nvim-treesitter",
-    lazy = false, build = ":TSUpdate",
-    branch="main",
-    dependencies={
+    lazy = false,
+    build = ":TSUpdate",
+    branch = "main",
+    dependencies = {
         'nvim-treesitter/nvim-treesitter-context',
         'ron-rs/ron.vim'
     },
-    config=function()
+    config = function()
         vim.api.nvim_create_autocmd('FileType', {
             callback = function(args)
                 local lang = vim.treesitter.language.get_lang(args.match) or args.match
@@ -15,6 +16,10 @@ return {
                     vim.treesitter.start(args.buf)
                 end
             end,
+        })
+        require("treesitter-context").setup({
+            max_lines = 1,
+            multiline_threshold = 1,
         })
     end
 }

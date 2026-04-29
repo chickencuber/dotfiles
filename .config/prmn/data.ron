@@ -1,6 +1,14 @@
 (
-    editor: "nvim",
+    show_hint: false,
+    show_menubar: false,
     categories: {
+        "Web And JS": (
+            types: [
+                "Blank",
+                "Web",
+            ],
+            dir: "/mnt/wwn-0x50014ee26a7ba406-part1/programming/Web and JS/",
+        ),
         "Other": (
             types: [
                 "Blank",
@@ -10,19 +18,6 @@
             ],
             dir: "/mnt/wwn-0x50014ee26a7ba406-part1/programming/Other Projects/",
         ),
-        "Rust": (
-            types: [
-                "Rust",
-            ],
-            dir: "/mnt/wwn-0x50014ee26a7ba406-part1/programming/Rust/",
-        ),
-        "Web And JS": (
-            types: [
-                "Blank",
-                "Web",
-            ],
-            dir: "/mnt/wwn-0x50014ee26a7ba406-part1/programming/Web and JS/",
-        ),
         "C": (
             types: [
                 "C",
@@ -30,6 +25,12 @@
                 "C3",
             ],
             dir: "/mnt/wwn-0x50014ee26a7ba406-part1/programming/C/",
+        ),
+        "Rust": (
+            types: [
+                "Rust",
+            ],
+            dir: "/mnt/wwn-0x50014ee26a7ba406-part1/programming/Rust/",
         ),
     },
 )
