@@ -7,7 +7,7 @@
                 "Blank",
                 "Web",
             ],
-            dir: "/mnt/wwn-0x50014ee26a7ba406-part1/programming/Web and JS/",
+            dir: "/home/chickencuber/drive/programming/Web and JS/",
         ),
         "Other": (
             types: [
@@ -16,7 +16,7 @@
                 "Odin",
                 "Zig",
             ],
-            dir: "/mnt/wwn-0x50014ee26a7ba406-part1/programming/Other Projects/",
+            dir: "/home/chickencuber/drive/programming/Other Projects/",
         ),
         "C": (
             types: [
@@ -24,13 +24,13 @@
                 "C++",
                 "C3",
             ],
-            dir: "/mnt/wwn-0x50014ee26a7ba406-part1/programming/C/",
+            dir: "/home/chickencuber/drive/programming/C/",
         ),
         "Rust": (
             types: [
                 "Rust",
             ],
-            dir: "/mnt/wwn-0x50014ee26a7ba406-part1/programming/Rust/",
+            dir: "/home/chickencuber/drive/programming/Rust/",
         ),
     },
 )
