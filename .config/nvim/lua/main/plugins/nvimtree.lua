@@ -16,6 +16,8 @@ return {
         -- empty setup using defaults
         require("nvim-tree").setup({
             hijack_unnamed_buffer_when_opening = true,
+            sync_root_with_cwd = true,
+            respect_buf_cwd = true,
             sort = {
                 sorter = "case_sensitive",
             },
@@ -34,7 +36,7 @@ return {
             callback = function(args)
                 local buf_type = vim.bo[args.buf].buftype
                 local buf_name = vim.api.nvim_buf_get_name(args.buf)
-                if(buf_type == "terminal") then
+                if (buf_type == "terminal") then
                     vim.cmd('NvimTreeClose')
                     return
                 end

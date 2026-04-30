@@ -26,11 +26,78 @@ vim.opt.colorcolumn = "80"
 
 vim.o.shell = "/usr/bin/fish"
 
+local prmn = nil
+vim.api.nvim_create_user_command("Prmn", function(opts)
+    if prmn ~= nil then
+        vim.fn.jobstop(prmn)
+        prmn = nil
+    end
+    local args = opts.args
+    local cmd = { "prmn" }
+    for _, v in ipairs(vim.split(args, " ")) do
+        if v == "" then
+            goto continue
+        end
+        table.insert(cmd, v)
+        ::continue::
+    end
+
+    local buf = vim.api.nvim_create_buf(false, true)
+
+    local width = math.floor(vim.o.columns * 0.8)
+    local height = math.floor(vim.o.lines * 0.8)
+
+    local win = vim.api.nvim_open_win(buf, true, {
+        relative = "editor",
+        width = width,
+        height = height,
+        row = math.floor((vim.o.lines - height) / 2),
+        col = math.floor((vim.o.columns - width) / 2),
+        style = "minimal",
+        border = "rounded",
+    })
+
+    prmn = vim.fn.jobstart(cmd, {
+        term = true,
+        on_exit = function()
+            local s = vim.api.nvim_buf_get_lines(buf, 0, 1, false)[1]
+            vim.api.nvim_win_close(win, true);
+            prmn = nil
+            local ok, _ = pcall(function()
+                if s ~= "" then
+                    vim.cmd.cd(s)
+                    vim.cmd.lcd(s)
+                    vim.cmd.tcd(s)
+                    vim.cmd.edit(s)
+                end
+            end)
+            if not ok then
+                vim.print(cmd)
+                vim.print(s)
+            end
+        end
+    })
+    vim.api.nvim_create_autocmd("BufLeave", {
+        buffer = buf,
+        once = true,
+        callback = function()
+            vim.fn.jobstop(prmn)
+        end,
+    })
+    vim.api.nvim_create_autocmd("TermLeave", {
+        buffer = buf,
+        callback = function()
+            vim.fn.jobstop(prmn)
+        end,
+    })
+    vim.cmd("startinsert")
+end, { nargs = '*' })
+
 vim.filetype.add({
     extension = {
-        jspp="jspp",
-        h   = "c",
-        hpp = "cpp",
+        jspp = "jspp",
+        h    = "c",
+        hpp  = "cpp",
     },
 })
 local augroup = vim.api.nvim_create_augroup("numbertoggle", {})
@@ -54,7 +121,7 @@ vim.api.nvim_create_autocmd({ "BufLeave", "FocusLost", "CmdlineEnter", "WinLeave
         if vim.o.nu then
             vim.opt.relativenumber = false
             vim.opt.cursorline = false;
-            if not vim.tbl_contains({"@", "-"}, vim.v.event.cmdtype) then
+            if not vim.tbl_contains({ "@", "-" }, vim.v.event.cmdtype) then
                 vim.cmd "redraw"
             end
         end
@@ -63,7 +130,7 @@ vim.api.nvim_create_autocmd({ "BufLeave", "FocusLost", "CmdlineEnter", "WinLeave
 
 -- for notes
 vim.api.nvim_create_autocmd("FileType", {
-    pattern = { "markdown", "org", "norg", "gitcommit", "text"},
+    pattern = { "markdown", "org", "norg", "gitcommit", "text" },
     callback = function()
         vim.opt_local.wrap = true
         vim.opt_local.linebreak = true
@@ -72,4 +139,3 @@ vim.api.nvim_create_autocmd("FileType", {
         vim.opt_local.spell = true
     end,
 })
-
