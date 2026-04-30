@@ -33,7 +33,7 @@ vim.api.nvim_create_user_command("Prmn", function(opts)
         prmn = nil
     end
     local args = opts.args
-    local cmd = { "prmn" }
+    local cmd = { "prmn", "-o" }
     for _, v in ipairs(vim.split(args, " ")) do
         if v == "" then
             goto continue
