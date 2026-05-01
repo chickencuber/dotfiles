@@ -63,17 +63,11 @@ vim.api.nvim_create_user_command("Prmn", function(opts)
             local s = vim.api.nvim_buf_get_lines(buf, 0, 1, false)[1]
             vim.api.nvim_win_close(win, true);
             prmn = nil
-            local ok, _ = pcall(function()
-                if s ~= "" then
-                    vim.cmd.cd(s)
-                    vim.cmd.lcd(s)
-                    vim.cmd.tcd(s)
-                    vim.cmd.edit(s)
-                end
-            end)
-            if not ok then
-                vim.print(cmd)
-                vim.print(s)
+            if s ~= "" then
+                vim.cmd.cd(s)
+                vim.cmd.lcd(s)
+                vim.cmd.tcd(s)
+                vim.cmd.edit(s)
             end
         end
     })
