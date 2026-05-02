@@ -11,7 +11,7 @@ return {
         "L3MON4D3/LuaSnip",
         "saadparwaiz1/cmp_luasnip",
     },
-    config=function()
+    config = function()
         vim.api.nvim_create_autocmd('LspAttach', {
             group = vim.api.nvim_create_augroup('user_lsp_attach', { clear = true }),
             callback = function(event)
@@ -41,24 +41,24 @@ return {
         })
         vim.lsp.config("arduino_language_server", {
             cmd = { "arduino-language-server",
-            "-cli-config", "~/.arduino15/arduino-cli.yaml",
-            "-fqbn", "arduino:avr:uno" },
-            filetypes = {"arduino"},
-            root_markers={".git"}
+                "-cli-config", "~/.arduino15/arduino-cli.yaml",
+                "-fqbn", "arduino:avr:uno" },
+            filetypes = { "arduino" },
+            root_markers = { ".git" }
         })
         vim.lsp.enable("arduino_language_server")
 
         vim.lsp.config("c3_lsp", {
             cmd = { "c3lsp" },
             filetypes = { "c3", "c3i" },
-            root_markers={".git"}
+            root_markers = { ".git" }
         })
         vim.lsp.enable("c3_lsp")
 
         vim.lsp.config("serve_d", {
             cmd = { "serve-d" },
             filetypes = { "d" },
-            root_markers={".git"}
+            root_markers = { ".git" }
         })
         vim.lsp.enable("serve_d")
 
@@ -66,17 +66,23 @@ return {
         vim.lsp.config("kotlin_language_server", {})
         vim.lsp.enable("kotlin_language_server")
 
-        vim.lsp.config("ts_ls",{})
+        vim.lsp.config("ts_ls", {})
         vim.lsp.enable("ts_ls")
         vim.lsp.config("omnisharp", {})
         vim.lsp.enable("omnisharp")
-        vim.lsp.config("clangd", {})
+        vim.lsp.config("clangd", {
+            cmd={
+                "clangd",
+                "-style='{IndentWidth: 4}'"
+
+            }
+        })
         vim.lsp.enable("clangd")
 
         vim.lsp.config("rust_analyzer", {})
         vim.lsp.enable("rust_analyzer")
         require('mason-lspconfig').setup({
-            ensure_installed = { 'rust_analyzer', 'eslint', 'lua_ls', 'omnisharp', 'ts_ls', 'clangd', 'kotlin_language_server'},
+            ensure_installed = { 'rust_analyzer', 'eslint', 'lua_ls', 'omnisharp', 'ts_ls', 'clangd', 'kotlin_language_server' },
         })
 
 
@@ -119,8 +125,8 @@ return {
                         -- your own configuration.
                         -- See https://github.com/neovim/nvim-lspconfig/issues/3189
                         -- library = {
-                            --   vim.api.nvim_get_runtime_file('', true),
-                            -- }
+                        --   vim.api.nvim_get_runtime_file('', true),
+                        -- }
                     }
                 })
             end,
