@@ -25,6 +25,7 @@ if status is-interactive
     alias vi 'vim'
     alias cd 'z'
     alias more 'less'
+    alias lg 'lazygit'
 
     alias clsf 'cls && fastfetch'
 

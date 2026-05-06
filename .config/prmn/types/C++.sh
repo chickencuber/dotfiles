@@ -20,6 +20,7 @@ cat > .gitignore << 'EOF'
 /compile_commands.json
 EOF
 
+#TASK(20260502-130606-630-n6-720): replace with CMAKE
 # Makefile
 cat > Makefile << 'EOF'
 CC = g++
@@ -48,6 +49,15 @@ clean:
 	rm -rf $(BUILD)
 
 .PHONY: all run clean
+EOF
+
+# .clang-format
+cat > .clang-format << 'EOF'
+---
+BasedOnStyle: LLVM
+IndentWidth: 4
+PointerAlignment: Left
+...
 EOF
 
 # Initialize git repo
