@@ -1,12 +1,12 @@
 [[plugin.deps]]
 use = "yazi-rs/plugins:chmod"
-rev = "19dc890"
-hash = "5b2eb0cc2050cec1e4de83cfa51a5b90"
+rev = "1db18bb"
+hash = "f0c8c378184d5f8abd1b095a443d336d"
 
 [[plugin.deps]]
 use = "uhs-robert/recycle-bin"
-rev = "53ad17c"
-hash = "80221fe740a6f251d35845d29391bea7"
+rev = "fa68711"
+hash = "8714306b5cac6359edbacbf545fbd691"
 
 [[flavor.deps]]
 use = "yazi-rs/flavors:catppuccin-mocha"
