@@ -1,2 +1,2 @@
 # TODOS
-- [ ] replace with CMAKE: [TASK(20260502-130606-630-n6-720)](./.tasks/20260502-130606-630-n6-720.md)  
+- [X] replace with CMAKE: [TASK(20260502-130606-630-n6-720)](./.tasks/20260502-130606-630-n6-720.md)  
