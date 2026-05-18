@@ -1,8 +1,8 @@
 #!/bin/env fish
 eww close command_run 
-hyprctl keyword unbind ,escape 
-hyprctl keyword unbind ,up 
-hyprctl keyword unbind ,down
+hyprctl eval 'hl.unbind("ESCAPE")'
+hyprctl eval 'hl.unbind("UP")'
+hyprctl eval 'hl.unbind("DOWN")'
 eww update autocomplete-suggestion=''
 eww update cmd-history=0
 eww update cmd-text=''
