@@ -6,7 +6,7 @@ Lock" | wofi --dmenu --prompt "Power menu")
 
 case "$choice" in
     "Reboot") reboot;;
-    "Log Off") hyprctl dispatch exit;;
+    "Log Off") hyprctl dispatch "hl.dsp.exit()";;
     "Shut Down") shutdown now;;
     "Lock") hyprlock;;
     *) exit ;;
