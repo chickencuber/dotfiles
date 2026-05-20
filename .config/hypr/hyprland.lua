@@ -8,12 +8,12 @@ hl.monitor({
     scale = 1,
     mirror="HDMI-A-2"
 })
-hl.monitor({
-    output = "HDMI-A-2",
-    scale = 1,
-    mode = "1920x1080@60",
-    position = "auto";
-})
+-- hl.monitor({
+--     output = "HDMI-A-2",
+--     scale = 1,
+--     mode = "1920x1080@60",
+--     position = "auto";
+-- })
 
 -- variables
 local terminal = "ghostty"
