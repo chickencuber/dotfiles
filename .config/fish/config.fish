@@ -1,8 +1,5 @@
 set -gx PATH $HOME/.config/fish/extra $PATH
 
-if not set -q fish_prompt_style 
-    set -Ux fish_prompt_style 1
-end
 set -gx PATH $HOME/.local/bin $PATH
 set -gx JAVA_HOME /usr/lib/jvm/java-21-openjdk
 set -gx PATH $JAVA_HOME/bin $PATH
@@ -10,6 +7,10 @@ set -gx PATH /home/chickencuber/.cargo/bin $PATH
 
 set -gx PYENV_ROOT $HOME/.pyenv
 set -gx PATH $PYENV_ROOT/bin $PATH
+
+
+set -gx EDITOR nvim
+set -gx VISUAL nvim
 
 if status is-interactive
     # ~/.config/fish/config.fish

@@ -91,6 +91,10 @@ hl.env("KDECOLORSCHEME", "Catppuccin-Mocha-Mauve")
 hl.env("QT_QPA_PLATFORMTHEME", "qt6ct")
 hl.env("DESKTOP_SESSION", "Hyprland")
 
+
+hl.env("EDITOR", "nvim")
+hl.env("VISUAL", "nvim")
+
 hl.config({
     general    = {
         gaps_in = 5,

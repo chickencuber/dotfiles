@@ -29,6 +29,7 @@
         "Rust": (
             types: [
                 "Rust",
+                "RustWorkSpace",
             ],
             dir: "/home/chickencuber/drive/programming/Rust/",
         ),

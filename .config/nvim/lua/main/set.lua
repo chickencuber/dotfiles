@@ -2,6 +2,8 @@ vim.opt.nu = true
 vim.opt.relativenumber = true
 vim.opt.cursorline = true;
 
+vim.env.PATH = vim.fn.trim(vim.fn.system('fish -c "printf %s \\"$PATH\\""'))
+
 vim.opt.tabstop = 4
 vim.opt.softtabstop = 4
 vim.opt.shiftwidth = 4
