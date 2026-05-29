@@ -21,7 +21,7 @@ return {
             dashboard.button( "p", " > Projects", ":Prmn <CR>"),
             dashboard.button( "l", " > Last Project", ":Prmn l <CR>"),
             dashboard.button( "f", " > Find Project", ":Prmn f <CR>"),
-            dashboard.button( "u", "  > Update Plugins" , ":Lazy update"),
+            dashboard.button( "u", "  > Update Plugins" , ":Lazy update <CR>"),
             dashboard.button( "c", "  > Config" , ":e $MYVIMRC | :cd %:p:h | split . | wincmd k | pwd<CR>"),
             dashboard.button( "q", "  > Quit NVIM", ":qa<CR>"),
         }
