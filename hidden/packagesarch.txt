@@ -207,6 +207,7 @@ man-pages 6.18-1
 mangohud 0.8.3-2
 maven 3.9.16-1
 mcreator 2025.3.45720-1
+mediainfo 26.05-1
 meson 1.11.1-3
 milou 6.6.5-1
 mingw-w64-gcc 16.1.0-1
@@ -249,6 +250,7 @@ pandoc-cli 3.6-40
 papirus-folders-catppuccin-git r30.f83671d1-2
 papirus-icon-theme 20250501-1
 pavucontrol 1:6.2-1
+perl-image-exiftool 13.55-1
 picocom 3.1-3
 pipewire 1:1.6.6-1
 pipewire-alsa 1:1.6.6-1
