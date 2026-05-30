@@ -3,4 +3,4 @@ show_hidden = true
 [opener]
 edit = [{ run = "nvim %s", block = true }]
 [open]
-prepend_rules = [{ url = "*.m3u", use = ["open", "reveal", "edit"] }]
+prepend_rules = [{ url = "*.m3u", use = ["play", "reveal", "edit"] }]
