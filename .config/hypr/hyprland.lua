@@ -6,7 +6,7 @@ hl.monitor({
     mode = "1920x1080@60",
     position = "auto",
     scale = 1,
-    mirror="HDMI-A-2"
+    mirror = "HDMI-A-2"
 })
 -- hl.monitor({
 --     output = "HDMI-A-2",
@@ -49,7 +49,7 @@ if hl.plugin.hyprbars ~= nil then
         for file in p:lines() do
             if file:match("%.lua$") then
                 local mod = file:gsub("%.lua$", "")
-                dofile(os.getenv("HOME").."/.config/hypr/generated/"..mod..".lua")
+                dofile(os.getenv("HOME") .. "/.config/hypr/generated/" .. mod .. ".lua")
             end
         end
         p:close()
@@ -76,10 +76,12 @@ hl.on("hyprland.start", function()
 
     hl.exec_cmd("wl-clip-persist --clipboard regular")
 
-    hl.exec_cmd("setxkbmap -option compose:ralt,caps:escape_shifted_capslock")
     hl.exec_cmd("hyprpm reload")
 end)
-
+--HACK
+hl.on("window.open", function()
+    hl.exec_cmd("setxkbmap -option compose:ralt,caps:escape_shifted_capslock")
+end)
 
 hl.env("XCURSOR_SIZE", "24")
 hl.env("HYPRCURSOR_SIZE", "24")
@@ -101,7 +103,6 @@ hl.config({
         gaps_out = 20,
         border_size = 2,
         col = {
-
             active_border = { colors = { "rgba(cba6f7ff)", "rgba(d9bfffaa)" }, angle = 45 },
             inactive_border = "rgba(585b70aa)",
         },
