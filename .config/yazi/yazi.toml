@@ -4,5 +4,18 @@ show_hidden = true
 edit = [{ run = "$EDITOR %s", block = true, desc = "Edit" }]
 open = [{ run = "xdg-open %s1", desc = "Open", orphan = true }]
 reveal = [{ run = "xdg-open %d1", desc = "Reveal", orphan = true }]
+run = [{ run = "%s", block = true, desc = "Run" }]
+
 [open]
-prepend_rules = [{ url = "*.m3u", use = ["play", "reveal", "edit"] }]
+prepend_rules = [
+    { url = "*.m3u", use = [
+        "play",
+        "reveal",
+        "edit",
+    ] },
+    { url = "*.sh", use = [
+        "edit",
+        "run",
+        "reveal",
+    ] },
+]
