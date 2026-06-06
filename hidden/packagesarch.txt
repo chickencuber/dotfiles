@@ -408,4 +408,4 @@ yt-dlp 2026.03.17-1
 zig 0.16.0-1
 zoxide 0.9.9-2
 zram-generator 1.2.1-1
-zynaddsubfx 3.0.6-7
+zrythm-git 3:1.0.0.r1.g4223593cc-1
