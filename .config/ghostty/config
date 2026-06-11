@@ -46,5 +46,5 @@
 custom-shader = shaders/cursor_smear.glsl
 theme = Catppuccin Mocha
 font-family = JetBrainsMono Nerd Font Mono
-font-size = 14
+font-size = 12
 cursor-invert-fg-bg = true
