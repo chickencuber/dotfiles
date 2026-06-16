@@ -191,7 +191,6 @@ neovim 0.12.2-1
 network-manager-applet 1.36.0-2
 nim 2.2.10-1
 ninja 1.13.2-3
-nix 2.34.7-1
 noto-fonts-emoji 1:2.051-1
 npm 11.16.0-1
 ntfs-3g 2026.2.25-1
