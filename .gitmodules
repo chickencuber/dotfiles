@@ -4,3 +4,6 @@
 [submodule "hidden/Catppuccin-GTK-Theme"]
 	path = hidden/Catppuccin-GTK-Theme
 	url = https://github.com/Fausto-Korpsvart/Catppuccin-GTK-Theme
+[submodule "hidden/papirus-folders"]
+	path = hidden/papirus-folders
+	url = https://github.com/catppuccin/papirus-folders
