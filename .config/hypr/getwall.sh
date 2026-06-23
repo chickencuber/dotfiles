@@ -10,8 +10,8 @@ function choose {
 
     cp "$wall_dir/$1" "$HOME/.config/hypr/wall"
     yes | ffmpeg -i "$HOME/.config/hypr/wall" -vf "scale=200:-1" -vframes 1 "$HOME/.config/hypr/thumbnail.png" & 
-    swww clear-cache
-    swww img "$HOME/.config/hypr/wall" --transition-type fade --transition-duration 1
+    awww clear-cache
+    awww img "$HOME/.config/hypr/wall" --transition-type fade --transition-duration 1
 }
 
 function choose_random {

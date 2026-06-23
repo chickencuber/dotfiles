@@ -91,9 +91,10 @@ end, { nargs = '*' })
 
 vim.filetype.add({
     extension = {
-        jspp = "jspp",
-        h    = "c",
-        hpp  = "cpp",
+        jspp       = "jspp",
+        h          = "c",
+        hpp        = "cpp",
+        mcfunction = "mcfunction"
     },
 })
 local augroup = vim.api.nvim_create_augroup("numbertoggle", {})

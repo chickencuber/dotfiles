@@ -5,7 +5,7 @@ w=$(wc -l< "./hidden/packagesarch.txt")
 l=1
 while IFS= read -r pkg; do
     echo "Installing $pkg [$l/$w]..."
-    yay -S --needed "$pkg" --noconfirm </dev/tty || failed+=("$pkg")
+    sudo pacman -S --needed "$pkg" --noconfirm </dev/tty || failed+=("$pkg")
     ((l++))
 done < "./hidden/packagesarch.txt"
 echo

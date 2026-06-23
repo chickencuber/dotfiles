@@ -21,5 +21,16 @@ return {
             max_lines = 1,
             multiline_threshold = 1,
         })
+        local parser_config = require("nvim-treesitter.parsers")
+        parser_config.mcfunction = {
+            install_info = {
+                url = "https://github.com/bbfh-dev/tree-sitter-mcfunction",
+                files = { "src/parser.c" },
+                branch = "main",
+                generate_requires_npm = false,
+                requires_generate_from_grammar = false,
+                queries = "queries/mcfunction",
+            }
+        }
     end
 }
