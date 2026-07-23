@@ -1,4 +1,5 @@
 cargo-about
 cargo-expand
+cdbk
 prmn
 tree-sitter

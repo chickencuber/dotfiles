@@ -36,7 +36,7 @@ if hl.plugin.hyprbars ~= nil then
         fg_color = "rgb(000000)",
         size = 10,
         icon = "󰖭",
-        action = "hyprctl dispatch killactive"
+        action = "hyprctl dispatch 'hl.dsp.window.close()'"
     })
     hl.window_rule({
         match = {
@@ -80,11 +80,16 @@ hl.on("hyprland.start", function()
 end)
 --HACK
 hl.on("window.open", function()
-    hl.exec_cmd("setxkbmap -option compose:ralt,caps:escape_shifted_capslock")
+    hl.exec_cmd("setxkbmap -model pc104 -layout us -option '' -option compose:ralt,caps:escape_shifted_capslock")
 end)
 
 hl.env("XCURSOR_SIZE", "24")
 hl.env("HYPRCURSOR_SIZE", "24")
+
+-- hl.env("LIBVA_DRIVER_NAME", "nvidia")
+-- hl.env("__GLX_VENDOR_LIBRARY_NAME", "nvidia")
+-- hl.env("NVD_BACKEND", "direct")
+-- hl.env("GBM_BACKEND", "nvidia-drm")
 
 hl.env("XCURSOR_THEME", "Catppuccin-Mocha-Dark-Cursors")
 hl.env("HYPRCURSOR_THEME", "Catppuccin-Mocha-Dark-Cursors")
@@ -151,7 +156,7 @@ hl.config({
     input      = {
         kb_layout    = "us",
         kb_variant   = "",
-        kb_model     = "",
+        kb_model     = "pc104",
         kb_rules     = "",
         follow_mouse = 1,
         kb_options   = "compose:ralt,caps:escape_shifted_capslock",
@@ -203,14 +208,6 @@ hl.animation({ leaf = "workspacesOut", enabled = true, speed = 1.94, bezier = "q
 
 hl.window_rule({
     match = {
-        class = "^org-betacraft-launcher-Launcher$",
-        title = ".*beta",
-    },
-    fullscreen = true,
-})
-
-hl.window_rule({
-    match = {
         class = "yad",
     },
     float = true
@@ -218,21 +215,7 @@ hl.window_rule({
 
 hl.window_rule({
     match = {
-        class = "^Better than Adventure! 7.2_01$"
-    },
-    fullscreen = true
-})
-
-hl.window_rule({
-    match = {
         title = "^gf2$"
-    },
-    float = true,
-})
-
-hl.window_rule({
-    match = {
-        class = "^org-betacraft-launcher-Launcher$"
     },
     float = true,
 })
@@ -355,3 +338,6 @@ hl.window_rule({
     },
     no_focus = true
 })
+
+-- HyprMod managed settings
+require("hyprland-gui")
