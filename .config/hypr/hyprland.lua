@@ -339,5 +339,3 @@ hl.window_rule({
     no_focus = true
 })
 
--- HyprMod managed settings
-require("hyprland-gui")
