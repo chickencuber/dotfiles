@@ -1,6 +1,7 @@
 (defvar autocomplete-suggestion "")
 (defvar cmd-history 0)
 (defvar cmd-text "")
+(defvar full-text "")
 
 (defwindow command_run
  :monitor 0

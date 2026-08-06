@@ -77,6 +77,7 @@ hl.on("hyprland.start", function()
     hl.exec_cmd("wl-clip-persist --clipboard regular")
 
     hl.exec_cmd("hyprpm reload")
+    hl.exec_cmd("ydotoold")
 end)
 --HACK
 hl.on("window.open", function()

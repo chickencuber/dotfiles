@@ -94,7 +94,8 @@ vim.filetype.add({
         jspp       = "jspp",
         h          = "c",
         hpp        = "cpp",
-        mcfunction = "mcfunction"
+        mcfunction = "mcfunction",
+        cocl       = "cocl",
     },
 })
 local augroup = vim.api.nvim_create_augroup("numbertoggle", {})

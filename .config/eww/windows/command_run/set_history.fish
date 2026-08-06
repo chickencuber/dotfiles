@@ -14,3 +14,4 @@ else
     eww update cmd-text=(history | sed -n "$(eww get cmd-history)p")
 end
 
+ydotool key 107:1 107:0

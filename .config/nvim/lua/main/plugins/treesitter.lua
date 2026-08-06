@@ -32,5 +32,6 @@ return {
                 queries = "queries/mcfunction",
             }
         }
+        vim.treesitter.language.register("bash", "cocl")
     end
 }

@@ -1,6 +1,7 @@
 #!/bin/env fish
 set in $argv[1]
 set out (complete -C "$in" | head -n 1| cut -f1)
+eww update full-text=$in
 set len (string length $in)
 set repeat (string repeat $len " ")
 
