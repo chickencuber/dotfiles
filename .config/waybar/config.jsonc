@@ -9,7 +9,6 @@
     "modules-left": [
         "custom/power",
         "idle_inhibitor",
-        "keyboard-state",
         "hyprland/window"
     ],
     "modules-center": [

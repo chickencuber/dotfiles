@@ -56,6 +56,7 @@ if hl.plugin.hyprbars ~= nil then
     end
 end
 
+
 hl.on("hyprland.start", function()
     hl.exec_cmd("fcitx5")
     hl.exec_cmd("kdeconnect-indicator")
@@ -78,11 +79,14 @@ hl.on("hyprland.start", function()
 
     hl.exec_cmd("hyprpm reload")
     hl.exec_cmd("ydotoold")
+    hl.exec_cmd("ckb-next -b")
 end)
+
 --HACK
 hl.on("window.open", function()
-    hl.exec_cmd("setxkbmap -model pc104 -layout us -option '' -option compose:ralt,caps:escape_shifted_capslock")
+    hl.exec_cmd("setxkbmap -model pc104 -layout us -option '' -option compose:ralt")
 end)
+
 
 hl.env("XCURSOR_SIZE", "24")
 hl.env("HYPRCURSOR_SIZE", "24")
@@ -160,7 +164,7 @@ hl.config({
         kb_model     = "pc104",
         kb_rules     = "",
         follow_mouse = 1,
-        kb_options   = "compose:ralt,caps:escape_shifted_capslock",
+        kb_options   = "compose:ralt",
 
         sensitivity  = 0,
 
@@ -314,12 +318,26 @@ hl.bind("XF86MonBrightnessUp", hl.dsp.exec_cmd("swayosd-client --brightness rais
 hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("swayosd-client --brightness lower"))
 
 
+hl.bind("CAPS_LOCK",
+    hl.dsp.exec_cmd(
+        "sleep 0.1 && swayosd-client --caps-lock"))
 
-hl.bind("XF86AudioNext", hl.dsp.exec_cmd("playerctl next"))
-hl.bind("XF86AudioPause", hl.dsp.exec_cmd("playerctl play-pause"))
-hl.bind("XF86AudioPlay", hl.dsp.exec_cmd("playerctl play-pause"))
-hl.bind("XF86AudioPrev", hl.dsp.exec_cmd("playerctl previous"))
+hl.bind("NUM_LOCK",
+    hl.dsp.exec_cmd(
+        "sleep 0.1 && swayosd-client --num-lock"))
 
+
+hl.bind("XF86AudioNext", hl.dsp.exec_cmd("swayosd-client --playerctl next"))
+hl.bind("XF86AudioPause", hl.dsp.exec_cmd("swayosd-client --playerctl play-pause"))
+hl.bind("XF86AudioPlay", hl.dsp.exec_cmd("swayosd-client --playerctl play-pause"))
+hl.bind("XF86AudioPrev", hl.dsp.exec_cmd("swayosd-client --playerctl previous"))
+
+
+if hl.plugin.scrolloverview ~= nil then
+    hl.bind(mainMod .. " + TAB", function()
+        hl.plugin.scrolloverview.overview("toggle all")
+    end)
+end
 
 hl.window_rule({
     match = {
@@ -339,4 +357,3 @@ hl.window_rule({
     },
     no_focus = true
 })
-
