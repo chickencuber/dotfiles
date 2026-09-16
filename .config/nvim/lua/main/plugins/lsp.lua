@@ -48,6 +48,13 @@ return {
         })
         vim.lsp.enable("arduino_language_server")
 
+        vim.lsp.config("qmlls", {
+            cmd = { "qmlls6" },
+            filetypes = { "qml" },
+            root_markers = { ".git" }
+        })
+        vim.lsp.enable("qmlls")
+
         vim.lsp.config("c3_lsp", {
             cmd = { "c3lsp" },
             filetypes = { "c3", "c3i" },

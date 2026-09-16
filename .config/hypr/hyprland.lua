@@ -6,20 +6,19 @@ hl.monitor({
     mode = "1920x1080@60",
     position = "auto",
     scale = 1,
-    mirror = "HDMI-A-2"
 })
--- hl.monitor({
---     output = "HDMI-A-2",
---     scale = 1,
---     mode = "1920x1080@60",
---     position = "auto";
--- })
+hl.monitor({
+    output = "hdmi-a-2",
+    scale = 1,
+    mode = "1920x1080@60",
+    position = "auto",
+})
 
 -- variables
 local terminal = "ghostty"
 local fileManager = "nautilus"
-local menu = "wofi --show drun"
-local shell_menu = "~/.config/eww/open.sh command_run"
+local menu = "qs -c rice ipc call launcher toggle"
+local shell_menu = "qs -c rice ipc call command toggle"
 local browser = "google-chrome-stable --profile-directory=Default"
 
 if hl.plugin.hyprbars ~= nil then
@@ -60,25 +59,23 @@ end
 hl.on("hyprland.start", function()
     hl.exec_cmd("fcitx5")
     hl.exec_cmd("kdeconnect-indicator")
-    hl.exec_cmd("waybar")
     hl.exec_cmd("hypridle")
     hl.exec_cmd("nm-applet")
     hl.exec_cmd("awww-daemon && awww img $HOME/.config/hypr/wall")
-    hl.exec_cmd("swaync")
     hl.exec_cmd("kdeconnectd")
-    hl.exec_cmd("swayosd-server")
-    hl.exec_cmd("$HOME/.config/hypr/getwall.sh init")
+
     hl.exec_cmd("$HOME/.config/hypr/launchsteam.sh")
     hl.exec_cmd("vesktop --start-minimized")
 
     hl.exec_cmd("/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1")
 
-    hl.exec_cmd("eww daemon")
+    hl.exec_cmd("qs -c rice")
 
     hl.exec_cmd("wl-clip-persist --clipboard regular")
+    hl.exec_cmd("wl-paste --type text --watch cliphist store")
+    hl.exec_cmd("wl-paste --type image --watch cliphist store")
 
     hl.exec_cmd("hyprpm reload")
-    hl.exec_cmd("ydotoold")
     hl.exec_cmd("ckb-next -b")
 end)
 
@@ -106,6 +103,7 @@ hl.env("DESKTOP_SESSION", "Hyprland")
 
 hl.env("EDITOR", "nvim")
 hl.env("VISUAL", "nvim")
+hl.env("TERMINAL", "ghostty")
 
 hl.config({
     general    = {
@@ -241,18 +239,15 @@ hl.window_rule({
 
 local mainMod = "SUPER"
 
-
-hl.bind(mainMod .. "+ a", hl.dsp.exec_cmd("~/.config/hypr/focus.sh"))
-hl.bind(mainMod .. "+ e", hl.dsp.exec_cmd("~/.config/hypr/emoji.sh"))
+hl.bind(mainMod .. "+ a", hl.dsp.exec_cmd("qs -c rice ipc call windows toggle"))
+hl.bind(mainMod .. "+ e", hl.dsp.exec_cmd("qs -c rice ipc call emoji toggle"))
 hl.bind(mainMod .. "+t", hl.dsp.exec_cmd(browser))
 hl.bind(mainMod .. "+ RETURN", hl.dsp.exec_cmd(terminal))
 hl.bind(mainMod .. "+ c", hl.dsp.window.close())
 
+hl.bind(mainMod .. "+ SHIFT + c", hl.dsp.exec_cmd("qs -c rice ipc call notifications toggle"))
 
-
-hl.bind(mainMod .. "+ SHIFT + c", hl.dsp.exec_cmd("swaync-client -t controlcenter"))
-
-hl.bind(mainMod .. "+ m", hl.dsp.exec_cmd("~/.config/hypr/power_menu.sh"))
+hl.bind(mainMod .. "+ m", hl.dsp.exec_cmd("qs -c rice ipc call power toggle"))
 hl.bind(mainMod .. "+ SHIFT + l", hl.dsp.exec_cmd("hyprlock"))
 hl.bind(mainMod .. "+ f", hl.dsp.exec_cmd(fileManager))
 hl.bind(mainMod .. "+ v", hl.dsp.window.float())
@@ -260,15 +255,14 @@ hl.bind(mainMod .. "+ r", hl.dsp.exec_cmd(shell_menu))
 hl.bind(mainMod .. "+ SPACE", hl.dsp.exec_cmd(menu))
 hl.bind(mainMod .. "+ p", hl.dsp.window.pseudo())
 hl.bind(mainMod .. "+ i", hl.dsp.layout("togglesplit"))
-hl.bind(mainMod .. "+ SHIFT + t", hl.dsp.exec_cmd("~/.config/hypr/getwall.sh toggle"))
 
-hl.bind(mainMod .. "+ w", hl.dsp.exec_cmd("~/.config/hypr/getwall.sh random"))
-hl.bind(mainMod .. "+ SHIFT + w", hl.dsp.exec_cmd("~/.config/hypr/getwall.sh"))
+hl.bind(mainMod .. "+ w", hl.dsp.exec_cmd("qs -c rice ipc call wallpaper toggle"))
 hl.bind(mainMod .. "+ h", hl.dsp.focus({ direction = "left" }))
 hl.bind(mainMod .. "+ j", hl.dsp.focus({ direction = "down" }))
 hl.bind(mainMod .. "+ k", hl.dsp.focus({ direction = "up" }))
 hl.bind(mainMod .. "+ l", hl.dsp.focus({ direction = "right" }))
 hl.bind(mainMod .. "+ o", hl.dsp.exec_cmd("~/.config/hypr/screenshot.sh normal"))
+hl.bind(mainMod .. "+ ALT + o", hl.dsp.exec_cmd("com.github.dynobo.normcap"))
 hl.bind(mainMod .. "+ SHIFT + o", hl.dsp.exec_cmd("~/.config/hypr/screenshot.sh"))
 hl.bind(mainMod .. "+ SHIFT + y", hl.dsp.exec_cmd("~/.config/hypr/generate.sh"))
 hl.bind(mainMod .. " + SHIFT + p", hl.dsp.exec_cmd("hyprpicker --autocopy"))
@@ -292,6 +286,8 @@ hl.bind(mainMod .. "+ mouse:273", hl.dsp.window.resize(), { mouse = true })
 hl.bind(mainMod .. "+ ALT + SHIFT + h", hl.dsp.window.move({ direction = "left" }))
 hl.bind(mainMod .. "+ ALT + SHIFT + l", hl.dsp.window.move({ direction = "right" }))
 
+hl.bind(mainMod .. "+ SHIFT + v", hl.dsp.exec_cmd("qs -c rice ipc call clipboard toggle"))
+
 
 hl.bind(mainMod .. "+ CTRL + h", hl.dsp.window.move({ x = -50, y = 0, relative = true }))
 hl.bind(mainMod .. "+ CTRL + j", hl.dsp.window.move({ x = 0, y = 50, relative = true }))
@@ -305,32 +301,73 @@ hl.bind(mainMod .. "+ ALT + l", hl.dsp.window.resize({ x = 50, y = 0, relative =
 
 
 hl.bind("XF86AudioMicMute", hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"))
-hl.bind("XF86AudioRaiseVolume",
+hl.bind(
+    "XF86AudioRaiseVolume",
     hl.dsp.exec_cmd(
-        "swayosd-client --output-volume raise && pw-play /usr/share/sounds/freedesktop/stereo/audio-volume-change.oga"))
-hl.bind("XF86AudioLowerVolume",
+        "wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SINK@ 5%+ && qs -c rice ipc call osd.volume run && pw-play /usr/share/sounds/freedesktop/stereo/audio-volume-change.oga"
+    )
+)
+
+hl.bind(
+    "XF86AudioLowerVolume",
     hl.dsp.exec_cmd(
-        "swayosd-client --output-volume lower && pw-play /usr/share/sounds/freedesktop/stereo/audio-volume-change.oga"))
-hl.bind("XF86AudioMute",
+        "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%- && qs -c rice ipc call osd.volume run && pw-play /usr/share/sounds/freedesktop/stereo/audio-volume-change.oga"
+    )
+)
+
+hl.bind(
+    "XF86AudioMute",
     hl.dsp.exec_cmd(
-        "swayosd-client --output-volume mute-toggle && pw-play /usr/share/sounds/freedesktop/stereo/audio-volume-change.oga"))
-hl.bind("XF86MonBrightnessUp", hl.dsp.exec_cmd("swayosd-client --brightness raise"))
-hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("swayosd-client --brightness lower"))
+        "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle && qs -c rice ipc call osd.volume run && pw-play /usr/share/sounds/freedesktop/stereo/audio-volume-change.oga"
+    )
+)
+
+hl.bind(
+    "XF86MonBrightnessUp",
+    hl.dsp.exec_cmd("brightnessctl set 5%+ && qs -c rice ipc call osd.brightness run")
+)
+
+hl.bind(
+    "XF86MonBrightnessDown",
+    hl.dsp.exec_cmd("brightnessctl set 5%- && qs -c rice ipc call osd.brightness run")
+)
 
 
 hl.bind("CAPS_LOCK",
     hl.dsp.exec_cmd(
-        "sleep 0.1 && swayosd-client --caps-lock"))
+        "qs -c rice ipc call osd.caps run"))
 
 hl.bind("NUM_LOCK",
     hl.dsp.exec_cmd(
-        "sleep 0.1 && swayosd-client --num-lock"))
+        "qs -c rice ipc call osd.num run"))
 
+hl.bind(
+    "XF86AudioNext",
+    hl.dsp.exec_cmd(
+        "playerctl next && qs -c rice ipc call osd.media run"
+    )
+)
 
-hl.bind("XF86AudioNext", hl.dsp.exec_cmd("swayosd-client --playerctl next"))
-hl.bind("XF86AudioPause", hl.dsp.exec_cmd("swayosd-client --playerctl play-pause"))
-hl.bind("XF86AudioPlay", hl.dsp.exec_cmd("swayosd-client --playerctl play-pause"))
-hl.bind("XF86AudioPrev", hl.dsp.exec_cmd("swayosd-client --playerctl previous"))
+hl.bind(
+    "XF86AudioPause",
+    hl.dsp.exec_cmd(
+        "playerctl play-pause && qs -c rice ipc call osd.media run"
+    )
+)
+
+hl.bind(
+    "XF86AudioPlay",
+    hl.dsp.exec_cmd(
+        "playerctl play-pause && qs -c rice ipc call osd.media run"
+    )
+)
+
+hl.bind(
+    "XF86AudioPrev",
+    hl.dsp.exec_cmd(
+        "playerctl previous && qs -c rice ipc call osd.media run"
+    )
+)
 
 
 if hl.plugin.scrolloverview ~= nil then
