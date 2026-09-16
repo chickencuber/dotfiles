@@ -11,6 +11,28 @@ Scope {
     property bool shouldShowOsd: false
     property real brightness: 0
 
+    readonly property string backlightIcon: {
+        const brightness = root.brightness * 100
+        if (brightness <= 10)
+            return ""
+        if (brightness <= 20)
+            return ""
+        if (brightness <= 30)
+            return ""
+        if (brightness <= 40)
+            return ""
+        if (brightness <= 50)
+            return ""
+        if (brightness <= 60)
+            return ""
+        if (brightness <= 70)
+            return ""
+        if (brightness <= 85)
+            return ""
+
+        return ""
+    }
+
     IpcHandler {
         target: "osd.brightness"
 
@@ -89,7 +111,7 @@ Scope {
                     Text {
                         Layout.alignment: Qt.AlignVCenter
 
-                        text: root.brightness <= 0.30 ? "" : ""
+                        text: root.backlightIcon
 
                         font.family: "JetBrainsMono Nerd Font Mono"
                         font.pixelSize: 28
