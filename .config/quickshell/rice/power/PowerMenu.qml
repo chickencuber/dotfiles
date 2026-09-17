@@ -9,8 +9,6 @@ import ".."
 Scope {
     id: root
 
-    property string screenshotDir: Quickshell.env("HOME") + "/Pictures/Screenshots"
-
     property string font: "JetBrainsMono Nerd Font Mono"
 
     property int selectedIndex: 0

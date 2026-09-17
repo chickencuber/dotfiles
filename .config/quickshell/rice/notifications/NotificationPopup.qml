@@ -10,7 +10,6 @@ PanelWindow {
     required property var notificationServer
     property var notificationCenter
 
-    visible: (!notificationCenter?.visible) && (!notificationCenter?.dndEnabled)
 
     anchors.top: true
     anchors.right: true
@@ -30,6 +29,7 @@ PanelWindow {
     ColumnLayout {
         id: popupColumn
 
+        visible: (!root.notificationCenter?.visible) && (!root.notificationCenter?.dndEnabled)
         width: parent.width
         spacing: 8
 
