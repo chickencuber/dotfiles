@@ -12,6 +12,7 @@ import "power"
 import "emoji"
 import "clipboard"
 import "focus"
+import "calendar"
 
 import "osd"
 
@@ -63,6 +64,7 @@ Scope {
             },
             Clock {
                 size: bar.thickness
+                onClicked: calendar.toggle()
             },
             ControlCenter {
                 size: bar.thickness
@@ -70,6 +72,9 @@ Scope {
         ]
     }
 
+    Calendar {
+        id: calendar
+    }
 
     PowerMenu {}
     AppLauncher {}

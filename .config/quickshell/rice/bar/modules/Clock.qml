@@ -12,6 +12,7 @@ Item {
     property int padding: 8
 
     property color textColor: Theme.text
+    signal clicked
 
     // ───── Time ─────
 
@@ -20,8 +21,7 @@ Item {
         precision: SystemClock.Seconds
     }
 
-    readonly property string time:
-        Qt.formatDateTime(clock.date, "hh:mm:ss AP")
+    readonly property string time: Qt.formatDateTime(clock.date, "hh:mm:ss AP")
 
     // ───── Layout ─────
 
@@ -61,8 +61,6 @@ Item {
     MouseArea {
         anchors.fill: parent
 
-        onClicked: {
-            // Calendar popup later
-        }
+        onClicked: root.clicked()
     }
 }
