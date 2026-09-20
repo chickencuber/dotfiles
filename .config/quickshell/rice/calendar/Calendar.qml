@@ -137,6 +137,16 @@ PanelWindow {
         return last;
     }
 
+    function previousMonth() {
+        displayedDate = new Date(displayedDate.getFullYear(), displayedDate.getMonth() - 1, 1);
+        selectedDate = new Date(displayedDate);
+        requestEvents();
+    }
+    function nextMonth() {
+        displayedDate = new Date(displayedDate.getFullYear(), displayedDate.getMonth() + 1, 1);
+        selectedDate = new Date(displayedDate);
+        requestEvents();
+    }
     // =========================================================
     // EVENTS
     // =========================================================
