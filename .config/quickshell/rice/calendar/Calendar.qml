@@ -282,7 +282,7 @@ PanelWindow {
     Process {
         id: omaCal
 
-        command: ["omacal", "events", "list", "--from", root.requestedFrom, "--to", root.requestedTo, "--json"]
+        command: ["fish", "-c", "$argv","omacal", "events", "list", "--from", root.requestedFrom, "--to", root.requestedTo, "--json"]
 
         stdout: StdioCollector {
             onStreamFinished: {
