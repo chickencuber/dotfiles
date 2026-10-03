@@ -110,8 +110,7 @@ Rectangle {
                 Text {
                     Layout.fillWidth: true
 
-                    text: (root.notification?.appName ?? "").replace(/<br\s*\/?>/gi, "  \n")
-                    textFormat: Text.MarkdownText
+                    text: root.notification?.appName ?? ""
 
                     color: Theme.text
                     opacity: 0.55
@@ -125,11 +124,9 @@ Rectangle {
                 Text {
                     Layout.fillWidth: true
 
-                    text: (root.notification?.summary ?? "").replace(/<br\s*\/?>/gi, "  \n")
+                    text: root.notification?.summary ?? ""
 
                     color: Theme.text
-
-                    textFormat: Text.MarkdownText
 
                     font.family: "JetBrainsMono Nerd Font Mono"
                     font.pixelSize: 15
@@ -143,9 +140,9 @@ Rectangle {
 
                     visible: text !== ""
 
-                    text: (root.notification?.body ?? "").replace(/<br\s*\/?>/gi, "  \n")
+                    text: root.notification?.body ?? ""
 
-                    textFormat: Text.MarkdownText
+                    textFormat: Text.RichText
 
                     color: Theme.text
                     opacity: 0.8
