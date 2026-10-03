@@ -153,6 +153,17 @@ Rectangle {
                     wrapMode: Text.Wrap
                     maximumLineCount: 5
                     elide: Text.ElideRight
+                    onLinkActivated: function (link) {
+                        Qt.openUrlExternally(link);
+                    }
+
+                    MouseArea {
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        acceptedButtons: Qt.NoButton
+
+                        cursorShape: parent.linkHovered ? Qt.PointingHandCursor : Qt.ArrowCursor
+                    }
                 }
             }
 
