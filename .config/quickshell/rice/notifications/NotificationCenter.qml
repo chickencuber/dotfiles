@@ -148,6 +148,7 @@ PanelWindow {
 
     MouseArea {
         anchors.fill: parent
+        acceptedButtons: Qt.LeftButton | Qt.RightButton
         z: 0
 
         onClicked: root.close()

@@ -94,6 +94,7 @@ Scope {
         }
         MouseArea {
             anchors.fill: parent
+            acceptedButtons: Qt.LeftButton | Qt.RightButton
 
             onClicked: {
                 scope.reset_command_window();

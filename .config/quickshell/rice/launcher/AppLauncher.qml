@@ -1,38 +1,22 @@
 import Quickshell
-import Quickshell.Io
 import Quickshell.Wayland
 import Quickshell.Widgets
 import QtQuick
-import QtQuick.Controls
 import QtQuick.Layouts
+import Quickshell.Io
 import ".."
 
 Scope {
     id: root
 
+    required property var appLists
+
     property string font: "Hack Nerd Font"
-    property list<string> recentApps: []
     property int selectedIndex: 0
 
-    FileView {
-        id: recentFile
-
-        path: Quickshell.env("HOME") + "/.local/state/quickshell/rice/recent-apps.json"
-
-        function save() {
-            setText(JSON.stringify(root.recentApps));
-        }
-
-        onLoadedChanged: {
-            if (loaded) {
-                try {
-                    root.recentApps = JSON.parse(text());
-                } catch (e) {
-                    root.recentApps = [];
-                }
-            }
-        }
-    }
+    // -------------------------------------------------------------------------
+    // IPC
+    // -------------------------------------------------------------------------
 
     IpcHandler {
         target: "launcher"
@@ -51,7 +35,14 @@ Scope {
         }
     }
 
+    // -------------------------------------------------------------------------
+    // Helpers
+    // -------------------------------------------------------------------------
+
     function iconPath(name: string, check: bool): string {
+        if (name === "")
+            return "";
+
         const themed = Quickshell.iconPath(name, true);
 
         if (themed !== "")
@@ -99,6 +90,10 @@ Scope {
         return score;
     }
 
+    // -------------------------------------------------------------------------
+    // App model
+    // -------------------------------------------------------------------------
+
     ScriptModel {
         id: filteredApps
 
@@ -108,43 +103,71 @@ Scope {
             const all = [...DesktopEntries.applications.values];
             const query = searchInput.text.trim();
 
+            // -----------------------------------------------------------------
+            // No search
+            //
+            // 1. Pinned
+            // 2. Recent
+            // 3. Alphabetical
+            // -----------------------------------------------------------------
+
             if (query === "") {
                 return all.sort((a, b) => {
-                    const ai = root.recentApps.indexOf(a.id);
-                    const bi = root.recentApps.indexOf(b.id);
+                    const aPinned = root.appLists.isPinned(a.id);
 
-                    if (ai !== -1 && bi !== -1)
-                        return ai - bi;
+                    const bPinned = root.appLists.isPinned(b.id);
 
-                    if (ai !== -1)
+                    if (aPinned && !bPinned)
                         return -1;
 
-                    if (bi !== -1)
+                    if (!aPinned && bPinned)
+                        return 1;
+
+                    const aRecent = root.appLists.recentApps.indexOf(a.id);
+
+                    const bRecent = root.appLists.recentApps.indexOf(b.id);
+
+                    if (aRecent !== -1 && bRecent !== -1) {
+                        return aRecent - bRecent;
+                    }
+
+                    if (aRecent !== -1)
+                        return -1;
+
+                    if (bRecent !== -1)
                         return 1;
 
                     return a.name.localeCompare(b.name);
                 });
             }
 
+            // -----------------------------------------------------------------
+            // Search
+            //
+            // Ignore pinned/recent ordering.
+            // -----------------------------------------------------------------
+
             return all.map(app => {
                 const nameScore = root.fuzzyScore(app.name ?? "", query);
 
                 const genericScore = root.fuzzyScore(app.genericName ?? "", query);
 
-                const keywordScore = Math.max(...(app.keywords ?? []).map(k => root.fuzzyScore(k, query)), -1);
+                const keywordScore = Math.max(...(app.keywords ?? []).map(keyword => root.fuzzyScore(keyword, query)), -1);
 
                 return {
                     app: app,
                     score: Math.max(nameScore, genericScore, keywordScore)
                 };
-            }).filter(x => x.score >= 0).sort((a, b) => b.score - a.score).map(x => x.app);
+            }).filter(item => item.score >= 0).sort((a, b) => b.score - a.score).map(item => item.app);
         }
     }
 
-    function launchApp(entry): void {
-        root.recentApps = [entry.id, ...root.recentApps.filter(id => id !== entry.id)].slice(0, 5);
+    // -------------------------------------------------------------------------
+    // Launching
+    // -------------------------------------------------------------------------
 
-        recentFile.save();
+    function launchApp(entry): void {
+        root.appLists.addRecent(entry.id);
 
         if (entry.runInTerminal) {
             Quickshell.execDetached(["xdg-terminal-exec", "--", ...entry.command]);
@@ -154,6 +177,10 @@ Scope {
 
         launcherPanel.visible = false;
     }
+
+    // -------------------------------------------------------------------------
+    // Keyboard navigation
+    // -------------------------------------------------------------------------
 
     function moveSelection(amount: int): void {
         const count = resultsList.count;
@@ -169,13 +196,19 @@ Scope {
     }
 
     function launchSelected(): void {
-        if (root.selectedIndex < 0 || root.selectedIndex >= filteredApps.values.length)
+        if (root.selectedIndex < 0 || root.selectedIndex >= filteredApps.values.length) {
             return;
+        }
+
         const entry = filteredApps.values[root.selectedIndex];
 
         if (entry)
             root.launchApp(entry);
     }
+
+    // -------------------------------------------------------------------------
+    // Launcher
+    // -------------------------------------------------------------------------
 
     PanelWindow {
         id: launcherPanel
@@ -199,6 +232,7 @@ Scope {
 
         MouseArea {
             anchors.fill: parent
+            acceptedButtons: Qt.LeftButton | Qt.RightButton
 
             onClicked: {
                 launcherPanel.visible = false;
@@ -230,6 +264,10 @@ Scope {
 
                 spacing: 10
 
+                // -------------------------------------------------------------
+                // Title
+                // -------------------------------------------------------------
+
                 Text {
                     text: "Applications"
 
@@ -241,6 +279,10 @@ Scope {
 
                     Layout.fillWidth: true
                 }
+
+                // -------------------------------------------------------------
+                // Search
+                // -------------------------------------------------------------
 
                 Rectangle {
                     Layout.fillWidth: true
@@ -291,7 +333,6 @@ Scope {
                             font.pixelSize: 14
 
                             clip: true
-
                             focus: true
 
                             Text {
@@ -338,6 +379,10 @@ Scope {
                     }
                 }
 
+                // -------------------------------------------------------------
+                // Count
+                // -------------------------------------------------------------
+
                 Text {
                     text: resultsList.count + " application" + (resultsList.count !== 1 ? "s" : "")
 
@@ -346,6 +391,10 @@ Scope {
                     font.family: root.font
                     font.pixelSize: 11
                 }
+
+                // -------------------------------------------------------------
+                // Results
+                // -------------------------------------------------------------
 
                 ListView {
                     id: resultsList
@@ -376,6 +425,8 @@ Scope {
                         color: index === root.selectedIndex ? Theme.accent.alpha(0.15) : appMouse.containsMouse ? Theme.foreground.alpha(0.06) : "transparent"
 
                         RowLayout {
+                            id: appContent
+
                             anchors.fill: parent
 
                             anchors.leftMargin: 12
@@ -383,116 +434,167 @@ Scope {
 
                             spacing: 12
 
-                            Item {
-                                Layout.preferredWidth: 32
-                                Layout.preferredHeight: 32
-                                Layout.alignment: Qt.AlignVCenter
+                            // -------------------------------------------------------------
+                            // Everything here except the pin button launches the app
+                            // -------------------------------------------------------------
 
-                                Rectangle {
-                                    anchors.fill: parent
+                            MouseArea {
+                                id: appMouse
 
-                                    radius: 8
-
-                                    color: index === root.selectedIndex ? Theme.accent.alpha(0.15) : Theme.surface
-                                }
-
-                                IconImage {
-                                    anchors.fill: parent
-
-                                    anchors.margins: 4
-
-                                    source: root.iconPath(delegateRoot.modelData.icon ?? "", true)
-
-                                    visible: (delegateRoot.modelData.icon ?? "") !== ""
-                                }
-                            }
-
-                            ColumnLayout {
                                 Layout.fillWidth: true
-                                Layout.alignment: Qt.AlignVCenter
+                                Layout.fillHeight: true
 
-                                spacing: 1
+                                hoverEnabled: true
+                                cursorShape: Qt.PointingHandCursor
 
-                                Text {
-                                    Layout.fillWidth: true
-
-                                    text: delegateRoot.modelData.name ?? ""
-
-                                    color: index === root.selectedIndex ? Theme.accent : Theme.text
-
-                                    font.family: root.font
-                                    font.pixelSize: 13
-
-                                    font.bold: index === root.selectedIndex
-
-                                    elide: Text.ElideRight
-
-                                    maximumLineCount: 1
+                                onEntered: {
+                                    root.selectedIndex = delegateRoot.index;
                                 }
 
-                                Text {
-                                    Layout.fillWidth: true
+                                onClicked: {
+                                    root.selectedIndex = delegateRoot.index;
+                                    root.launchApp(delegateRoot.modelData);
+                                }
 
-                                    text: delegateRoot.modelData.genericName ?? delegateRoot.modelData.comment ?? ""
+                                RowLayout {
+                                    anchors.fill: parent
 
-                                    color: Theme.textMuted
+                                    spacing: 12
 
-                                    font.family: root.font
-                                    font.pixelSize: 11
+                                    // Icon
+                                    Item {
+                                        Layout.preferredWidth: 32
+                                        Layout.preferredHeight: 32
+                                        Layout.alignment: Qt.AlignVCenter
 
-                                    elide: Text.ElideRight
+                                        Rectangle {
+                                            anchors.fill: parent
+                                            radius: 8
 
-                                    visible: text !== ""
+                                            color: index === root.selectedIndex ? Theme.accent.alpha(0.15) : Theme.surface
+                                        }
+
+                                        IconImage {
+                                            anchors.fill: parent
+                                            anchors.margins: 4
+
+                                            source: root.iconPath(delegateRoot.modelData.icon ?? "", true)
+
+                                            visible: (delegateRoot.modelData.icon ?? "") !== ""
+                                        }
+                                    }
+
+                                    // Name / description
+                                    ColumnLayout {
+                                        Layout.fillWidth: true
+                                        Layout.alignment: Qt.AlignVCenter
+
+                                        spacing: 1
+
+                                        Text {
+                                            Layout.fillWidth: true
+
+                                            text: delegateRoot.modelData.name ?? ""
+
+                                            color: index === root.selectedIndex ? Theme.accent : Theme.text
+
+                                            font.family: root.font
+                                            font.pixelSize: 13
+                                            font.bold: index === root.selectedIndex
+
+                                            elide: Text.ElideRight
+                                            maximumLineCount: 1
+                                        }
+
+                                        Text {
+                                            Layout.fillWidth: true
+
+                                            text: delegateRoot.modelData.genericName ?? delegateRoot.modelData.comment ?? ""
+
+                                            color: Theme.textMuted
+
+                                            font.family: root.font
+                                            font.pixelSize: 11
+
+                                            elide: Text.ElideRight
+                                            visible: text !== ""
+                                        }
+                                    }
+
+                                    // Recent badge
+                                    Rectangle {
+                                        visible: root.appLists.recentApps.includes(delegateRoot.modelData.id)
+
+                                        Layout.alignment: Qt.AlignVCenter
+
+                                        width: recentText.implicitWidth + 14
+                                        height: 22
+
+                                        radius: 11
+
+                                        color: Theme.surface
+
+                                        border.width: 1
+                                        border.color: Theme.accent
+
+                                        Text {
+                                            id: recentText
+
+                                            anchors.centerIn: parent
+
+                                            text: "Recent"
+
+                                            color: Theme.text
+
+                                            font.family: root.font
+                                            font.pixelSize: 10
+                                        }
+                                    }
                                 }
                             }
+
+                            // -------------------------------------------------------------
+                            // Pin button
+                            // -------------------------------------------------------------
 
                             Rectangle {
-                                visible: root.recentApps.includes(delegateRoot.modelData.id)
+                                id: pinButton
 
+                                Layout.preferredWidth: 30
+                                Layout.preferredHeight: 30
                                 Layout.alignment: Qt.AlignVCenter
 
-                                width: recentText.implicitWidth + 14
-                                height: 22
+                                radius: 8
 
-                                radius: 11
-
-                                color: Theme.surface
-
-                                border.width: 1
-                                border.color: Theme.accent
+                                color: pinMouse.containsMouse ? Theme.accent.alpha(0.15) : "transparent"
 
                                 Text {
-                                    id: recentText
-
                                     anchors.centerIn: parent
 
-                                    text: "Recent"
+                                    text: root.appLists.isPinned(delegateRoot.modelData.id) ? "󰐃" : "󰐕"
 
-                                    color: Theme.text
+                                    color: root.appLists.isPinned(delegateRoot.modelData.id) ? Theme.accent : Theme.textMuted
 
                                     font.family: root.font
-                                    font.pixelSize: 10
+                                    font.pixelSize: 17
                                 }
-                            }
-                        }
 
-                        MouseArea {
-                            id: appMouse
+                                MouseArea {
+                                    id: pinMouse
 
-                            anchors.fill: parent
+                                    anchors.fill: parent
 
-                            hoverEnabled: true
+                                    hoverEnabled: true
+                                    cursorShape: Qt.PointingHandCursor
 
-                            cursorShape: Qt.PointingHandCursor
+                                    onEntered: {
+                                        root.selectedIndex = delegateRoot.index;
+                                    }
 
-                            onEntered: {
-                                root.selectedIndex = delegateRoot.index;
-                            }
-
-                            onClicked: {
-                                root.selectedIndex = delegateRoot.index;
-
-                                root.launchApp(delegateRoot.modelData);
+                                    onClicked: {
+                                        root.appLists.togglePin(delegateRoot.modelData.id);
+                                    }
+                                }
                             }
                         }
                     }
@@ -510,6 +612,10 @@ Scope {
                         visible: resultsList.count === 0
                     }
                 }
+
+                // -------------------------------------------------------------
+                // Footer
+                // -------------------------------------------------------------
 
                 Rectangle {
                     Layout.fillWidth: true
@@ -532,6 +638,7 @@ Scope {
 
                             Rectangle {
                                 width: hintNav.implicitWidth + 10
+
                                 height: 20
 
                                 radius: 5
@@ -569,6 +676,7 @@ Scope {
 
                             Rectangle {
                                 width: hintEnter.implicitWidth + 10
+
                                 height: 20
 
                                 radius: 5
@@ -606,6 +714,7 @@ Scope {
 
                             Rectangle {
                                 width: hintEsc.implicitWidth + 10
+
                                 height: 20
 
                                 radius: 5

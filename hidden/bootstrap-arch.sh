@@ -10,6 +10,12 @@ sudo pacman -U 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.ta
 sudo pacman -U 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst'
 
 sudo cp ./hidden/pacman.conf /etc/pacman.conf
+
+# add jjgamingaur
+sudo pacman-key -r 0F595A80F19269BD6BB967B382B72F9163C965A6
+sudo pacman-key --lsign-key 0F595A80F19269BD6BB967B382B72F9163C965A6
+echo -e "[jjgaming-aur]\nSigLevel = Required\nServer = https://repo.jjgaming.net/\$repo/\$arch" | sudo tee -a /etc/pacman.conf
+
 # finish
 sudo pacman -Syu
 sudo pacman -S --needed stow git base-devel

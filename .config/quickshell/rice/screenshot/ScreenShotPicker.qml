@@ -59,7 +59,7 @@ Scope {
             break;
         }
 
-        screenshotDelay.start()
+        screenshotDelay.start();
     }
     Timer {
         id: screenshotDelay
@@ -83,6 +83,8 @@ Scope {
     PanelWindow {
         id: screenshotPanel
         MouseArea {
+
+            acceptedButtons: Qt.LeftButton | Qt.RightButton
             anchors.fill: parent
             onClicked: screenshotPanel.visible = false
         }

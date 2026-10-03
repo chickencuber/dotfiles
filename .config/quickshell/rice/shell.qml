@@ -2,6 +2,8 @@
 
 //TASK(20260915-211903-158-n6-315): make some of the windows use LazyLoad
 
+//TASK(20261002-010637-038-n6-346): make the modules work with vertical bars
+
 import Quickshell
 import QtQuick
 import "command"
@@ -17,6 +19,10 @@ import "calendar"
 import "osd"
 
 import "notifications"
+
+import "applist"
+import "tooltip"
+import "contextmenu"
 
 import "bar"
 import "bar/modules"
@@ -72,12 +78,55 @@ Scope {
         ]
     }
 
+    AppLists {
+        id: applist
+    }
+
+    // Bar {
+    //     id: bottomBar
+    //     position: "bottom"
+    //     thickness: 52
+    //     onTop: true
+    //     fillContents: true
+    //     minSize: 50
+    //     background: Rectangle {
+    //         color: Theme.background.alpha(0.8)
+    //         radius: 90
+    //         border.color: Theme.accent
+    //     }
+    //     center: [
+    //         AppList {
+    //             size: bottomBar.thickness
+    //             appLists: applist
+    //             tooltip: tooltip
+    //             icon_size: 30
+    //             contextMenu: contextmenu
+    //             background: null
+    //         },
+    //         Separator{
+    //             size: bottomBar.thickness
+    //         },
+    //         AppList {
+    //             mode: "open"
+    //             size: bottomBar.thickness
+    //             appLists: applist
+    //             tooltip: tooltip
+    //             icon_size: 30
+    //             contextMenu: contextmenu
+    //             background: null
+    //         }
+    //     ]
+    // }
+
     Calendar {
         id: calendar
+        marginTop: bar.size + 5
     }
 
     PowerMenu {}
-    AppLauncher {}
+    AppLauncher {
+        appLists: applist
+    }
     WallPaper {}
     ScreenShotPicker {}
     EmojiPicker {}
@@ -88,7 +137,14 @@ Scope {
     NotificationCenter {
         id: notificationCenter
         notificationServer: notificationServer
-        marginTop: bar.thickness
+        marginTop: bar.size
+    }
+
+    Tooltip {
+        id: tooltip
+    }
+    ContextMenu {
+        id: contextmenu 
     }
 
     VolumeOsd {}

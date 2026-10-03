@@ -50,6 +50,9 @@ PanelWindow {
 
     property int popupY: {
         var y = cursorY + popupMargin;
+        if (y < marginTop) {
+            y = marginTop;
+        }
 
         if (y + popupHeight > height)
             y = cursorY - popupHeight - popupMargin;
@@ -76,6 +79,7 @@ PanelWindow {
     property string activeTo: ""
 
     property bool reloadPending: false
+    property int marginTop: 0
 
     // =========================================================
     // CURSOR POSITION
@@ -282,7 +286,7 @@ PanelWindow {
     Process {
         id: omaCal
 
-        command: ["fish", "-c", "$argv","omacal", "events", "list", "--from", root.requestedFrom, "--to", root.requestedTo, "--json"]
+        command: ["fish", "-c", "$argv", "omacal", "events", "list", "--from", root.requestedFrom, "--to", root.requestedTo, "--json"]
 
         stdout: StdioCollector {
             onStreamFinished: {
@@ -365,6 +369,7 @@ PanelWindow {
 
     MouseArea {
         anchors.fill: parent
+        acceptedButtons: Qt.LeftButton | Qt.RightButton
 
         onClicked: {
             root.close();

@@ -10,6 +10,7 @@ PanelWindow {
     property string position: "top"
     property int thickness: 40
     property int spacing: 8
+    property bool onTop: false
 
     readonly property PanelWindow window: root
 
@@ -18,6 +19,7 @@ PanelWindow {
             color: Theme.background
         }
     }
+
     Loader {
         anchors.fill: parent
         sourceComponent: root.background
@@ -26,210 +28,351 @@ PanelWindow {
     property list<Item> left: []
     property list<Item> center: []
     property list<Item> right: []
+
     property alias top: root.left
     property alias bottom: root.right
     property alias centre: root.center
 
-    readonly property bool horizontal: position === "top" || position === "bottom"
-    readonly property bool vertical: position === "left" || position === "right"
+    property int edgeMargin: 0
+    property int sideMargins: 0
+    property int minSize: 0
+    property bool fillContents: false
 
-    implicitHeight: horizontal ? thickness : undefined
-    implicitWidth: vertical ? thickness : undefined
+    readonly property int size: thickness + edgeMargin
+
+    readonly property bool horizontal:
+        position === "top" || position === "bottom"
+
+    readonly property bool vertical:
+        position === "left" || position === "right"
+
+    // ------------------------------------------------------------
+    // CONTENT SIZE
+    // ------------------------------------------------------------
+
+    readonly property int contentWidth:
+        leftRow.implicitWidth +
+        centerRow.implicitWidth +
+        rightRow.implicitWidth +
+        (leftRow.implicitWidth > 0 &&
+         centerRow.implicitWidth > 0 ? spacing : 0) +
+        (centerRow.implicitWidth > 0 &&
+         rightRow.implicitWidth > 0 ? spacing : 0)
+
+    readonly property int contentHeight:
+        topColumn.implicitHeight +
+        centerColumn.implicitHeight +
+        bottomColumn.implicitHeight +
+        (topColumn.implicitHeight > 0 &&
+         centerColumn.implicitHeight > 0 ? spacing : 0) +
+        (centerColumn.implicitHeight > 0 &&
+         bottomColumn.implicitHeight > 0 ? spacing : 0)
+
+    // ------------------------------------------------------------
+    // WINDOW SIZE
+    // ------------------------------------------------------------
+
+    implicitWidth:
+        horizontal && fillContents
+            ? Math.max(contentWidth, minSize)
+            : horizontal
+                ? undefined
+                : thickness
+
+    implicitHeight:
+        vertical && fillContents
+            ? Math.max(contentHeight, minSize)
+            : vertical
+                ? undefined
+                : thickness
+
+    // ------------------------------------------------------------
+    // PANEL POSITION
+    // ------------------------------------------------------------
+
     anchors {
-        top: position === "top" || position === "left" || position === "right"
-        bottom: position === "bottom" || position === "left" || position === "right"
-        left: position === "top" || position === "bottom" || position === "left"
-        right: position === "top" || position === "bottom" || position === "right"
+        top:
+            position === "top" ||
+            (vertical && !fillContents)
+
+        bottom:
+            position === "bottom" ||
+            (vertical && !fillContents)
+
+        left:
+            position === "left" ||
+            (horizontal && !fillContents)
+
+        right:
+            position === "right" ||
+            (horizontal && !fillContents)
+    }
+
+    margins {
+        top:
+            position === "top"
+                ? edgeMargin
+                : vertical
+                    ? sideMargins
+                    : 0
+
+        bottom:
+            position === "bottom"
+                ? edgeMargin
+                : vertical
+                    ? sideMargins
+                    : 0
+
+        left:
+            position === "left"
+                ? edgeMargin
+                : horizontal
+                    ? sideMargins
+                    : 0
+
+        right:
+            position === "right"
+                ? edgeMargin
+                : horizontal
+                    ? sideMargins
+                    : 0
     }
 
     color: "transparent"
 
-    WlrLayershell.layer: WlrLayer.Bottom
+    WlrLayershell.layer:
+        onTop ? WlrLayer.Top : WlrLayer.Bottom
 
-    // ─────────────────────────────────────
-    // Horizontal ─────────────────────────────────────
+
+    // ============================================================
+    // HORIZONTAL
+    // ============================================================
 
     Item {
+        id: horizontalContent
+
         anchors.fill: parent
         visible: root.horizontal
 
-        Row{
-            id: leftRow 
+        Row {
+            id: leftRow
 
-            anchors {
-                left: parent.left
-                verticalCenter: parent.verticalCenter
-            }
-
+            y: (parent.height - height) / 2
+            x: 0
             spacing: root.spacing
 
             function child() {
-                if (!root.horizontal)
-                    return;
-                const items = [];
+                const items = []
+
                 for (let i = 0; i < root.left.length; ++i)
-                    items.push(root.left[i]);
+                    items.push(root.left[i])
 
                 for (const item of items) {
-                    item.parent = leftRow;
-                    item.anchors.verticalCenter = leftRow.verticalCenter;
-                    item.anchors.horizontalCenter = undefined;
+                    item.parent = leftRow
+
+                    item.anchors.left = undefined
+                    item.anchors.right = undefined
+                    item.anchors.top = undefined
+                    item.anchors.bottom = undefined
+                    item.anchors.horizontalCenter = undefined
+                    item.anchors.verticalCenter = undefined
                 }
             }
-
-            Component.onCompleted: child()
         }
 
         Row {
             id: centerRow
 
-            anchors.centerIn: parent
+            y: (parent.height - height) / 2
+
+            x: root.fillContents
+                ? leftRow.width +
+                  (leftRow.width > 0 ? root.spacing : 0)
+                : (parent.width - width) / 2
 
             spacing: root.spacing
 
             function child() {
-                if (!root.horizontal)
-                    return;
-                const items = [];
+                const items = []
+
                 for (let i = 0; i < root.center.length; ++i)
-                    items.push(root.center[i]);
+                    items.push(root.center[i])
 
                 for (const item of items) {
-                    item.parent = centerRow;
-                    item.anchors.verticalCenter = centerRow.verticalCenter;
-                    item.anchors.horizontalCenter = undefined;
+                    item.parent = centerRow
+
+                    item.anchors.left = undefined
+                    item.anchors.right = undefined
+                    item.anchors.top = undefined
+                    item.anchors.bottom = undefined
+                    item.anchors.horizontalCenter = undefined
+                    item.anchors.verticalCenter = undefined
                 }
             }
-
-            Component.onCompleted: child()
         }
 
-        Row{
+        Row {
             id: rightRow
 
-            anchors {
-                right: parent.right
-                verticalCenter: parent.verticalCenter
-            }
+            y: (parent.height - height) / 2
+
+            x: root.fillContents
+                ? leftRow.width +
+                  centerRow.width +
+                  (leftRow.width > 0 ? root.spacing : 0) +
+                  (centerRow.width > 0 ? root.spacing : 0)
+                : parent.width - width
 
             spacing: root.spacing
 
             function child() {
-                if (!root.horizontal)
-                    return;
-                const items = [];
+                const items = []
+
                 for (let i = 0; i < root.right.length; ++i)
-                    items.push(root.right[i]);
+                    items.push(root.right[i])
 
                 for (const item of items) {
-                    item.parent = rightRow;
-                    item.anchors.verticalCenter = rightRow.verticalCenter;
-                    item.anchors.horizontalCenter = undefined;
+                    item.parent = rightRow
+
+                    item.anchors.left = undefined
+                    item.anchors.right = undefined
+                    item.anchors.top = undefined
+                    item.anchors.bottom = undefined
+                    item.anchors.horizontalCenter = undefined
+                    item.anchors.verticalCenter = undefined
                 }
             }
-
-            Component.onCompleted: child()
         }
 
+        Component.onCompleted: {
+            if (visible) {
+                leftRow.child()
+                centerRow.child()
+                rightRow.child()
+            }
+        }
         onVisibleChanged: {
             if (visible) {
-                leftRow.child();
-                centerRow.child();
-                rightRow.child();
+                leftRow.child()
+                centerRow.child()
+                rightRow.child()
             }
         }
     }
-    // ─────────────────────────────────────
-    // Vertical
-    // ─────────────────────────────────────
+
+
+    // ============================================================
+    // VERTICAL
+    // ============================================================
 
     Item {
+        id: verticalContent
+
         anchors.fill: parent
         visible: root.vertical
 
         Column {
             id: topColumn
 
-            anchors {
-                top: parent.top
-                horizontalCenter: parent.horizontalCenter
-            }
-
+            x: (parent.width - width) / 2
+            y: 0
             spacing: root.spacing
 
             function child() {
-                if (!root.vertical)
-                    return;
-                const items = [];
+                const items = []
+
                 for (let i = 0; i < root.left.length; ++i)
-                    items.push(root.left[i]);
+                    items.push(root.left[i])
 
                 for (const item of items) {
-                    item.parent = topColumn;
-                    item.anchors.horizontalCenter = topColumn.horizontalCenter;
-                    item.anchors.verticalCenter = undefined;
+                    item.parent = topColumn
+
+                    item.anchors.left = undefined
+                    item.anchors.right = undefined
+                    item.anchors.top = undefined
+                    item.anchors.bottom = undefined
+                    item.anchors.horizontalCenter = undefined
+                    item.anchors.verticalCenter = undefined
                 }
             }
-
-            Component.onCompleted: child()
         }
 
         Column {
             id: centerColumn
 
-            anchors.centerIn: parent
+            x: (parent.width - width) / 2
+
+            y: root.fillContents
+                ? topColumn.height +
+                  (topColumn.height > 0 ? root.spacing : 0)
+                : (parent.height - height) / 2
 
             spacing: root.spacing
 
             function child() {
-                if (!root.vertical)
-                    return;
-                const items = [];
+                const items = []
+
                 for (let i = 0; i < root.center.length; ++i)
-                    items.push(root.center[i]);
+                    items.push(root.center[i])
 
                 for (const item of items) {
-                    item.parent = centerColumn;
-                    item.anchors.horizontalCenter = centerColumn.horizontalCenter;
-                    item.anchors.verticalCenter = undefined;
+                    item.parent = centerColumn
+
+                    item.anchors.left = undefined
+                    item.anchors.right = undefined
+                    item.anchors.top = undefined
+                    item.anchors.bottom = undefined
+                    item.anchors.horizontalCenter = undefined
+                    item.anchors.verticalCenter = undefined
                 }
             }
-
-            Component.onCompleted: child()
         }
 
         Column {
             id: bottomColumn
 
-            anchors {
-                bottom: parent.bottom
-                horizontalCenter: parent.horizontalCenter
-            }
+            x: (parent.width - width) / 2
+
+            y: root.fillContents
+                ? topColumn.height +
+                  centerColumn.height +
+                  (topColumn.height > 0 ? root.spacing : 0) +
+                  (centerColumn.height > 0 ? root.spacing : 0)
+                : parent.height - height
 
             spacing: root.spacing
 
             function child() {
-                if (!root.vertical)
-                    return;
-                const items = [];
+                const items = []
+
                 for (let i = 0; i < root.right.length; ++i)
-                    items.push(root.right[i]);
+                    items.push(root.right[i])
 
                 for (const item of items) {
-                    item.parent = bottomColumn;
-                    item.anchors.horizontalCenter = bottomColumn.horizontalCenter;
-                    item.anchors.verticalCenter = undefined;
+                    item.parent = bottomColumn
+
+                    item.anchors.left = undefined
+                    item.anchors.right = undefined
+                    item.anchors.top = undefined
+                    item.anchors.bottom = undefined
+                    item.anchors.horizontalCenter = undefined
+                    item.anchors.verticalCenter = undefined
                 }
             }
-
-            Component.onCompleted: child()
         }
 
+        Component.onCompleted: {
+            if (visible) {
+                topColumn.child()
+                centerColumn.child()
+                bottomColumn.child()
+            }
+        }
         onVisibleChanged: {
             if (visible) {
-                topColumn.child();
-                centerColumn.child();
-                bottomColumn.child();
+                topColumn.child()
+                centerColumn.child()
+                bottomColumn.child()
             }
         }
     }

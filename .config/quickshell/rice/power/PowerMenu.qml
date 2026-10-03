@@ -69,6 +69,7 @@ Scope {
         id: powerPanel
         MouseArea {
             anchors.fill: parent
+            acceptedButtons: Qt.LeftButton | Qt.RightButton
             onClicked: powerPanel.visible = false
         }
 

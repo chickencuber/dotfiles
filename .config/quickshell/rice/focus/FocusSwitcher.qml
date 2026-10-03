@@ -25,128 +25,116 @@ PanelWindow {
         bottom: true
     }
 
-    MouseArea {
-        anchors.fill: parent
-
-        onClicked: {
-            root.close();
-        }
-    }
-
     property var windows: []
     property var filteredWindows: []
     property int selectedIndex: -1
+
+    MouseArea {
+        anchors.fill: parent
+
+        acceptedButtons: Qt.LeftButton | Qt.RightButton
+
+        onClicked: {
+            root.close()
+        }
+    }
 
     IpcHandler {
         target: "windows"
 
         function toggle(): void {
             if (root.visible)
-                root.close();
+                root.close()
             else
-                root.open();
-        }
-    }
-
-    Process {
-        id: clientProcess
-
-        command: ["hyprctl", "-j", "clients"]
-
-        stdout: StdioCollector {
-            onStreamFinished: {
-                root.parseWindows(this.text);
-            }
-        }
-    }
-
-    Process {
-        id: focusProcess
-
-        onExited: {
-            root.close();
+                root.open()
         }
     }
 
     function open(): void {
-        root.visible = true;
+        root.visible = true
 
-        searchField.text = "";
+        searchField.text = ""
 
-        clientProcess.running = true;
+        // Convert the ToplevelModel into a normal JS array.
+        root.windows = ToplevelManager.toplevels.values
+
+        root.filterWindows()
 
         Qt.callLater(() => {
-            searchField.forceActiveFocus();
-        });
+            searchField.forceActiveFocus()
+        })
     }
 
     function close(): void {
-        root.visible = false;
-    }
-
-    function parseWindows(text: string): void {
-        try {
-            const clients = JSON.parse(text);
-
-            root.windows = clients.filter(client => client.address && client.title).map(client => ({
-                        address: client.address,
-                        workspace: client.workspace ? client.workspace.name : "",
-                        title: client.title,
-                        className: client.class || "",
-                        appId: client.class || ""
-                    }));
-
-            root.filterWindows();
-        } catch (error) {
-            console.log("Failed to parse Hyprland clients:", error);
-
-            root.windows = [];
-            root.filteredWindows = [];
-            root.selectedIndex = -1;
-        }
+        root.visible = false
     }
 
     function filterWindows(): void {
-        const query = searchField.text.toLowerCase().trim();
+        const query = searchField.text.toLowerCase().trim()
 
         if (query === "") {
-            root.filteredWindows = root.windows;
+            root.filteredWindows = root.windows
         } else {
-            root.filteredWindows = root.windows.filter(window => window.title.toLowerCase().includes(query) || window.className.toLowerCase().includes(query) || window.workspace.toLowerCase().includes(query));
+            root.filteredWindows = root.windows.filter(window => {
+                const title = window.title ?? ""
+                const appId = window.appId ?? ""
+
+                return title.toLowerCase().includes(query)
+                    || appId.toLowerCase().includes(query)
+            })
         }
 
-        root.selectedIndex = root.filteredWindows.length > 0 ? 0 : -1;
+        root.selectedIndex =
+            root.filteredWindows.length > 0 ? 0 : -1
 
         Qt.callLater(() => {
-            windowList.positionViewAtBeginning();
-        });
+            windowList.positionViewAtBeginning()
+        })
     }
 
     function moveSelection(amount: int): void {
-        const count = root.filteredWindows.length;
+        const count = root.filteredWindows.length
 
         if (count === 0) {
-            root.selectedIndex = -1;
-            return;
+            root.selectedIndex = -1
+            return
         }
 
-        root.selectedIndex = Math.max(0, Math.min(count - 1, root.selectedIndex + amount));
+        // Make sure we have a valid starting index.
+        if (root.selectedIndex < 0)
+            root.selectedIndex = 0
 
-        windowList.positionViewAtIndex(root.selectedIndex, ListView.Contain);
+        root.selectedIndex = Math.max(
+            0,
+            Math.min(
+                count - 1,
+                root.selectedIndex + amount
+            )
+        )
+
+        windowList.positionViewAtIndex(
+            root.selectedIndex,
+            ListView.Contain
+        )
     }
 
     function focusCurrent(): void {
         if (root.selectedIndex < 0)
-            return;
-        const selected = root.filteredWindows[root.selectedIndex];
+            return
+
+        const selected =
+            root.filteredWindows[root.selectedIndex]
 
         if (!selected)
-            return;
-        console.log("Focusing:", selected.address);
+            return
 
-        focusProcess.command = ["hyprctl", "dispatch", "hl.dsp.focus({window=\"address:" + selected.address + "\"})"];
+        console.log("Focusing:", selected.title)
 
-        focusProcess.running = true;
+        root.close()
+
+        Qt.callLater(() => {
+            selected.activate()
+        })
     }
 
     Rectangle {
@@ -186,30 +174,43 @@ PanelWindow {
                 background: Rectangle {
                     radius: 12
 
-                    color: searchField.activeFocus ? Theme.background.alpha(0.65) : Theme.surface
+                    color:
+                        searchField.activeFocus
+                            ? Theme.background.alpha(0.65)
+                            : Theme.surface
 
-                    border.width: searchField.activeFocus ? 2 : 1
+                    border.width:
+                        searchField.activeFocus ? 2 : 1
 
-                    border.color: searchField.activeFocus ? Theme.accent : Theme.foreground.alpha(0.1)
+                    border.color:
+                        searchField.activeFocus
+                            ? Theme.accent
+                            : Theme.foreground.alpha(0.1)
                 }
 
                 onTextChanged: {
-                    root.filterWindows();
+                    root.filterWindows()
                 }
 
                 Keys.onPressed: event => {
                     if (event.key === Qt.Key_Down) {
-                        root.moveSelection(1);
-                        event.accepted = true;
+                        root.moveSelection(1)
+                        event.accepted = true
+
                     } else if (event.key === Qt.Key_Up) {
-                        root.moveSelection(-1);
-                        event.accepted = true;
-                    } else if (event.key === Qt.Key_Return || event.key === Qt.Key_Enter) {
-                        root.focusCurrent();
-                        event.accepted = true;
+                        root.moveSelection(-1)
+                        event.accepted = true
+
+                    } else if (
+                        event.key === Qt.Key_Return ||
+                        event.key === Qt.Key_Enter
+                    ) {
+                        root.focusCurrent()
+                        event.accepted = true
+
                     } else if (event.key === Qt.Key_Escape) {
-                        root.close();
-                        event.accepted = true;
+                        root.close()
+                        event.accepted = true
                     }
                 }
             }
@@ -224,7 +225,6 @@ PanelWindow {
                     anchors.fill: parent
 
                     clip: true
-
                     spacing: 4
 
                     model: root.filteredWindows
@@ -240,7 +240,12 @@ PanelWindow {
 
                         radius: 10
 
-                        color: index === root.selectedIndex ? Theme.accent.alpha(0.15) : windowMouse.containsMouse ? Theme.foreground.alpha(0.06) : "transparent"
+                        color:
+                            index === root.selectedIndex
+                                ? Theme.accent.alpha(0.15)
+                                : windowMouse.containsMouse
+                                    ? Theme.foreground.alpha(0.06)
+                                    : "transparent"
 
                         RowLayout {
                             anchors.fill: parent
@@ -255,22 +260,34 @@ PanelWindow {
                                 Layout.preferredHeight: 32
                                 Layout.alignment: Qt.AlignVCenter
 
-                                property var desktopEntry: DesktopEntries.byId(modelData.appId)
+                                property var desktopEntry:
+                                    DesktopEntries.byId(
+                                        modelData.appId
+                                    )
 
-                                property string iconName: desktopEntry?.icon ?? ""
+                                property string iconName:
+                                    desktopEntry?.icon ?? ""
 
                                 Rectangle {
                                     anchors.fill: parent
 
                                     radius: 8
 
-                                    color: index === root.selectedIndex ? Theme.accent.alpha(0.15) : Theme.surface
+                                    color:
+                                        index === root.selectedIndex
+                                            ? Theme.accent.alpha(0.15)
+                                            : Theme.surface
                                 }
 
                                 IconImage {
                                     anchors.fill: parent
 
-                                    source: parent.iconName !== "" ? Quickshell.iconPath(parent.iconName) : ""
+                                    source:
+                                        parent.iconName !== ""
+                                            ? Quickshell.iconPath(
+                                                parent.iconName
+                                            )
+                                            : ""
 
                                     smooth: true
                                 }
@@ -282,14 +299,17 @@ PanelWindow {
 
                                 text: modelData.title
 
-                                color: index === root.selectedIndex ? Theme.accent : Theme.text
+                                color:
+                                    index === root.selectedIndex
+                                        ? Theme.accent
+                                        : Theme.text
 
-                                font.family: "JetBrainsMono Nerd Font Mono"
+                                font.family:
+                                    "JetBrainsMono Nerd Font Mono"
 
                                 font.pixelSize: 13
 
                                 elide: Text.ElideRight
-
                                 maximumLineCount: 1
                             }
                         }
@@ -302,12 +322,12 @@ PanelWindow {
                             hoverEnabled: true
 
                             onEntered: {
-                                root.selectedIndex = index;
+                                root.selectedIndex = index
                             }
 
                             onClicked: {
-                                root.selectedIndex = index;
-                                root.focusCurrent();
+                                root.selectedIndex = index
+                                root.focusCurrent()
                             }
                         }
                     }
@@ -316,9 +336,13 @@ PanelWindow {
                 Text {
                     anchors.centerIn: parent
 
-                    visible: root.filteredWindows.length === 0
+                    visible:
+                        root.filteredWindows.length === 0
 
-                    text: root.windows.length === 0 ? "No windows" : "No matches"
+                    text:
+                        root.windows.length === 0
+                            ? "No windows"
+                            : "No matches"
 
                     color: Theme.textMuted
 
@@ -337,7 +361,8 @@ PanelWindow {
                 Text {
                     anchors.centerIn: parent
 
-                    text: "↑ ↓ Navigate   Enter Focus   Esc Close"
+                    text:
+                        "↑ ↓ Navigate   Enter Focus   Esc Close"
 
                     color: Theme.textMuted
 

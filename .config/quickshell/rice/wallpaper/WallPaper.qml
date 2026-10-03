@@ -150,9 +150,9 @@ Scope {
     // ------------------------------------------------------------------
 
     PanelWindow {
+        id: wallpaperPanel
 
         exclusionMode: ExclusionMode.Ignore
-        id: wallpaperPanel
 
         visible: false
 
@@ -174,6 +174,7 @@ Scope {
 
         MouseArea {
             anchors.fill: parent
+            acceptedButtons: Qt.LeftButton | Qt.RightButton
 
             onClicked: {
                 if (root.applying)
