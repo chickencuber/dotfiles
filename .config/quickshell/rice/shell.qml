@@ -170,6 +170,7 @@ Scope {
         actionsSupported: true
         actionIconsSupported: true
         inlineReplySupported: true
+        bodyMarkupSupported: true
 
         onNotification: function (notification) {
             console.log("!!! GOT NOTIFICATION !!!");
