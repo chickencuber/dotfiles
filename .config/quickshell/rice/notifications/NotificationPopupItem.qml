@@ -7,8 +7,52 @@ import ".."
 
 Rectangle {
     id: root
+
+    required property var notification
+
+    property bool popupMode: true
+    property bool popupVisible: true
+
+    implicitWidth: popupMode ? 500 : 450
+    implicitHeight: content.implicitHeight + 24
+
+    visible: popupMode ? popupVisible : true
+
+    radius: 14
+    color: Qt.alpha(Theme.background, 0.95)
+
+    border.width: 1
+    border.color: Theme.accent
+
+    function invokeDefaultAction(): void {
+        const actions = root.notification?.actions ?? [];
+
+        for (const action of actions) {
+            if (action.identifier === "default") {
+                action.invoke();
+                return;
+            }
+        }
+    }
+
+    function sendReply(): void {
+        if (!root.notification?.hasInlineReply)
+            return;
+
+        const text = replyField.text.trim();
+
+        if (text === "")
+            return;
+
+        root.notification.sendInlineReply(text);
+        replyField.clear();
+    }
+
     MouseArea {
+        id: notificationMouse
+
         anchors.fill: parent
+
         hoverEnabled: true
 
         onEntered: {
@@ -18,34 +62,12 @@ Rectangle {
         onExited: {
             expireTimer.restart();
         }
+
+        onClicked: {
+            root.invokeDefaultAction();
+        }
     }
 
-    required property var notification
-
-    implicitWidth: popupMode ? 500 : 450
-    implicitHeight: content.implicitHeight + 24
-
-    property bool popupMode: true
-
-    radius: 14
-    color: Qt.alpha(Theme.background, 0.95)
-
-    border.width: 1
-    border.color: Theme.accent
-
-    function sendReply() {
-        if (!root.notification?.hasInlineReply)
-            return;
-        const text = replyField.text.trim();
-
-        if (text === "")
-            return;
-        root.notification.sendInlineReply(text);
-        replyField.clear();
-    }
-
-    property bool popupVisible: true
-    visible: root.popupMode ? root.popupVisible : true
     ColumnLayout {
         id: content
 
@@ -57,7 +79,6 @@ Rectangle {
             Layout.fillWidth: true
             spacing: 10
 
-            // Notification image
             Item {
                 Layout.alignment: Qt.AlignTop
                 Layout.preferredWidth: 80
@@ -70,6 +91,7 @@ Rectangle {
                     id: notificationImage
 
                     anchors.fill: parent
+
                     source: root.notification?.image ?? ""
 
                     fillMode: Image.PreserveAspectCrop
@@ -81,9 +103,9 @@ Rectangle {
                 }
             }
 
-            // App icon
             IconImage {
                 Layout.alignment: Qt.AlignTop
+
                 Layout.preferredWidth: 32
                 Layout.preferredHeight: 32
 
@@ -100,7 +122,6 @@ Rectangle {
                 }
             }
 
-            // Notification content
             ColumnLayout {
                 Layout.fillWidth: true
                 Layout.alignment: Qt.AlignTop
@@ -136,6 +157,8 @@ Rectangle {
                 }
 
                 Text {
+                    id: bodyText
+
                     Layout.fillWidth: true
 
                     visible: text !== ""
@@ -151,25 +174,29 @@ Rectangle {
                     font.pixelSize: 13
 
                     wrapMode: Text.Wrap
+
                     maximumLineCount: 5
                     elide: Text.ElideRight
+
                     onLinkActivated: function (link) {
                         Qt.openUrlExternally(link);
                     }
 
                     MouseArea {
                         anchors.fill: parent
-                        hoverEnabled: true
+
                         acceptedButtons: Qt.NoButton
+
+                        hoverEnabled: true
 
                         cursorShape: parent.linkHovered ? Qt.PointingHandCursor : Qt.ArrowCursor
                     }
                 }
             }
 
-            // Close button
             Rectangle {
                 Layout.alignment: Qt.AlignTop
+
                 Layout.preferredWidth: 28
                 Layout.preferredHeight: 28
 
@@ -192,6 +219,7 @@ Rectangle {
                     id: closeMouse
 
                     anchors.fill: parent
+
                     cursorShape: Qt.PointingHandCursor
 
                     onClicked: {
@@ -201,7 +229,6 @@ Rectangle {
             }
         }
 
-        // Inline reply
         RowLayout {
             Layout.fillWidth: true
 
@@ -263,6 +290,7 @@ Rectangle {
                     id: sendMouse
 
                     anchors.fill: parent
+
                     cursorShape: Qt.PointingHandCursor
 
                     onClicked: {
@@ -272,16 +300,19 @@ Rectangle {
             }
         }
 
-        // Notification actions
         RowLayout {
             Layout.fillWidth: true
 
-            visible: (root.notification?.actions?.length ?? 0) > 0
+            visible: (root.notification?.actions ?? []).some(action => {
+                return action.identifier !== "default";
+            })
 
             spacing: 6
 
             Repeater {
-                model: root.notification?.actions ?? []
+                model: (root.notification?.actions ?? []).filter(action => {
+                    return action.identifier !== "default";
+                })
 
                 delegate: Rectangle {
                     required property var modelData
@@ -301,7 +332,6 @@ Rectangle {
 
                         spacing: 6
 
-                        // Action icon
                         IconImage {
                             Layout.preferredWidth: 16
                             Layout.preferredHeight: 16
@@ -322,7 +352,9 @@ Rectangle {
                         }
 
                         Text {
-                            text: modelData.text
+                            Layout.maximumWidth: 180
+
+                            text: modelData.text ?? ""
 
                             color: Theme.text
 
@@ -337,6 +369,7 @@ Rectangle {
                         id: actionMouse
 
                         anchors.fill: parent
+
                         cursorShape: Qt.PointingHandCursor
 
                         onClicked: {
