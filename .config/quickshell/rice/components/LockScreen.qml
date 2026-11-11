@@ -12,6 +12,8 @@ Item {
     property bool locked: false
     property string pamConfig: "login"
     property string password: ""
+
+    //TASK(20261110-235836-411-n6-618): make fading optional
     property int fadeDuration: 400
 
     property Component content

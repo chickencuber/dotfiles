@@ -84,6 +84,7 @@ Entry {
     }
     /**/
 
+    //TASK(20261111-000211-591-n6-797): extract out some of the simple things(like clock and password input) into its own component
     LockScreen {
         id: lock
 
