@@ -12,6 +12,10 @@ Scope {
     id: root
 
     property int selectedIndex: -1
+    readonly property int currentWallpaperIndex:
+    Wallpaper.wallpapers.indexOf(
+        Wallpaper.currentWallpaper.replace(Wallpaper.wallDir + "/", "")
+    )
 
     function applySelected(): void {
         if (selectedIndex < 0 ||
@@ -60,7 +64,7 @@ Scope {
                     return
 
                 root.selectedIndex = root.selectedIndex <= 0
-                    ? 0
+                    ? root.currentWallpaperIndex
                     : root.selectedIndex - 1
 
                 wallpapersList.positionViewAtIndex(
@@ -76,7 +80,7 @@ Scope {
                     return
 
                 root.selectedIndex = root.selectedIndex < 0
-                    ? 0
+                    ? root.currentWallpaperIndex
                     : Math.min(
                         root.selectedIndex + 1,
                         Wallpaper.wallpapers.length - 1

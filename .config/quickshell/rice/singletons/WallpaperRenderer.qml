@@ -13,12 +13,6 @@ Variants {
         required property var modelData
         screen: modelData
 
-        property int activeImage: 0
-        property int pendingImage: -1
-        property int generation: 0
-
-        property string requestedWallpaper: ""
-
         anchors {
             top: true
             bottom: true
@@ -30,101 +24,85 @@ Variants {
         WlrLayershell.layer: WlrLayer.Background
         color: Theme.background
 
-        function loadWallpaper(path: string): void {
-            if (path === "")
-                return;
-
-            generation++;
-            requestedWallpaper = "file://" + path;
-
-            const next = (imageA.source.toString() === "" && imageB.source.toString() === "") ? 0 : (activeImage === 0 ? 1 : 0);
-
-            pendingImage = next;
-
-            if (next === 0)
-                imageA.source = requestedWallpaper;
-            else
-                imageB.source = requestedWallpaper;
-        }
-
-        function imageReady(index: int): void {
-            if (pendingImage !== index)
-                return;
-
-            const image = index === 0 ? imageA : imageB;
-
-            if (image.status !== Image.Ready)
-                return;
-
-            if (image.source.toString() !== requestedWallpaper)
-                return;
-
-            // Don't switch until the image has a valid frame.
-            if (image.width <= 0 || image.height <= 0)
-                return;
-
-            activeImage = index;
-            pendingImage = -1;
-        }
-
         AnimatedImage {
-            id: imageA
+            id: wallpaperImage
 
             anchors.fill: parent
 
             fillMode: Image.PreserveAspectCrop
             asynchronous: true
             cache: false
-            playing: true
             smooth: true
+            playing: true
 
-            opacity: wallpaperWindow.activeImage === 0 ? 1 : 0
-
-            Behavior on opacity {
-                NumberAnimation {
-                    duration: 800
-                    easing.type: Easing.InOutCubic
-                }
-            }
+            source: Wallpaper.currentWallpaper !== "" ? "file://" + Wallpaper.currentWallpaper : ""
 
             onStatusChanged: {
-                if (status === AnimatedImage.Ready)
-                    wallpaperWindow.imageReady(0);
+                if (status === Image.Error) {
+                    console.error("Failed to load wallpaper:", source);
+                }
             }
         }
-
-        AnimatedImage {
-            id: imageB
+        Image {
+            id: incoming
 
             anchors.fill: parent
 
             fillMode: Image.PreserveAspectCrop
             asynchronous: true
             cache: false
-            playing: true
             smooth: true
-
-            opacity: wallpaperWindow.activeImage === 1 ? 1 : 0
-
-            Behavior on opacity {
-                NumberAnimation {
-                    duration: 800
-                    easing.type: Easing.InOutCubic
-                }
-            }
+            visible: false
+            opacity: 0
 
             onStatusChanged: {
-                if (status === AnimatedImage.Ready)
-                    wallpaperWindow.imageReady(1);
+                if (status === Image.Error) {
+                    console.error("Failed to load wallpaper:", source);
+                } else if (status === Image.Ready) {
+                    visible = true;
+                    crossfade.start();
+                }
             }
+        }
+        ParallelAnimation {
+            id: crossfade
+
+            NumberAnimation {
+                target: wallpaperImage
+                property: "opacity"
+                to: 0
+                duration: 500
+                easing.type: Easing.InOutCubic
+            }
+
+            NumberAnimation {
+                target: incoming
+                property: "opacity"
+                to: 1
+                duration: 500
+                easing.type: Easing.InOutCubic
+            }
+
+            onFinished: {
+                // Swap the sources
+                wallpaperImage.source = incoming.source;
+                wallpaperImage.playing = true;
+
+                wallpaperImage.opacity = 1;
+
+                // Hide and reset the incoming image
+                incoming.opacity = 0;
+                incoming.visible = false;
+            }
+        }
+        function applyWallpaper(current) {
+            incoming.source = current !== "" ? "file://" + current : "";
         }
 
         Connections {
             target: Wallpaper
-
             function onCurrentWallpaperChanged(): void {
-                wallpaperWindow.loadWallpaper( //this is being called
-                Wallpaper.currentWallpaper);
+                wallpaperWindow.applyWallpaper(Wallpaper.currentWallpaper);
             }
         }
     }
