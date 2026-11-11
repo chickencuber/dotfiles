@@ -66,6 +66,9 @@ vim.keymap.set("n", "tl", function()
 end)
 
 
+vim.keymap.set("n", "<leader>re", vim.cmd.RustAnalyzerExpand)
+
+
 vim.keymap.set("n", "ty", vim.cmd.TaskYank)
 
 vim.keymap.set("n", "<leader>tt", function()

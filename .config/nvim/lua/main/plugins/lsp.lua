@@ -77,7 +77,14 @@ return {
         vim.lsp.enable("ts_ls")
         vim.lsp.config("omnisharp", {})
         vim.lsp.enable("omnisharp")
-        vim.lsp.config("clangd", {})
+        vim.lsp.config("clangd", {
+            cmd = {
+                vim.fn.stdpath("data") .. "/mason/bin/clangd",
+                "--background-index",
+                "--experimental-modules-support",
+            },
+        })
+
         vim.lsp.enable("clangd")
 
         vim.lsp.config("rust_analyzer", {})

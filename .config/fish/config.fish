@@ -12,12 +12,17 @@ set -gx PATH $PYENV_ROOT/bin $PATH
 set -gx EDITOR nvim
 set -gx VISUAL nvim
 
+set TERMEMU (basename "/"(ps -o cmd -f -p (cat /proc/(echo %self)/stat | cut -d \  -f 4) | tail -1 | sed 's/ .*$//'))
+
 if status is-interactive
     # ~/.config/fish/config.fish
     alias emsdk_setup ". ~/emsdk/emsdk_env.fish"
 
 
     # Aliases
+    if test "$TERMEMU" = "ghostty"
+        alias ssh='ghostty +ssh --'
+    end
     alias ls 'ls --color=auto'
     alias ll 'ls -l --color=auto'
     alias grep 'grep --color=auto'
@@ -48,4 +53,5 @@ if status is-interactive
         starship init fish | source
     end
     zoxide init fish | source
+    thefuck --alias | source
 end

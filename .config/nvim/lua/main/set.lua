@@ -137,3 +137,50 @@ vim.api.nvim_create_autocmd("FileType", {
         vim.opt_local.spell = true
     end,
 })
+
+
+vim.api.nvim_create_user_command("RustAnalyzerExpand", function()
+    local clients = vim.lsp.get_clients({ bufnr = 0 })
+
+    for _, client in ipairs(clients) do
+        if client.name == "rust_analyzer" then
+            client:request("rust-analyzer/expandMacro", {
+                textDocument = vim.lsp.util.make_text_document_params(),
+                position = vim.lsp.util.make_position_params(0, "utf-16").position,
+            }, function(err, result)
+                if err or not result or not result.expansion then
+                    vim.notify("Expansion failed", vim.log.levels.ERROR)
+                    return
+                end
+
+                vim.cmd("new")
+                vim.api.nvim_buf_set_lines(
+                    0, 0, -1, false,
+                    vim.split(result.expansion, "\n")
+                )
+
+                vim.bo.buftype = "nofile"
+                vim.bo.bufhidden = "wipe"
+                vim.bo.swapfile = false
+                vim.bo.filetype = "rust"
+                vim.bo.modifiable = false
+                vim.bo.readonly = true
+            end, 0)
+
+            return
+        end
+    end
+
+    vim.notify("rust-analyzer is not attached", vim.log.levels.ERROR)
+end, {})
+vim.api.nvim_create_user_command("LspRestart", function()
+    local clients = vim.lsp.get_clients({ bufnr = 0 })
+
+    for _, client in ipairs(clients) do
+        client:stop()
+    end
+
+    vim.defer_fn(function()
+        vim.cmd("edit")
+    end, 500)
+end, {})

@@ -1,0 +1,4 @@
+singleton ShellContextMenu 1.0 ShellContextMenu.qml
+singleton AppList 1.0 AppList.qml
+singleton NotificationService 1.0 NotificationService.qml
+singleton Wallpaper 1.0 Wallpaper.qml

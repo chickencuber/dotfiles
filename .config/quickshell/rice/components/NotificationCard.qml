@@ -1,0 +1,390 @@
+pragma ComponentBehavior: Bound
+import QtQuick
+import QtQuick.Layouts
+import QtQuick.Controls
+import Quickshell
+import Quickshell.Widgets
+import "../singletons/"
+
+Rectangle {
+    id: root
+
+    required property var notification
+
+    property bool popupMode: true
+    property bool popupVisible: true
+
+    implicitWidth: popupMode ? 500 : 450
+    implicitHeight: content.implicitHeight + 24
+
+    visible: popupMode ? popupVisible : true
+
+    radius: 14
+    color: Qt.alpha(Theme.background, 0.95)
+
+    border.width: 1
+    border.color: Theme.accent
+
+    function invokeDefaultAction(): void {
+        const actions = root.notification?.actions ?? [];
+
+        for (const action of actions) {
+            if (action.identifier === "default") {
+                action.invoke();
+                return;
+            }
+        }
+    }
+
+    function sendReply(): void {
+        if (!root.notification?.hasInlineReply)
+            return;
+
+        const text = replyField.text.trim();
+
+        if (text === "")
+            return;
+
+        root.notification.sendInlineReply(text);
+        replyField.clear();
+    }
+
+    MouseArea {
+        id: notificationMouse
+
+        anchors.fill: parent
+
+        hoverEnabled: true
+
+        onEntered: {
+            expireTimer.stop();
+        }
+
+        onExited: {
+            expireTimer.restart();
+        }
+
+        onClicked: {
+            root.invokeDefaultAction();
+        }
+    }
+
+    ColumnLayout {
+        id: content
+
+        anchors.fill: parent
+        anchors.margins: 12
+        spacing: 10
+
+        RowLayout {
+            Layout.fillWidth: true
+            spacing: 10
+
+            Item {
+                Layout.alignment: Qt.AlignTop
+                Layout.preferredWidth: 80
+                Layout.preferredHeight: 80
+
+                visible: notificationImage.status === Image.Ready
+                clip: true
+
+                Image {
+                    id: notificationImage
+
+                    anchors.fill: parent
+
+                    source: root.notification?.image ?? ""
+
+                    fillMode: Image.PreserveAspectCrop
+                    asynchronous: true
+                    smooth: true
+
+                    sourceSize.width: 160
+                    sourceSize.height: 160
+                }
+            }
+
+            IconImage {
+                Layout.alignment: Qt.AlignTop
+
+                Layout.preferredWidth: 32
+                Layout.preferredHeight: 32
+
+                source: {
+                    const icon = root.notification?.appIcon ?? "";
+
+                    if (icon === "")
+                        return "";
+
+                    if (icon.startsWith("/") || icon.startsWith("file://"))
+                        return icon;
+
+                    return ShellContext.iconPath(icon, true);
+                }
+            }
+
+            ColumnLayout {
+                Layout.fillWidth: true
+                Layout.alignment: Qt.AlignTop
+
+                spacing: 2
+
+                Text {
+                    Layout.fillWidth: true
+
+                    text: root.notification?.appName ?? ""
+
+                    color: Theme.text
+                    opacity: 0.55
+
+                    font.family: Theme.font
+                    font.pixelSize: 11
+
+                    elide: Text.ElideRight
+                }
+
+                Text {
+                    Layout.fillWidth: true
+
+                    text: root.notification?.summary ?? ""
+
+                    color: Theme.text
+
+                    font.family: Theme.font
+                    font.pixelSize: 15
+                    font.bold: true
+
+                    wrapMode: Text.Wrap
+                }
+
+                Text {
+                    id: bodyText
+
+                    Layout.fillWidth: true
+
+                    visible: text !== ""
+
+                    text: root.notification?.body ?? ""
+
+                    textFormat: Text.RichText
+
+                    color: Theme.text
+                    opacity: 0.8
+
+                    font.family: Theme.font
+                    font.pixelSize: 13
+
+                    wrapMode: Text.Wrap
+
+                    maximumLineCount: 5
+                    elide: Text.ElideRight
+
+                    onLinkActivated: function (link) {
+                        Qt.openUrlExternally(link);
+                    }
+
+                    MouseArea {
+                        anchors.fill: parent
+
+                        acceptedButtons: Qt.NoButton
+
+                        hoverEnabled: true
+
+                        cursorShape: parent.linkHovered ? Qt.PointingHandCursor : Qt.ArrowCursor
+                    }
+                }
+            }
+
+            Rectangle {
+                Layout.alignment: Qt.AlignTop
+
+                Layout.preferredWidth: 28
+                Layout.preferredHeight: 28
+
+                radius: 8
+
+                color: closeMouse.containsMouse ? Qt.alpha(Theme.text, 0.15) : "transparent"
+
+                Icon {
+
+                    anchors.centerIn: parent
+
+                    name: "close"
+                    width: 16
+                    height: width
+                }
+
+                MouseArea {
+                    id: closeMouse
+
+                    anchors.fill: parent
+
+                    cursorShape: Qt.PointingHandCursor
+
+                    onClicked: {
+                        root.notification?.dismiss();
+                    }
+                }
+            }
+        }
+
+        RowLayout {
+            Layout.fillWidth: true
+
+            visible: root.notification?.hasInlineReply ?? false
+
+            spacing: 6
+
+            TextField {
+                id: replyField
+
+                Layout.fillWidth: true
+                Layout.preferredHeight: 34
+
+                placeholderText: root.notification?.inlineReplyPlaceholder || "Type a reply..."
+
+                color: Theme.text
+                placeholderTextColor: Qt.alpha(Theme.text, 0.45)
+
+                font.family: Theme.font
+                font.pixelSize: 12
+
+                background: Rectangle {
+                    radius: 8
+
+                    color: Qt.alpha(Theme.text, 0.07)
+
+                    border.width: 1
+                    border.color: Qt.alpha(Theme.text, 0.12)
+                }
+
+                Keys.onReturnPressed: {
+                    root.sendReply();
+                }
+            }
+
+            Rectangle {
+                Layout.preferredWidth: 60
+                Layout.preferredHeight: 34
+
+                radius: 8
+
+                color: sendMouse.containsMouse ? Qt.alpha(Theme.text, 0.15) : Qt.alpha(Theme.text, 0.07)
+
+                border.width: 1
+                border.color: Qt.alpha(Theme.text, 0.12)
+
+                Text {
+                    anchors.centerIn: parent
+
+                    text: "Send"
+
+                    color: Theme.text
+
+                    font.family: Theme.font
+                    font.pixelSize: 12
+                }
+
+                MouseArea {
+                    id: sendMouse
+
+                    anchors.fill: parent
+
+                    cursorShape: Qt.PointingHandCursor
+
+                    onClicked: {
+                        root.sendReply();
+                    }
+                }
+            }
+        }
+
+        RowLayout {
+            Layout.fillWidth: true
+
+            visible: (root.notification?.actions ?? []).some(action => {
+                return action.identifier !== "default";
+            })
+
+            spacing: 6
+
+            Repeater {
+                model: (root.notification?.actions ?? []).filter(action => {
+                    return action.identifier !== "default";
+                })
+
+                delegate: Rectangle {
+                    required property var modelData
+
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: 32
+
+                    radius: 8
+
+                    color: actionMouse.containsMouse ? Qt.alpha(Theme.text, 0.15) : Qt.alpha(Theme.text, 0.07)
+
+                    border.width: 1
+                    border.color: Qt.alpha(Theme.text, 0.12)
+
+                    RowLayout {
+                        anchors.centerIn: parent
+
+                        spacing: 6
+
+                        Icon{
+                            Layout.preferredWidth: 16
+                            Layout.preferredHeight: 16
+
+                            visible: root.notification?.hasActionIcons ?? false
+                            name: modelData.identifier ?? ""
+                            source: Icon.System
+                            monochrome: true
+                        }
+
+                        Text {
+                            Layout.maximumWidth: 180
+
+                            text: modelData.text ?? ""
+
+                            color: Theme.text
+
+                            font.family: Theme.font
+                            font.pixelSize: 12
+
+                            elide: Text.ElideRight
+                        }
+                    }
+
+                    MouseArea {
+                        id: actionMouse
+
+                        anchors.fill: parent
+
+                        cursorShape: Qt.PointingHandCursor
+
+                        onClicked: {
+                            modelData.invoke();
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    Timer {
+        id: expireTimer
+
+        interval: {
+            const timeout = root.notification?.expireTimeout ?? 0;
+
+            return timeout > 0 ? timeout * 1000 : 5000;
+        }
+
+        running: true
+        repeat: false
+
+        onTriggered: {
+            root.popupVisible = false;
+        }
+    }
+}

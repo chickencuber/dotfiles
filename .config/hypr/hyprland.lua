@@ -16,7 +16,7 @@ hl.monitor({
 
 -- variables
 local terminal = "ghostty"
-local fileManager = "nautilus"
+local fileManager = "dolphin"
 local menu = "qs -c rice ipc call launcher toggle"
 local shell_menu = "qs -c rice ipc call command toggle"
 local browser = "google-chrome-stable --profile-directory=Default"
@@ -65,7 +65,7 @@ hl.on("hyprland.start", function()
     hl.exec_cmd("kdeconnectd")
 
     hl.exec_cmd("$HOME/.config/hypr/launchsteam.sh")
-    hl.exec_cmd("vesktop --start-minimized")
+    hl.exec_cmd("equibop --start-minimized")
 
     hl.exec_cmd("/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1")
 
@@ -305,15 +305,13 @@ hl.bind(
     "XF86AudioRaiseVolume",
     hl.dsp.exec_cmd(
         "wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SINK@ 5%+ && qs -c rice ipc call osd.volume run && pw-play /usr/share/sounds/freedesktop/stereo/audio-volume-change.oga"
-    )
-)
+    ), {repeating = true})
 
 hl.bind(
     "XF86AudioLowerVolume",
     hl.dsp.exec_cmd(
         "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%- && qs -c rice ipc call osd.volume run && pw-play /usr/share/sounds/freedesktop/stereo/audio-volume-change.oga"
-    )
-)
+    ), {repeating = true})
 
 hl.bind(
     "XF86AudioMute",
@@ -324,22 +322,20 @@ hl.bind(
 
 hl.bind(
     "XF86MonBrightnessUp",
-    hl.dsp.exec_cmd("brightnessctl set 5%+ && qs -c rice ipc call osd.brightness run")
-)
+    hl.dsp.exec_cmd("brightnessctl set 5%+ && qs -c rice ipc call osd.brightness run"), {repeating = true})
 
 hl.bind(
     "XF86MonBrightnessDown",
-    hl.dsp.exec_cmd("brightnessctl set 5%- && qs -c rice ipc call osd.brightness run")
-)
+    hl.dsp.exec_cmd("brightnessctl set 5%- && qs -c rice ipc call osd.brightness run"), {repeating = true})
 
 
-hl.bind("CAPS_LOCK",
+hl.bind("CAPS + CAPS_LOCK",
     hl.dsp.exec_cmd(
-        "qs -c rice ipc call osd.caps run"))
+        "qs -c rice ipc call osd.caps run"), {non_consuming = true})
 
-hl.bind("NUM_LOCK",
+hl.bind("MOD2 + NUM_LOCK",
     hl.dsp.exec_cmd(
-        "qs -c rice ipc call osd.num run"))
+        "qs -c rice ipc call osd.num run"), {non_consuming = true})
 
 hl.bind(
     "XF86AudioNext",

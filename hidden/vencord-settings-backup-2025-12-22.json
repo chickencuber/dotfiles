@@ -3,10 +3,10 @@
         "autoUpdate": true,
         "autoUpdateNotification": true,
         "useQuickCss": true,
-        "themeLinks": [
-            "https://catppuccin.github.io/discord/dist/catppuccin-mocha.theme.css"
+        "themeLinks": [],
+        "enabledThemes": [
+            "mocha.css"
         ],
-        "enabledThemes": [],
         "enableReactDevtools": false,
         "frameless": false,
         "transparent": false,
@@ -140,12 +140,13 @@
                 "timestampMode": 3,
                 "appID": "1",
                 "appName": "you sleep at night",
-                "imageBig": "https://chickencuber.github.io/PenguinBuilder/logo.png",
+                "imageBig": "https://penguinbuilder.github.io/logo.png",
                 "imageSmall": "",
                 "buttonOneText": "penguinbuilder",
-                "buttonOneURL": "https://chickencuber.github.io/PenguinBuilder/editor/",
+                "buttonOneURL": "https://penguinbuilder.github.io/",
                 "buttonTwoText": "youtube",
-                "buttonTwoURL": "https://www.youtube.com/@chickencuber6258?sub_confirmation=1"
+                "buttonTwoURL": "https://www.youtube.com/@chickencuber6258?sub_confirmation=1",
+                "imageBigURL": ""
             },
             "CustomIdle": {
                 "enabled": false
@@ -241,9 +242,6 @@
             "KeepCurrentChannel": {
                 "enabled": false
             },
-            "LastFMRichPresence": {
-                "enabled": false
-            },
             "LoadingQuotes": {
                 "enabled": false
             },
@@ -263,9 +261,6 @@
                 "enabled": false
             },
             "MessageLogger": {
-                "enabled": false
-            },
-            "MessageTags": {
                 "enabled": false
             },
             "MoreCommands": {
@@ -552,7 +547,9 @@
                 "enabled": false
             },
             "WebKeybinds": {
-                "enabled": true
+                "enabled": true,
+                "showNavigationButtons": true,
+                "overrideCommonKeybinds": true
             },
             "WebScreenShareFixes": {
                 "enabled": true
@@ -576,7 +573,8 @@
             },
             "Settings": {
                 "enabled": true,
-                "settingsLocation": "aboveNitro"
+                "settingsLocation": "aboveNitro",
+                "includeVencordInfoWhenCopying": true
             },
             "SupportHelper": {
                 "enabled": true
@@ -602,13 +600,43 @@
             "BadgeAPI": {
                 "enabled": true
             },
-            "ExpressionCloner": {
-                "enabled": false
-            },
             "CopyStickerLinks": {
                 "enabled": false
             },
             "ImageFilename": {
+                "enabled": false
+            },
+            "MoreQuickReactions": {
+                "enabled": false
+            },
+            "DisableDeepLinks": {
+                "enabled": true
+            },
+            "CustomCommands": {
+                "enabled": false
+            },
+            "MusicRichPresence": {
+                "enabled": false
+            },
+            "CharacterCounter": {
+                "enabled": false
+            },
+            "NoMiddleClickPaste": {
+                "enabled": false
+            },
+            "ConcatenatedComponentExtractor": {
+                "enabled": true
+            },
+            "ContextMenuAPI": {
+                "enabled": true
+            },
+            "NoticesAPI": {
+                "enabled": true
+            },
+            "GifProviderSwitcher": {
+                "enabled": false
+            },
+            "ExpressionManager": {
                 "enabled": false
             }
         },
@@ -622,13 +650,15 @@
             "authenticated": false,
             "url": "https://api.vencord.dev/",
             "settingsSync": false,
-            "settingsSyncVersion": 1765905934287
+            "settingsSyncVersion": 1793388897066
         },
         "eagerPatches": false,
         "uiElements": {
             "chatBarButtons": {},
             "messagePopoverButtons": {}
-        }
+        },
+        "windowsMaterial": "none",
+        "nativeTitleBar": false
     },
     "quickCss": ""
 }

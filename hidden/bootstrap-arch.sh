@@ -28,9 +28,11 @@ sudo mkdir -p /usr/share/plymouth/themes/
 tar -xzf ./hidden/catppuccin-mocha-plymouth.tar.gz -C /usr/share/plymouth/themes/
 sudo plymouth-set-default-theme -R catppuccin-mocha
 cd "$old"
+
+# catppuccin-mocha gtk
 cd ./hidden/Catppuccin-GTK-Theme/themes/
 ./build.sh 
-./install.sh ./install.sh --tweaks -t mauve -l
+./install.sh --tweaks -t mauve -l
 
 # papirus-catppuccin
 cd "$old"
