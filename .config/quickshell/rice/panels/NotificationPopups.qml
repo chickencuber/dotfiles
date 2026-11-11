@@ -13,6 +13,7 @@ import "../applets/"
 Scope {
     id: root
 
+    property bool focus: false
     PanelWindow {
         id: popupWindow
 
@@ -33,7 +34,7 @@ Scope {
 
         WlrLayershell.layer: WlrLayer.Overlay
         WlrLayershell.namespace: "notification_popup"
-        WlrLayershell.keyboardFocus: WlrKeyboardFocus.OnDemand
+        WlrLayershell.keyboardFocus: root.focus? WlrKeyboardFocus.OnDemand: WlrKeyboardFocus.None
 
         ColumnLayout {
             id: popupColumn
@@ -49,6 +50,8 @@ Scope {
 
                 delegate: NotificationCard {
                     required property var modelData
+                    onExited: root.focus = false
+                    onEntered: root.focus = true 
 
                     Layout.fillWidth: true
 

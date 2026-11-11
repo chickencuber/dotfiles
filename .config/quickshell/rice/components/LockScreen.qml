@@ -14,6 +14,7 @@ Item {
     property string password: ""
 
     //TASK(20261110-235836-411-n6-618): make fading optional
+    property bool fadeEnable: true
     property int fadeDuration: 400
 
     property Component content
@@ -34,6 +35,12 @@ Item {
     }
 
     function beginUnlock(): void {
+        if (!fadeEnable) {
+            unlocking = false;
+            locked = false;
+            return;
+        }
+
         unlocking = true;
         unlockTimer.start();
     }
@@ -93,6 +100,8 @@ Item {
                 opacity: root.unlocking ? 0 : 1
 
                 Behavior on opacity {
+                    enabled: root.fadeEnable
+
                     NumberAnimation {
                         duration: root.fadeDuration
                         easing.type: Easing.InOutCubic
@@ -112,10 +121,17 @@ Item {
             // Fade in when the lock is activated.
             Connections {
                 target: root
-
                 function onLockedChanged(): void {
                     if (root.locked && !root.unlocking)
-                        contentContainer.opacity = 0;
+                        contentContainer.opacity = root.fadeEnable ? 0 : 1;
+                }
+                function onFadeEnableChanged(): void {
+                    if (!root.fadeEnable) {
+                        fadeIn.stop();
+                        unlockTimer.stop();
+                        root.unlocking = false;
+                        contentContainer.opacity = 1;
+                    }
                 }
             }
 
@@ -130,7 +146,7 @@ Item {
                 duration: root.fadeDuration
                 easing.type: Easing.OutCubic
 
-                running: root.locked && !root.unlocking
+                running: root.locked && !root.unlocking && root.fadeEnable
             }
         }
     }

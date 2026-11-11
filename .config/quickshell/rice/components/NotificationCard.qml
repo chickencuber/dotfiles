@@ -2,7 +2,6 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
-import Quickshell
 import Quickshell.Widgets
 import "../singletons/"
 
@@ -13,6 +12,9 @@ Rectangle {
 
     property bool popupMode: true
     property bool popupVisible: true
+
+    signal entered
+    signal exited
 
     implicitWidth: popupMode ? 500 : 450
     implicitHeight: content.implicitHeight + 24
@@ -53,16 +55,6 @@ Rectangle {
         id: notificationMouse
 
         anchors.fill: parent
-
-        hoverEnabled: true
-
-        onEntered: {
-            expireTimer.stop();
-        }
-
-        onExited: {
-            expireTimer.restart();
-        }
 
         onClicked: {
             root.invokeDefaultAction();
@@ -331,7 +323,7 @@ Rectangle {
 
                         spacing: 6
 
-                        Icon{
+                        Icon {
                             Layout.preferredWidth: 16
                             Layout.preferredHeight: 16
 
@@ -385,6 +377,17 @@ Rectangle {
 
         onTriggered: {
             root.popupVisible = false;
+        }
+    }
+    HoverHandler {
+        onHoveredChanged: {
+            if (hovered) {
+                expireTimer.stop();
+                root.entered();
+            } else {
+                expireTimer.restart();
+                root.exited();
+            }
         }
     }
 }

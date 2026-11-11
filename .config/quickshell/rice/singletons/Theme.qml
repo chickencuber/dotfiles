@@ -20,6 +20,8 @@ QtObject {
     readonly property color textMuted:  text.alpha(0.65)
     readonly property color accentTextMuted: accentText.alpha(0.65)
 
+    readonly property color dark: palette.dark
+
     readonly property string font: "JetBrainsMono Nerd Font Mono"
     readonly property string iconFont: "Material Symbols Rounded"
     readonly property string emojiFont: "Noto Color Emoji"
