@@ -170,15 +170,13 @@ Scope {
                         radius: 10
 
                         color: index === root.selectedIndex
-                            ? Theme.bgSelected
+                            ? Theme.accent
                             : Theme.surface
 
                         border.width: index === root.selectedIndex ||
                             wallpaperItem.isCurrent ? 2 : 0
 
-                        border.color: wallpaperItem.isCurrent
-                            ? Theme.accent
-                            : Theme.text
+                        border.color: Theme.accent
 
                         Loader {
                             anchors.fill: parent

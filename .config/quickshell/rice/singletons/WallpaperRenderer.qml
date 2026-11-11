@@ -15,7 +15,9 @@ Variants {
 
         property int activeImage: 0
         property int pendingImage: -1
-        property bool switching: false
+        property int generation: 0
+
+        property string requestedWallpaper: ""
 
         anchors {
             top: true
@@ -26,28 +28,43 @@ Variants {
 
         WlrLayershell.exclusiveZone: -1
         WlrLayershell.layer: WlrLayer.Background
-        color: "black"
+        color: Theme.background
 
         function loadWallpaper(path: string): void {
             if (path === "")
                 return;
-            const next = activeImage === 0 ? 1 : 0;
+
+            generation++;
+            requestedWallpaper = "file://" + path;
+
+            const next = (imageA.source.toString() === "" && imageB.source.toString() === "") ? 0 : (activeImage === 0 ? 1 : 0);
 
             pendingImage = next;
-            switching = true;
 
             if (next === 0)
-                imageA.source = "file://" + path;
+                imageA.source = requestedWallpaper;
             else
-                imageB.source = "file://" + path;
+                imageB.source = requestedWallpaper;
         }
 
         function imageReady(index: int): void {
-            if (!switching || pendingImage !== index)
+            if (pendingImage !== index)
                 return;
+
+            const image = index === 0 ? imageA : imageB;
+
+            if (image.status !== Image.Ready)
+                return;
+
+            if (image.source.toString() !== requestedWallpaper)
+                return;
+
+            // Don't switch until the image has a valid frame.
+            if (image.width <= 0 || image.height <= 0)
+                return;
+
             activeImage = index;
             pendingImage = -1;
-            switching = false;
         }
 
         AnimatedImage {
@@ -106,13 +123,8 @@ Variants {
             target: Wallpaper
 
             function onCurrentWallpaperChanged(): void {
-                wallpaperWindow.loadWallpaper(Wallpaper.currentWallpaper);
-            }
-        }
-
-        Component.onCompleted: {
-            if (Wallpaper.currentWallpaper !== "") {
-                imageA.source = "file://" + Wallpaper.currentWallpaper;
+                wallpaperWindow.loadWallpaper( //this is being called
+                Wallpaper.currentWallpaper);
             }
         }
     }
