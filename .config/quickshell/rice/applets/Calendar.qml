@@ -524,7 +524,6 @@ Scope {
                             font.family: Theme.font
                             font.pixelSize: 11
                         }
-
                         ListView {
                             visible: root.eventsForDate(root.selectedDate).length > 0
 
@@ -537,21 +536,49 @@ Scope {
                             model: root.eventsForDate(root.selectedDate)
 
                             delegate: ColumnLayout {
+                                id: eventDelegate
+
+                                required property string title
+                                required property string calendar
+                                required property string start
+                                required property string end
+                                required property string location
+                                required property bool allDay
+
                                 width: ListView.view.width
                                 spacing: 1
 
-                                Text {
+                                property bool isHoliday: calendar.includes("Holidays")
+
+                                RowLayout {
                                     Layout.fillWidth: true
+                                    spacing: 5
 
-                                    text: modelData.title
+                                    Text {
+                                        Layout.fillWidth: true
 
-                                    color: Theme.foreground
+                                        text: eventDelegate.title
 
-                                    font.family: Theme.font
-                                    font.pixelSize: 11
-                                    font.bold: true
+                                        color: Theme.foreground
 
-                                    elide: Text.ElideRight
+                                        font.family: Theme.font
+                                        font.pixelSize: 11
+                                        font.bold: true
+
+                                        elide: Text.ElideRight
+                                    }
+
+                                    Text {
+                                        visible: eventDelegate.isHoliday
+
+                                        text: "HOLIDAY"
+
+                                        color: Theme.accent
+
+                                        font.family: Theme.font
+                                        font.pixelSize: 8
+                                        font.bold: true
+                                    }
                                 }
 
                                 Text {
@@ -559,16 +586,21 @@ Scope {
 
                                     text: {
                                         var info = [];
-                                        var time = root.eventTime(modelData);
+
+                                        var time = root.eventTime({
+                                            allDay: eventDelegate.allDay,
+                                            start: eventDelegate.start,
+                                            end: eventDelegate.end
+                                        });
 
                                         if (time !== "")
                                             info.push(time);
 
-                                        if (modelData.location !== "")
-                                            info.push(modelData.location);
+                                        if (eventDelegate.location !== "")
+                                            info.push(eventDelegate.location);
 
-                                        if (modelData.calendar !== "")
-                                            info.push(modelData.calendar);
+                                        if (eventDelegate.calendar !== "")
+                                            info.push(eventDelegate.calendar);
 
                                         return info.join("  •  ");
                                     }
