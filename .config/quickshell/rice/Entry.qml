@@ -30,6 +30,8 @@ Scope {
         WallpaperPicker,
         //panels
         NotificationPopups,
+        //singletons
+        WallpaperRenderer
     ]
     Item {
         id: content

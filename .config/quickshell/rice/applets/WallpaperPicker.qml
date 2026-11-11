@@ -1,10 +1,8 @@
-
 pragma Singleton
 pragma ComponentBehavior: Bound
 
 import Quickshell
 import QtQuick
-import QtQuick.Controls
 
 import "../components/"
 import "../services/"
@@ -14,27 +12,14 @@ Scope {
     id: root
 
     property int selectedIndex: -1
-    property bool waitingForApply: false
 
     function applySelected(): void {
-        if (Wallpaper.applying ||
-            selectedIndex < 0 ||
+        if (selectedIndex < 0 ||
             selectedIndex >= Wallpaper.wallpapers.length)
             return
 
-        waitingForApply = true
         Wallpaper.setWallpaper(Wallpaper.wallpapers[selectedIndex])
-    }
-
-    Connections {
-        target: Wallpaper
-
-        function onApplyingChanged(): void {
-            if (!Wallpaper.applying && root.waitingForApply) {
-                root.waitingForApply = false
-                wallpaperPanel.open = false
-            }
-        }
+        wallpaperPanel.open = false
     }
 
     FloatingPanel {
@@ -71,7 +56,7 @@ Scope {
             focus: true
 
             Keys.onLeftPressed: event => {
-                if (Wallpaper.applying || Wallpaper.wallpapers.length === 0)
+                if (Wallpaper.wallpapers.length === 0)
                     return
 
                 root.selectedIndex = root.selectedIndex <= 0
@@ -87,7 +72,7 @@ Scope {
             }
 
             Keys.onRightPressed: event => {
-                if (Wallpaper.applying || Wallpaper.wallpapers.length === 0)
+                if (Wallpaper.wallpapers.length === 0)
                     return
 
                 root.selectedIndex = root.selectedIndex < 0
@@ -111,9 +96,7 @@ Scope {
             }
 
             Keys.onEscapePressed: event => {
-                if (!Wallpaper.applying)
-                    wallpaperPanel.open = false
-
+                wallpaperPanel.open = false
                 event.accepted = true
             }
 
@@ -133,11 +116,8 @@ Scope {
 
                 height: 24
 
-                text: Wallpaper.applying
-                    ? "Applying wallpaper"
-                    : "Wallpapers"
-
-                color: Wallpaper.applying ? Theme.accent : Theme.text
+                text: "Wallpapers"
+                color: Theme.text
 
                 font.family: Theme.font
                 font.pixelSize: 13
@@ -157,7 +137,6 @@ Scope {
                     bottom: statusBar.top
                     left: parent.left
                     right: parent.right
-
                     margins: 8
                 }
 
@@ -179,6 +158,12 @@ Scope {
                     width: 180
                     height: 120
 
+                    readonly property string wallpaperPath:
+                        Wallpaper.wallDir + "/" + modelData
+
+                    readonly property bool isCurrent:
+                        Wallpaper.currentWallpaper === wallpaperPath
+
                     Rectangle {
                         anchors.fill: parent
 
@@ -188,15 +173,12 @@ Scope {
                             ? Theme.bgSelected
                             : Theme.surface
 
-                        border.width: index === root.selectedIndex ? 2 : 0
-                        border.color: Theme.accent
+                        border.width: index === root.selectedIndex ||
+                            wallpaperItem.isCurrent ? 2 : 0
 
-                        opacity: Wallpaper.applying &&
-                            index !== root.selectedIndex ? 0.35 : 1
-
-                        Behavior on opacity {
-                            NumberAnimation { duration: 150 }
-                        }
+                        border.color: wallpaperItem.isCurrent
+                            ? Theme.accent
+                            : Theme.text
 
                         Loader {
                             anchors.fill: parent
@@ -214,9 +196,7 @@ Scope {
                                 AnimatedImage {
                                     anchors.fill: parent
 
-                                    source: "file://" +
-                                        Wallpaper.wallDir + "/" +
-                                        wallpaperItem.modelData
+                                    source: "file://" + wallpaperItem.wallpaperPath
 
                                     fillMode: Image.PreserveAspectCrop
                                     asynchronous: true
@@ -232,9 +212,7 @@ Scope {
                                 Image {
                                     anchors.fill: parent
 
-                                    source: "file://" +
-                                        Wallpaper.wallDir + "/" +
-                                        wallpaperItem.modelData
+                                    source: "file://" + wallpaperItem.wallpaperPath
 
                                     fillMode: Image.PreserveAspectCrop
                                     asynchronous: true
@@ -257,7 +235,6 @@ Scope {
                             radius: 6
 
                             color: Theme.background.alpha(0.8)
-                            visible: !Wallpaper.applying
 
                             Text {
                                 anchors {
@@ -277,57 +254,8 @@ Scope {
                             }
                         }
 
-                        // APPLYING OVERLAY
-
-                        Rectangle {
-                            anchors.fill: parent
-
-                            radius: 10
-
-                            visible: Wallpaper.applying &&
-                                index === root.selectedIndex
-
-                            color: Theme.background.alpha(0.88)
-
-                            Column {
-                                anchors.centerIn: parent
-                                spacing: 7
-
-                                BusyIndicator {
-                                    anchors.horizontalCenter: parent.horizontalCenter
-
-                                    width: 34
-                                    height: 34
-
-                                    running: Wallpaper.applying
-                                }
-
-                                Text {
-                                    anchors.horizontalCenter: parent.horizontalCenter
-
-                                    text: "APPLYING"
-                                    color: Theme.accent
-
-                                    font.family: Theme.font
-                                    font.pixelSize: 15
-                                    font.bold: true
-                                }
-
-                                Text {
-                                    anchors.horizontalCenter: parent.horizontalCenter
-
-                                    text: "Wallpaper"
-                                    color: Theme.textMuted
-
-                                    font.family: Theme.font
-                                    font.pixelSize: 10
-                                }
-                            }
-                        }
-
                         MouseArea {
                             anchors.fill: parent
-                            enabled: !Wallpaper.applying
 
                             onClicked: {
                                 root.selectedIndex = wallpaperItem.index
@@ -373,34 +301,20 @@ Scope {
                     anchors.centerIn: parent
                     spacing: 8
 
-                    BusyIndicator {
-                        visible: Wallpaper.applying
-
-                        width: 18
-                        height: 18
-
-                        running: Wallpaper.applying
-                    }
-
                     Text {
                         anchors.verticalCenter: parent.verticalCenter
 
-                        text: Wallpaper.applying
-                            ? "APPLYING WALLPAPER..."
-                            : root.selectedIndex >= 0 &&
-                                root.selectedIndex < Wallpaper.wallpapers.length
+                        text: root.selectedIndex >= 0 &&
+                            root.selectedIndex < Wallpaper.wallpapers.length
                             ? Wallpaper.wallpapers[root.selectedIndex]
                             : "Select a wallpaper"
 
-                        color: Wallpaper.applying
-                            ? Theme.accent
-                            : root.selectedIndex >= 0
+                        color: root.selectedIndex >= 0
                             ? Theme.text
                             : Theme.textMuted
 
                         font.family: Theme.font
                         font.pixelSize: 11
-                        font.bold: Wallpaper.applying
                     }
                 }
             }

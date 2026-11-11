@@ -61,7 +61,6 @@ hl.on("hyprland.start", function()
     hl.exec_cmd("kdeconnect-indicator")
     hl.exec_cmd("hypridle")
     hl.exec_cmd("nm-applet")
-    hl.exec_cmd("awww-daemon && awww img $HOME/.config/hypr/wall")
     hl.exec_cmd("kdeconnectd")
 
     hl.exec_cmd("$HOME/.config/hypr/launchsteam.sh")
@@ -155,6 +154,7 @@ hl.config({
     misc       = {
         force_default_wallpaper = -1,
         disable_hyprland_logo = true,
+        session_lock_xray = true,
     },
     input      = {
         kb_layout    = "us",
@@ -248,7 +248,7 @@ hl.bind(mainMod .. "+ c", hl.dsp.window.close())
 hl.bind(mainMod .. "+ SHIFT + c", hl.dsp.exec_cmd("qs -c rice ipc call notifications toggle"))
 
 hl.bind(mainMod .. "+ m", hl.dsp.exec_cmd("qs -c rice ipc call power toggle"))
-hl.bind(mainMod .. "+ SHIFT + l", hl.dsp.exec_cmd("hyprlock"))
+hl.bind(mainMod .. "+ SHIFT + l", hl.dsp.exec_cmd("loginctl lock-session"))
 hl.bind(mainMod .. "+ f", hl.dsp.exec_cmd(fileManager))
 hl.bind(mainMod .. "+ v", hl.dsp.window.float())
 hl.bind(mainMod .. "+ r", hl.dsp.exec_cmd(shell_menu))
@@ -305,13 +305,13 @@ hl.bind(
     "XF86AudioRaiseVolume",
     hl.dsp.exec_cmd(
         "wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SINK@ 5%+ && qs -c rice ipc call osd.volume run && pw-play /usr/share/sounds/freedesktop/stereo/audio-volume-change.oga"
-    ), {repeating = true})
+    ), { repeating = true })
 
 hl.bind(
     "XF86AudioLowerVolume",
     hl.dsp.exec_cmd(
         "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%- && qs -c rice ipc call osd.volume run && pw-play /usr/share/sounds/freedesktop/stereo/audio-volume-change.oga"
-    ), {repeating = true})
+    ), { repeating = true })
 
 hl.bind(
     "XF86AudioMute",
@@ -322,20 +322,20 @@ hl.bind(
 
 hl.bind(
     "XF86MonBrightnessUp",
-    hl.dsp.exec_cmd("brightnessctl set 5%+ && qs -c rice ipc call osd.brightness run"), {repeating = true})
+    hl.dsp.exec_cmd("brightnessctl set 5%+ && qs -c rice ipc call osd.brightness run"), { repeating = true })
 
 hl.bind(
     "XF86MonBrightnessDown",
-    hl.dsp.exec_cmd("brightnessctl set 5%- && qs -c rice ipc call osd.brightness run"), {repeating = true})
+    hl.dsp.exec_cmd("brightnessctl set 5%- && qs -c rice ipc call osd.brightness run"), { repeating = true })
 
 
 hl.bind("CAPS + CAPS_LOCK",
     hl.dsp.exec_cmd(
-        "qs -c rice ipc call osd.caps run"), {non_consuming = true})
+        "qs -c rice ipc call osd.caps run"), { non_consuming = true })
 
 hl.bind("MOD2 + NUM_LOCK",
     hl.dsp.exec_cmd(
-        "qs -c rice ipc call osd.num run"), {non_consuming = true})
+        "qs -c rice ipc call osd.num run"), { non_consuming = true })
 
 hl.bind(
     "XF86AudioNext",

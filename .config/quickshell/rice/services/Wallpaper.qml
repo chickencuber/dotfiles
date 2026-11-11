@@ -1,4 +1,3 @@
-//TASK(20261110-182255-069-n6-963): make this also handle rendering wallpapers and not rely on awww
 pragma Singleton
 pragma ComponentBehavior: Bound
 
@@ -10,40 +9,39 @@ Scope {
     id: root
 
     property string wallDir:
-        Quickshell.env("HOME") + "/.config/hypr/walls"
+        Quickshell.env("HOME") + "/.config/quickshell/walls"
 
-    property string wallPath:
-        Quickshell.env("HOME") + "/.config/hypr/wall"
-
-    property string thumbnailPath:
-        Quickshell.env("HOME") + "/.config/hypr/thumbnail.png"
-
-    // =========================================================
-    // STATE
-    // =========================================================
+    readonly property string statePath:
+        Quickshell.env("HOME") + "/.local/state/quickshell/rice/wallpaper"
 
     property list<string> wallpapers: []
-
     property string currentWallpaper: ""
 
-    property bool applying: false
+    FileView {
+        id: wallpaperFile
 
-    property string pendingWallpaper: ""
+        path: root.statePath
+        watchChanges: true
 
-    // =========================================================
-    // GET WALLPAPERS
-    // =========================================================
+        onLoadedChanged: {
+            if (!loaded)
+                return
 
-    function refresh(callback = ()=>{}): void {
+            root.currentWallpaper = text().trim()
+        }
+    }
+
+    function refresh(callback = () => {}): void {
         if (findWallpapers.running)
             return
-        findWallpapers.callback = callback
 
+        findWallpapers.callback = callback
         findWallpapers.running = true
     }
 
     Process {
         id: findWallpapers
+
         property var callback: null
 
         command: [
@@ -65,119 +63,30 @@ Scope {
             onStreamFinished: {
                 const output = wallpaperOutput.text.trim()
 
-                if (output === "") {
-                    root.wallpapers = []
-                    return
-                }
+                root.wallpapers = output === ""
+                    ? []
+                    : output
+                        .split("\n")
+                        .filter(name => name !== "")
+                        .sort((a, b) => a.localeCompare(b))
 
-                root.wallpapers = output
-                    .split("\n")
-                    .filter(name => name !== "")
-                    .sort((a, b) => a.localeCompare(b))
-                if(findWallpapers.callback) findWallpapers.callback()
-                findWallpapers.callback = null;
+                if (findWallpapers.callback)
+                    findWallpapers.callback()
+
+                findWallpapers.callback = null
             }
         }
     }
-
-    // =========================================================
-    // SET WALLPAPER
-    // =========================================================
 
     function setWallpaper(name: string): void {
-        if (root.applying || name === "")
+        if (name === "")
             return
 
-        root.applying = true
-        root.pendingWallpaper = name
+        const path = root.wallDir + "/" + name
 
-        copyWallpaper.command = [
-            "cp",
-            root.wallDir + "/" + name,
-            root.wallPath
-        ]
-
-        copyWallpaper.running = true
+        root.currentWallpaper = path
+        wallpaperFile.setText(path)
     }
 
-    Process {
-        id: copyWallpaper
-
-        onExited: exitCode => {
-            if (exitCode !== 0) {
-                root.applying = false
-                root.pendingWallpaper = ""
-                return
-            }
-
-            createThumbnail.running = true
-        }
-    }
-
-    Process {
-        id: createThumbnail
-
-        command: [
-            "ffmpeg",
-            "-y",
-            "-i", root.wallPath,
-            "-vf", "scale=200:-1",
-            "-vframes", "1",
-            root.thumbnailPath
-        ]
-
-        onExited: exitCode => {
-            if (exitCode !== 0) {
-                root.applying = false
-                root.pendingWallpaper = ""
-                return
-            }
-
-            clearCache.running = true
-        }
-    }
-
-    Process {
-        id: clearCache
-
-        command: ["awww", "clear-cache"]
-
-        onExited: exitCode => {
-            if (exitCode !== 0) {
-                root.applying = false
-                root.pendingWallpaper = ""
-                return
-            }
-
-            setWallpaperProcess.running = true
-        }
-    }
-
-    Process {
-        id: setWallpaperProcess
-
-        command: [
-            "awww",
-            "img",
-            root.wallPath,
-            "--transition-type", "fade",
-            "--transition-duration", "1"
-        ]
-
-        onExited: exitCode => {
-            if (exitCode === 0)
-                root.currentWallpaper = root.pendingWallpaper
-
-            root.applying = false
-            root.pendingWallpaper = ""
-        }
-    }
-
-    // =========================================================
-    // INITIALIZATION
-    // =========================================================
-
-    Component.onCompleted: {
-        root.refresh()
-    }
+    Component.onCompleted: root.refresh()
 }

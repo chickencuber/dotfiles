@@ -1,2 +1,3 @@
 singleton Theme 1.0 Theme.qml
 singleton ShellContext 1.0 ShellContext.qml
+singleton WallpaperRenderer 1.0 WallpaperRenderer.qml
