@@ -1,3 +1,4 @@
+import Quickshell
 import QtQuick
 import "./panels"
 import "./bar_modules"
@@ -30,7 +31,11 @@ Entry {
         ]
         right: [
             SystemTray {},
-            Pulse {},
+            Pulse {
+                onClicked: {
+                    Quickshell.execDetached("pavucontrol")
+                }
+            },
             Brightness {},
             Battery {},
             Time {
